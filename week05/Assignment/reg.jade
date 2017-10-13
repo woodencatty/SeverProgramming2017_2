@@ -1,0 +1,23 @@
+doctype html
+html
+	head
+		title 회원가입
+	body
+		h3 회원가입
+		hr
+		form(name="register", method="POST")
+			div.input
+				span.label 이름
+				input(type="text", name="username")
+			div.input
+				span.label 아이디
+				input(type="text", name="userid")
+			div.input
+				span.label 비밀번호
+				input(type="password", name="userpass1")
+			div.input
+				span.label 한번더
+				input(type="password", name="userpass2")
+			hr
+			div.input
+				input(type="submit", value="가입")
