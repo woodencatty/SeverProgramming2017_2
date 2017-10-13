@@ -1,0 +1,23 @@
+doctype html
+html
+	head
+		title registeration page
+	body
+		h3 Register
+		hr
+		form(name="register", method="POST")
+			div.input
+				span.label Name
+				input(type="text", name="username")
+			div.input
+				span.label ID
+				input(type="text", name="userid")
+			div.input
+				span.label Pass
+				input(type="password", name="userpass1")
+			div.input
+				span.label Again
+				input(type="password", name="userpass2")
+			hr
+			div.input
+				input(type="submit", value="Register")
