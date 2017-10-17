@@ -8,7 +8,7 @@ const client = mysql.createConnection({
     host: 'localhost', // DB서버 IP주소
     port: 3306, // DB서버 Port주소
     user: 'root', // DB접속 아이디
-    password: '', // 비밀번호(설정X)
+    password: 'gachon654321', // 비밀번호(설정X)
     database: 'mydb' //사용할 DB명
 });
 // 서버를 생성합니다.
@@ -48,6 +48,6 @@ app.post('/insert', function (request, response) {
     // 데이터베이스 쿼리를 실행합니다.
     client.query('INSERT INTO member (name, uid, pass) VALUES (?, ?, ?)', [body.name, body.uid, body.pass], () => {
         console.log("Insertion into DB was completed !");
-        response.end();
+        response.end('sucessfully added');
     });
 });
