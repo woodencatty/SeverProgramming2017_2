@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title 회원가입
+  body
+    h1 회원가입
+    hr
+    form(method='post')
+      fieldset
+        legend 회원가입
+        table
+          tr
+            td
+              label 이름
+            td
+              input(type='text', name='name')
+          tr
+            td
+              label 사용자id
+            td
+              input(type='text', name='uid')
+          tr
+            td
+              label 비밀번호
+            td
+              input(type='password', name='pass')
+        input(type='submit', value='가입')
