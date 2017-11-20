@@ -1,0 +1,7 @@
+create table device( deviceNumber varchar(10) not null, version varchar(45) not null, sort varchar(45) not null, activated bool not null, ipv4_address varchar(45), ipv6_address varchar(45), place varchar(45), primary key(deviceNumber));
+
+create table patient(patientNumber varchar(45) not null, disease varchar(45) not null, status varchar(45) not null, exercise varchar(45), deviceNumber varchar(10), primary key(patientNumber));
+
+create table medic( employeeNumber varchar(45) not null, id varchar(45) not null, password varchar(45) not null, belong varchar(45) not null, contact varchar(45) not null, address varchar(45) not null, birth date not null, primary key(employeeNumber));
+
+alter table patient add constraint FK_deviceNumber foreign key(deviceNumber) references device (deviceNumber);
