@@ -1,0 +1,108 @@
+@font-face {
+    font-family: Light; 
+    src:url('./font/SourceHanSansKR-Light.eot');
+    src:local(※), url('./font/SourceHanSansKR-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: Regular; 
+    src:url('./font/SourceHanSansKR-Regular.eot');
+    src:local(※), url('./font/SourceHanSansKR-Regular.woff') format('woff');
+}
+
+body,
+html,{
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-image: url("../img/background.jpg");
+    background-position: left top;
+}
+
+.wrap {
+    width: 1900px;
+    height: 970px;
+}
+
+.title {
+    margin-top: 80px;
+    font-family: Regular;
+    font-size: 70px;
+}
+
+.title span {
+    color: #004593;
+}
+
+.sub_title {
+    margin-top: 10px;
+    font-family: Light;
+    font-size: 20px;
+}
+
+.box {
+    margin-top: 90px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23), 0 -2px 2px rgba(0,0,0,0.02);
+}
+
+.box table {
+    margin-top: 40px;
+    margin-bottom: 55px;
+}
+
+.box table tr .input_name {
+    font-size: 30px;
+    width: 285px;
+    text-align: left
+}
+
+.box table tr .form-control {
+    width: 665px;
+    height: 65px;
+    border-radius: 32.5px;
+    border: 2px solid #e0e0e0;
+    background-color: #fff;
+    font-family: Light;
+    font-size: 20px;
+    text-indent: 30px;
+}
+
+.box table .submit {
+    text-align: right;
+}
+
+.box table .submit .btn-primary {
+    background-color: #004593;
+    border-color: #004593;
+    width: 220px;
+    height: 60px;
+    border-radius: 30px;
+    font-family: Regular;
+    font-size: 20px;
+}
+
+.box table .submit .btn-primary:hover {
+    background-color: #003f72;
+    border-color: #003f72;
+}
+
+.box table .submit .btn-primary:focus {
+    box-shadow: 0 0 15px rgba(0, 69, 147, 0.5);
+}
+
+.box table tr .form-control:focus {
+    border-color: #00afec;
+    box-shadow: 0 0 15px rgba(0, 175, 236, 0.5);
+}
+
+.box table tr .space_1 {
+    height: 25px;
+}
+
+.box table tr .space_2 {
+    height: 50px;
+}
