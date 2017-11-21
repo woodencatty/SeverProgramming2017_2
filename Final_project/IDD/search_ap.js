@@ -16,7 +16,7 @@ wifi.init({
 
 setInterval(()=>{
 wifi.getCurrentConnections((err, curcon)=>{
-    console.log(curcon[0].signal_level);
+    console.log(curcon[0]);
     //todo : check signal
 });
 }, 1000);
