@@ -1,9 +1,3 @@
-var SoftAPSetup = require('softap-setup');
+var ap = require('rpi-ap-setup');
 
-var sap = new SoftAPSetup();
-sap.scan(callback);
-function callback(err, dat) {
-    if(err) { throw err; }
-    console.log("Networks Identified:");
-    console.log(dat);
-};
+ap.setupAP();
