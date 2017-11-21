@@ -3,23 +3,24 @@ const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 impo
 
 var wifi = require('node-wifi');
 
-module.exports = {
-    searchAPD: (apName, TargetRSSI) => {
-
-    }
-
-}
-
 wifi.init({
     iface : null // network interface, choose a random wifi interface if set to null 
 });
 
-setInterval(()=>{
-wifi.getCurrentConnections((err, curcon)=>{
-    console.log(curcon[0].signal_level);
-    //todo : check signal
-});
-}, 1000);
+module.exports = {
+    searchAPD: (apName, TargetRSSI) => {
+        wifi.getCurrentConnections((err, curcon)=>{
+            console.log(curcon[0].signal_level);
+            //todo : check signal
+            if(curcon[0].signal_level < 20){
+                sendData.SubmitIDDname('IDD001');
+                sendData.SubmitUserExercise(20);
+            }
+        });
+    }
+
+}
+
 
 /*
 var piwifi = require('pi-wifi');

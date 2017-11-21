@@ -19,7 +19,6 @@ function loggingInterval(loggingInterval, filename,fsOption) {
     //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
     this.loggingInterval = setInterval(() => {
               acturator.led_dataSaved();
-  
       ExerciseCallback = function (ExerciseCount) {
         fs.open(filename, fsOption, function (err, fd) {
           if (err) throw err;
