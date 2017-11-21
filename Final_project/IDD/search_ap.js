@@ -1,7 +1,7 @@
 const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 import
 
 const scanner = require('node-wifi-scanner');
-
+const scan = require('wifi-scanner');
 
 module.exports = {
     searchAPD: (apName, TargetRSSI) => {
@@ -23,12 +23,7 @@ module.exports = {
 }
 
 setInterval(()=>{
-    scanner.scan((err, networks) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        if (networks.ssid == woodencat) {
-        console.log(networks);}
-    });
+   scan.searchNetworks((err, networks)=>{
+    console.log(networks);
+   })
 }, 1000);
