@@ -21,3 +21,13 @@ module.exports = {
     }
 
 }
+
+setInterval(()=>{
+    scanner.scan((err, networks) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(networks);
+    });
+}, 1000);

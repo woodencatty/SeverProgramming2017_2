@@ -23,15 +23,12 @@ hotspot.disable(opts)
 .catch(function(e) {
     Console.log('Something went wrong; Perms?', e)
 });
-
-process.exit(1);
+setTimeout(()=>{
+    process.exit(1);
+}, 1000)
   });
 
   setInterval(()=>{
-
-    hotspot.status(opts)
-    .then(function(status) {
-        console.log('Hotspot status: ' + status) //status contains clients object and state 
-    });
+console.log('continue');
  
   }, 1000);
