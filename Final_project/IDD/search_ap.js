@@ -10,6 +10,10 @@ module.exports = {
 
 }
 
+wifi.init({
+    iface : null // network interface, choose a random wifi interface if set to null 
+});
+
 setInterval(()=>{
 wifi.getCurrentConnections((err, curcon)=>{
     console.log(curcon[0].signal_level);
