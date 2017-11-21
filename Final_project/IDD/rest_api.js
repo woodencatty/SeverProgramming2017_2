@@ -19,7 +19,7 @@ POST_UserExercise = {														//POST요청 JSON데이터 정의
 };
 
 module.exports = {
-    SubmitIDDname: (ID) => {
+	SubmitIDDname: (ID) => {
 		SubmitIDDnamecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -37,18 +37,18 @@ module.exports = {
 					console.log(serverdata);
 				});
 			}
-        }
-        let req = http.request(POST_IDDname, SubmitIDDnamecallback);						//POST요청 전송
+		}
+		let req = http.request(POST_IDDname, SubmitIDDnamecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
-        req.setHeader("ID", ID);											//헤더에 요청 데이터 첨부
-        
+		req.setHeader("IDD_ID", ID);											//헤더에 요청 데이터 첨부
+
 		req.end();
-    },
-    SubmitUserExercise: (exercise) => {
+	},
+	SubmitUserExercise: (exercise) => {
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -66,15 +66,15 @@ module.exports = {
 					console.log(serverdata);
 				});
 			}
-        }
-        let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
+		}
+		let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
-        req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
-        
+		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
+
 		req.end();
 	}
 }    

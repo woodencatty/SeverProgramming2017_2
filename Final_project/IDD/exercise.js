@@ -18,7 +18,7 @@ let changeX = 0.0;
 let changeY = 0.0;
 let changeZ = 0.0;
 
-let count_flag  = false;
+let count_flag = false;
 
 module.exports = {
     setExerciseCount: (ExerciseThreadhold, forceSenseTime) => {
@@ -51,11 +51,11 @@ module.exports = {
 
             i++;
             if (force > ExerciseThreadhold) {
-                if(!count_flag){
-                ExerciseCount++;
-                count_flag = true;
-                }          
-        }else {
+                if (!count_flag) {
+                    ExerciseCount++;
+                    count_flag = true;
+                }
+            } else {
                 count_flag = false;
             }
         }, forceSenseTime);

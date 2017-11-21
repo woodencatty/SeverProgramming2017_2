@@ -4,15 +4,15 @@ const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 impo
 var wifi = require('node-wifi');
 
 wifi.init({
-    iface : null // network interface, choose a random wifi interface if set to null 
+    iface: null // network interface, choose a random wifi interface if set to null 
 });
 
 module.exports = {
     searchAPD: (apName, TargetRSSI) => {
-        wifi.getCurrentConnections((err, curcon)=>{
+        wifi.getCurrentConnections((err, curcon) => {
             console.log(curcon[0].signal_level);
             //todo : check signal
-            if(curcon[0].signal_level < 20){
+            if (curcon[0].signal_level < 20) {
                 sendData.SubmitIDDname('IDD001');
                 sendData.SubmitUserExercise(20);
             }

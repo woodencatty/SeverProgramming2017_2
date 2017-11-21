@@ -3,14 +3,6 @@ const http = require('http');										//http 요청 모듈
 let serverIP = "192.9.44.52";
 let serverPort = "3000";
 
-let userID = 'noname';
-let name = '';
-let exercise = '';
-let weight = 0;
-let height = 0;
-let age = 0;
-let gender = 0;
-
 POST_APDError = {														//POST요청 JSON데이터 정의
 	host: serverIP,
 	port: serverPort,
@@ -40,7 +32,7 @@ GET_UserInfo = {														//POST요청 JSON데이터 정의
 
 
 module.exports = {
-    SubmitError: (ID) => {
+	SubmitError: (ID) => {
 		SubmitErrorcallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -58,18 +50,18 @@ module.exports = {
 					console.log(serverdata);
 				});
 			}
-        }
-        let req = http.request(POST_APDError, SubmitErrorcallback);						//POST요청 전송
+		}
+		let req = http.request(POST_APDError, SubmitErrorcallback);						//POST요청 전송
 		req.on('error', function (error) {
 
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
-        req.setHeader("sys_error", sys_error);											//헤더에 요청 데이터 첨부
-        
+		req.setHeader("sys_error", sys_error);											//헤더에 요청 데이터 첨부
+
 		req.end();
-    },
-    SubmitUserExercise: (exercise) => {
+	},
+	SubmitUserExercise: (exercise) => {
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -87,19 +79,19 @@ module.exports = {
 					console.log(serverdata);
 				});
 			}
-        }
-        let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
+		}
+		let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
-        req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
-        
+		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
+
 		req.end();
-    },
-    
-    requestUserInfo: (ID) => {
+	},
+
+	requestUserInfo: (ID) => {
 		//요청 데이터 수신 콜백함수
 		getUserInfocallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
@@ -118,25 +110,25 @@ module.exports = {
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
 					console.log(serverdata.patient_name);
-					userID = ID;
+					/*userID = ID;
 					name = serverdata.patient_name;
 					age = serverdata.patient_Age;
 					height = serverdata.patient_Height;
 					weight = serverdata.patient_Weight;
 					gender = serverdata.patient_Gender;
-					exercise = serverdata.patient_Exercise;
-
+					exercise = serverdata.patient_Exercise;*/
+					return serverdata.patient_name;
 				});
 			}
 		}
 
 		let req = http.request(getUserInfoRequest, getUserInfocallback);						//GET요청 전송
-req.on('error', function(error) {
-	console.log('관리서버와 연결할 수 없습니다.'); 								// 관리서버와 연결 불가능할 때에 오류 체크
-});
+		req.on('error', function (error) {
+			console.log('관리서버와 연결할 수 없습니다.'); 								// 관리서버와 연결 불가능할 때에 오류 체크
+		});
 		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
 		req.end();
 	}
-    
+
 
 }    

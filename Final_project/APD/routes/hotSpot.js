@@ -9,25 +9,25 @@ var opts = {
 
 module.exports = {
     setupAP: (ssid, password, force, adaptor) => {
-hotspot.enable(opts)
-   .then(function() {
-       console.log('Hotspot Enabled')
-   })
-   .catch(function(e) {
-       Console.log('Something went wrong; Perms?', e)
-   });
+        hotspot.enable(opts)
+            .then(function () {
+                console.log('Hotspot Enabled')
+            })
+            .catch(function (e) {
+                Console.log('Something went wrong; Perms?', e)
+            });
     }
-}    
+}
 
-   process.on('SIGINT', () => {
-hotspot.disable(opts)
-.then(function() {
-    console.log('Hotspot disabled')
-})
-.catch(function(e) {
-    Console.log('Something went wrong; Perms?', e)
+process.on('SIGINT', () => {
+    hotspot.disable(opts)
+        .then(function () {
+            console.log('Hotspot disabled')
+        })
+        .catch(function (e) {
+            Console.log('Something went wrong; Perms?', e)
+        });
+    setTimeout(() => {
+        process.exit(1);
+    }, 1000)
 });
-setTimeout(()=>{
-    process.exit(1);
-}, 1000)
-  });
