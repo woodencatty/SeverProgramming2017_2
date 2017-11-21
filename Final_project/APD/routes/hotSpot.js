@@ -1,24 +1,20 @@
-var hotspot = require('node-hotspot');
+var SoftAPSetup = require('../index');
+var config = require('./config');
+var path = require('path');
 
-var opts = {
-   ssid: 'APD', 
-   password: '1q2w3e4r', 
-   force: true, // (optional)  if hosting a network already turn it off and run ours. 
-   adaptor: 'Ethernet' // (optional / false) name of adaptor to have ICS (Internet Connection Sharing) share internet from, passing false disables ICS all together - if non givin node-hotspot will attempt to find currently connected adaptor automatically 
-};
+var sap = new SoftAPSetup();
 
-hotspot.enable(opts)
-   .then(function() {
-       console.log('Hotspot Enabled')
-   })
-   .catch(function(e) {
-       Console.log('Something went wrong; Perms?', e)
-   });
+if(!config.get('ssid')) {
 
-hotspot.disable(opts)
-   .then(function() {
-       console.log('Hotspot disabled')
-   })
-   .catch(function(e) {
-       Console.log('Something went wrong; Perms?', e)
-   });
+	console.log("* Please specify the ssid of the AP with which you wish to connect your device...");
+	console.log("Example: %s %s --ssid BestWiFiNetworkEver --password SuperSecretPassword --security wpa2_mixed",
+		process.argv[0], path.relative(process.cwd(), __filename));
+	process.exit(1);
+}
+
+function deviceInfo() {
+	console.log("Obtaining device information...");
+	sap.deviceInfo(claim);
+}
+
+deviceInfo();
