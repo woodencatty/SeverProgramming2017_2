@@ -2,10 +2,10 @@ const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 impo
 
 
 var wifi = require('node-wifi');
-var piwifi = require('pi-wifi');
 
 module.exports = {
     searchAPD: (apName, TargetRSSI) => {
+
     }
 
 }
@@ -22,6 +22,8 @@ wifi.getCurrentConnections((err, curcon)=>{
 }, 1000);
 
 /*
+var piwifi = require('pi-wifi');
+
 piwifi.connect('APD', '1q2w3e4r', (err)=>{
     //TODO : 연결
 });
