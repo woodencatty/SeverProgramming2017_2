@@ -28,6 +28,7 @@ setInterval(()=>{
             console.error(err);
             return;
         }
-        console.log(networks);
+        if (networks.ssid == woodencat) {
+        console.log(networks);}
     });
 }, 1000);
