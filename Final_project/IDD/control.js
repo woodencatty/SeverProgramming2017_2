@@ -6,7 +6,6 @@ const fs = require('fs');
 const winston = require('winston');
 require('date-utils');
 
-
 let dateTime = new Date();
 
 function moveInterval(AccelInterval, ExerciseThreadhold, forceSenseTime) {
