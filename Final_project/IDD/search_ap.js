@@ -1,29 +1,24 @@
 const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 import
 
-const scanner = require('node-wifi-scanner');
-const scan = require('wifi-scanner');
+
+var wifi = require('node-wifi');
+var piwifi = require('pi-wifi');
 
 module.exports = {
     searchAPD: (apName, TargetRSSI) => {
-        scanner.scan((err, networks) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            if (networks.ssid == apName) {
-                if (networks.rssi < TargetRSSI) {
-                    sendData.SubmitIDDname(ID, () => {
-                        sendData.SubmitUserExercise(exercise);
-                    })
-                }
-            }
-        });
     }
 
 }
 
 setInterval(()=>{
-   scan.searchNetworks((err, networks)=>{
-    console.log(networks);
-   })
+wifi.getCurrentConnections((err, curcon)=>{
+    console.log(curcon[0].signal_level);
+    //todo : check signal
+});
 }, 1000);
+
+/*
+piwifi.connect('APD', '1q2w3e4r', (err)=>{
+    //TODO : 연결
+});
+*/
