@@ -39,12 +39,12 @@ router.get('/detected', function (req, res, next) {
 
 router.post('/identify/information', (req, res, next) => {
   console.log(req.header.IDD_ID);
-  res.end();
+  res.redirect('/detected');
 });
 
 router.post('/patient/exercise', (req, res, next) => {
   console.log(req.header.exercise);
-  res.end();
+  res.redirect('/detected');
 });
 
 initialize();
