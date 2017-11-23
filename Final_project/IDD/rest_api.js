@@ -1,7 +1,7 @@
 const http = require('http');										//http 요청 모듈
 
 let serverIP = "192.168.137.1";
-let serverPort = "3010";
+let serverPort = "65018";
 
 POST_IDDname = {														//POST요청 JSON데이터 정의
 	host: serverIP,
@@ -44,7 +44,7 @@ module.exports = {
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
-		req.setHeader("IDD_ID", ID);											//헤더에 요청 데이터 첨부
+		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
 		console.log("message send!");
 		req.end();
 	},

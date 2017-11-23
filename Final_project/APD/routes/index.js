@@ -14,7 +14,8 @@ function Setup_IDD_Socket(){
   http.createServer((request, response) => {
     if (request.method == 'POST') {
       if (request.url == '/identify/information') {
-        console.log(request.headers.IDD_ID);
+        console.log(request.headers.idd_id);
+        //IDD_ID = request.headers.idd_id;
         response.writeHead(200);
         response.end("gotit");
       } else if (request.url == '/patient/exercise') {
@@ -28,7 +29,7 @@ function Setup_IDD_Socket(){
         response.end();
       }
     } /* GET method */
-  }).listen(3010, () => {
+  }).listen(65018, () => {
     console.log('Server Running (3010) ...');
   });
 }
@@ -61,17 +62,6 @@ router.get('/detected', function (req, res, next) {
 });
 
 
-/*
-router.post('/identify/information', (req, res, next) => {
-  console.log(req.header.IDD_ID);
-  res.end('gotit');
-});
-
-router.post('/patient/exercise', (req, res, next) => {
-  console.log(req.header.exercise);
-  res.end('gotit');
-});
-*/
 initialize();
 
 module.exports = router;
