@@ -12,8 +12,8 @@ let IDD_ID = "";
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
         var config = JSON.parse(data);
-   AP.setupAP(config.ssid, config.password, true, config.adaptor);
-    interval = config.refreshInterval;
+  /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
+    interval = config.refreshInterval;*/
   });
 
 }

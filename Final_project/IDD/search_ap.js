@@ -12,7 +12,7 @@ module.exports = {
         wifi.getCurrentConnections((err, curcon) => {
             console.log(curcon[0].signal_level);
             //todo : check signal
-            if (curcon[0].signal_level < 20) {
+            if (curcon[0].signal_level < 10) {
                 if (searched == false) {
                     sendData.SubmitIDDname('IDD001');
                     sendData.SubmitUserExercise(20);
