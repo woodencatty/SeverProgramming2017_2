@@ -8,7 +8,7 @@ wifi.init({
 });
 
 module.exports = {
-    searchAPD: (apName, TargetRSSI) => {
+    searchAPD: (apName, password, TargetRSSI) => {
         wifi.getCurrentConnections((err, curcon) => {
             console.log(curcon[0].signal_level);
             //todo : check signal

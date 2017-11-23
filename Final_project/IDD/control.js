@@ -8,6 +8,13 @@ require('date-utils');
 
 let dateTime = new Date();
 
+
+function scanInterval(apName, rssi, password, scanInterval) {
+  this.scanInterval = setInterval(() => {
+    scanAP.searchAPD(apName, password, rssi);
+  }, scanInterval);
+}
+
 function moveInterval(AccelInterval, ExerciseThreadhold, forceSenseTime) {
   this.moveInterval = setInterval(() => {
     exercise.setExerciseCount(ExerciseThreadhold, forceSenseTime);
@@ -17,7 +24,6 @@ function moveInterval(AccelInterval, ExerciseThreadhold, forceSenseTime) {
 function loggingInterval(loggingInterval, filename, fsOption) {
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
-    acturator.led_dataSaved();
     ExerciseCallback = function (ExerciseCount) {
       fs.open(filename, fsOption, function (err, fd) {
         if (err) throw err;
@@ -35,18 +41,12 @@ function loggingInterval(loggingInterval, filename, fsOption) {
   }, loggingInterval);
 }
 
-function scanInterval(apName, rssi, scanInterval) {
-  this.scanInterval = setInterval(() => {
-    scanAP.searchAPD(apName, rssi);
-  }, scanInterval);
-}
-
 function initialize() {
   winston.log('debug', "IDD initialized");
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
-    scanInterval(config.apName, config.rssi, config.scanInterval);
+    scanInterval(config.apName, config.sensitive, , config.password, config.scanInterval);
     moveInterval(config.AccelInterval, config.ExerciseThreadhold, config.forceSenseTime);
     loggingInterval(config.LoggingInterval, config.ExerciseDataFileName, config.fsOption);
     winston.level = config.loglevel;
