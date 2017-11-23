@@ -16,10 +16,10 @@ function Setup_IDD_Socket(){
       if (request.url == '/identify/information') {
         console.log(request.headers.idd_id);
         //IDD_ID = request.headers.idd_id;
-        let name = restAPI.requestUserInfo(IDD_ID);        
+        let name = restAPI.requestUserInfo(IDD_ID);      // 통합서버에서 데이터 수신  
         response.writeHead(200);
-        response.end("gotit");
-        console.log("Hi! "+ name);
+        response.end("gotit");    //IDD에 확인메세지 전송
+        console.log("Hi! "+ name);   //환자 식별
       } else if (request.url == '/patient/exercise') {
         response.writeHead(200);        
         console.log(request.headers.exercise);        
@@ -32,7 +32,7 @@ function Setup_IDD_Socket(){
       }
     } /* GET method */
   }).listen(65018, () => {
-    console.log('Server Running (3010) ...');
+    console.log('Socket is Running (65018) ...');
   });
 }
 

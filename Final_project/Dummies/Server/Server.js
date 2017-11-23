@@ -1,18 +1,24 @@
-//Temp server for response at GET
+const http = require('http');
 
-const express = require('express');
-const app = express();
+function Setup_APD_Socket(){
+    http.createServer((request, response) => {
+      if (request.method == 'GET') {
+        if (request.url == '/patient/information') {
+          console.log(request.headers.idd_id);
+          //IDD_ID = request.headers.idd_id;
+          response.writeHead(200);        
+          response.end("김환자");      //보내는 부분. 가공이 필요함.
+                }
+        else {
+          console.log("error");
+          response.writeHead(404);
+          response.end();
+        }
+      } /* GET method */
+    }).listen(65008, () => {
+      console.log('Server Running (65008) ...');
+    });
+  }
 
-app.listen(65008, () => {
-    console.log("dummy server2 enable");
-});
-
-app.post('/patient/exercise', (req, res) => {
-    console.log('Data submitted : '+req.headers.idd_id + '  /  '+ req.headers.step_data);
-});
-
-
-app.post('/patient/information', (req, res) => {
-    console.log('Data submitted : '+req.headers.idd_id+ '  /  '+req.headers.program_id);
-    res.setHeader("patient_name", "김환자");
-});
+  Setup_APD_Socket();    
+  

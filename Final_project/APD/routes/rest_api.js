@@ -26,7 +26,7 @@ GET_UserInfo = {														//POST요청 JSON데이터 정의
 	host: serverIP,
 	port: serverPort,
 	path: '/patient/information',
-	method: 'POST'
+	method: 'GET'
 };
 
 
@@ -105,24 +105,16 @@ module.exports = {
 				let serverdata = '';
 
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					serverdata = JSON.parse(chunk);
+					return chunk;	// 서버 데이터 받는부분
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
 					console.log(serverdata.patient_name);
-					/*userID = ID;
-					name = serverdata.patient_name;
-					age = serverdata.patient_Age;
-					height = serverdata.patient_Height;
-					weight = serverdata.patient_Weight;
-					gender = serverdata.patient_Gender;
-					exercise = serverdata.patient_Exercise;*/
-					return serverdata.patient_name;
 				});
 			}
 		}
 
-		let req = http.request(getUserInfoRequest, getUserInfocallback);						//GET요청 전송
+		let req = http.request(GET_UserInfo, getUserInfocallback);						//GET요청 전송
 		req.on('error', function (error) {
 			console.log('관리서버와 연결할 수 없습니다.'); 								// 관리서버와 연결 불가능할 때에 오류 체크
 		});
