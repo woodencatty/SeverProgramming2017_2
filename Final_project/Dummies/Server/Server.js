@@ -14,4 +14,5 @@ app.post('/patient/exercise', (req, res) => {
 
 app.post('/patient/information', (req, res) => {
     console.log('Data submitted : '+req.headers.idd_id+ '  /  '+req.headers.program_id);
+    res.setHeader("patient_name", "김환자");
 });

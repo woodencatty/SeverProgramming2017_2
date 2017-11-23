@@ -16,8 +16,10 @@ function Setup_IDD_Socket(){
       if (request.url == '/identify/information') {
         console.log(request.headers.idd_id);
         //IDD_ID = request.headers.idd_id;
+        let name = restAPI.requestUserInfo(IDD_ID);        
         response.writeHead(200);
         response.end("gotit");
+        console.log("Hi! "+ name);
       } else if (request.url == '/patient/exercise') {
         response.writeHead(200);        
         console.log(request.headers.exercise);        
