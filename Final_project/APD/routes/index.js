@@ -5,15 +5,39 @@ var router = express.Router();
 const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
+const http = require('http');
 
 let refreshInterval = 0;
 let IDD_ID = "";
 
+function Setup_IDD_Socket(){
+  http.createServer((request, response) => {
+    if (request.method == 'POST') {
+      if (request.url == '/identify/information') {
+        console.log(request);
+        response.writeHead(404);
+        response.end("gotit");
+      } else if (request.url == '/patient/exercise') {
+        console.log(request);      
+        response.end("gotit");
+      }
+      else {
+        console.log("error");
+        response.writeHead(404);
+        response.end();
+      }
+    } /* GET method */
+  }).listen(3010, () => {
+    console.log('Server Running (3010) ...');
+  });
+}
+
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
-        var config = JSON.parse(data);
-  /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
-    interval = config.refreshInterval;*/
+    var config = JSON.parse(data);
+    Setup_IDD_Socket();    
+    /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
+      interval = config.refreshInterval;*/
   });
 
 }
@@ -36,17 +60,17 @@ router.get('/detected', function (req, res, next) {
 });
 
 
-
+/*
 router.post('/identify/information', (req, res, next) => {
   console.log(req.header.IDD_ID);
-  res.redirect('/detected');
+  res.end('gotit');
 });
 
 router.post('/patient/exercise', (req, res, next) => {
   console.log(req.header.exercise);
-  res.redirect('/detected');
+  res.end('gotit');
 });
-
+*/
 initialize();
 
 module.exports = router;

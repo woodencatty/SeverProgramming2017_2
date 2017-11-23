@@ -45,7 +45,7 @@ module.exports = {
 
 		});
 		req.setHeader("IDD_ID", ID);											//헤더에 요청 데이터 첨부
-
+		console.log("message send!");
 		req.end();
 	},
 	SubmitUserExercise: (exercise) => {
