@@ -31,7 +31,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					serverdata = JSON.parse(chunk);
+						console.log("he says" + chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
@@ -60,7 +60,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					serverdata = JSON.parse(chunk);
+					console.log("he says" + chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);

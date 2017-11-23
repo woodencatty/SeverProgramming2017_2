@@ -14,11 +14,12 @@ function Setup_IDD_Socket(){
   http.createServer((request, response) => {
     if (request.method == 'POST') {
       if (request.url == '/identify/information') {
-        console.log(request);
-        response.writeHead(404);
+        console.log(request.headers.IDD_ID);
+        response.writeHead(200);
         response.end("gotit");
       } else if (request.url == '/patient/exercise') {
-        console.log(request);      
+        response.writeHead(200);        
+        console.log(request.headers.exercise);        
         response.end("gotit");
       }
       else {
