@@ -10,13 +10,14 @@ const http = require('http');
 let refreshInterval = 0;
 let IDD_ID = "";
 
+let serverIP = "";
+let serverPort = "";
+
 function Setup_IDD_Socket(){
   http.createServer((request, response) => {
     if (request.method == 'POST') {
       if (request.url == '/identify/information') {
-        console.log(request.headers.idd_id);
-        //IDD_ID = request.headers.idd_id;
-        let name = restAPI.requestUserInfo(IDD_ID);      // 통합서버에서 데이터 수신  
+        IDD_ID = request.headers.idd_id;
         response.writeHead(200);
         response.end("gotit");    //IDD에 확인메세지 전송
         console.log("Hi! "+ name);   //환자 식별
@@ -31,8 +32,8 @@ function Setup_IDD_Socket(){
         response.end();
       }
     } /* GET method */
-  }).listen(65018, () => {
-    console.log('Socket is Running (65018) ...');
+  }).listen(3010, () => {
+    console.log('Socket is Running (3010) ...');
   });
 }
 
@@ -42,6 +43,8 @@ function initialize() {
     Setup_IDD_Socket();    
     /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
       interval = config.refreshInterval;*/
+    serverIP = config.serverIP;
+    serverPort = config.serverPort;
   });
 
 }
@@ -57,7 +60,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/detected', function (req, res, next) {
-  let name = restAPI.requestUserInfo(IDD_ID);
+  let name = restAPI.requestUserInfo(IDD_ID, serverIP, serverPort);
   res.render('detected', { username: name }, () => {
     IDD_ID = "";
   });
