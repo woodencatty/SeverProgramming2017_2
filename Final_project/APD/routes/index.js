@@ -8,7 +8,7 @@ const fs = require('fs');
 const http = require('http');
 
 let refreshInterval = 0;
-let IDD_ID = "";
+let IDD_ID = "IDD001";
 
 let serverIP = "";
 let serverPort = "";
@@ -20,7 +20,7 @@ function Setup_IDD_Socket(){
         IDD_ID = request.headers.idd_id;
         response.writeHead(200);
         response.end("gotit");    //IDD에 확인메세지 전송
-        console.log("Hi! "+ name);   //환자 식별
+        console.log("Hi! "+ IDD_ID);   //환자 식별
       } else if (request.url == '/patient/exercise') {
         response.writeHead(200);        
         console.log(request.headers.exercise);        
@@ -59,11 +59,14 @@ router.get('/', function (req, res, next) {
   }
 });
 
+
 router.get('/detected', function (req, res, next) {
-  let name = restAPI.requestUserInfo(IDD_ID, serverIP, serverPort);
-  res.render('detected', { username: name }, () => {
-    IDD_ID = "";
-  });
+
+  Identifycallback = (name)=>{
+   res.render('detected', { username:name });
+  }
+  restAPI.requestUserInfo(IDD_ID, serverIP, serverPort, Identifycallback);
+
 });
 
 

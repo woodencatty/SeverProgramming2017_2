@@ -23,7 +23,7 @@ module.exports = {
             });
     }
 }
-
+/*
 process.on('SIGINT', () => {
     hotspot.disable(opts)
         .then(function () {
@@ -36,3 +36,4 @@ process.on('SIGINT', () => {
         process.exit(1);
     }, 1000)
 });
+*/

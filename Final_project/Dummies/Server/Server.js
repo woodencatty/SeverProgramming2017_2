@@ -5,7 +5,6 @@ function Setup_APD_Socket(){
       if (request.method == 'GET') {
         if (request.url == '/patient/information') {
           console.log(request.headers.idd_id);
-          // 환자정보 반환
           response.writeHead(200);        
           response.end("김환자");      //보내는 부분. 가공이 필요함.
                 }
@@ -25,8 +24,8 @@ function Setup_APD_Socket(){
           response.end();
         }
       }
-    }).listen(65018, () => {
-      console.log('Server Running (65018) ...');
+    }).listen(65009, () => {
+      console.log('Server Running (65009) ...');
     });
   }
 

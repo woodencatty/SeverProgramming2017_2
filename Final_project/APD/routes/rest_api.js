@@ -7,7 +7,7 @@ POST_APDError = {														//POST요청 JSON데이터 정의
 	method: 'POST'
 };
 
-var sys_error = ""
+var sys_error = "";
 
 
 POST_UserExercise = {														//POST요청 JSON데이터 정의
@@ -26,9 +26,8 @@ GET_UserInfo = {														//POST요청 JSON데이터 정의
 	method: 'GET'
 };
 
-
-
 module.exports = {
+
 	SubmitError: (ID, serverIP, serverPort) => {
 
 		POST_APDError.host = serverIP;
@@ -95,11 +94,12 @@ module.exports = {
 		req.end();
 	},
 
-	requestUserInfo: (ID, serverIP, serverPort) => {
+	requestUserInfo: (ID, serverIP, serverPort, callback) => {
 
 		GET_UserInfo.host = serverIP;
 		GET_UserInfo.port = serverPort;
 
+		console.log(serverIP + serverPort);
 		getUserInfocallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -111,12 +111,11 @@ module.exports = {
 			} else {
 				let serverdata = '';
 
-				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					return chunk;	// 서버 데이터 받는부분
+				response.on('data', function (chunk) {				
+						callback(chunk.toString());
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
-					console.log(serverdata);
-					console.log(serverdata.patient_name);
+
 				});
 			}
 		}
@@ -127,5 +126,6 @@ module.exports = {
 		});
 		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
 		req.end();
-	}
+	},
+
 }    
