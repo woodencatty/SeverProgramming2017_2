@@ -37,7 +37,7 @@ function loggingInterval(loggingInterval, filename, fsOption) {
         });
       });
     }
-    exercise.getExerciseCount(ExerciseCallback);
+    exercise.getExercise(ExerciseCallback);
   }, loggingInterval);
 }
 

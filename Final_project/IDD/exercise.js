@@ -11,13 +11,14 @@ result : result
 
 dt.build();
 
-// dt.print();
+// dt.print(); // Show Trees
 
-console.log("Classify : ", dt.classify(['(direct)','USA','yes',5]));
+console.log("Classify : ", );
 
 dt.prune(1.0); // 1.0 : mingain.
-dt.print();
 module.exports = {
-
+        getExercise : (callback)=>{
+            callback(dt.classify(['(direct)','USA','yes',5]));
+        }
     
 }
