@@ -9,9 +9,9 @@ require('date-utils');
 let dateTime = new Date();
 
 
-function scanInterval(apName, rssi, password, scanInterval) {
+function scanInterval(apName, connectRange, leaveRange, password, scanInterval) {
   this.scanInterval = setInterval(() => {
-    scanAP.searchAPD(apName, password, rssi);
+    scanAP.searchAPD(apName, password, connectRange, leaveRange);
   }, scanInterval);
 }
 
@@ -46,7 +46,7 @@ function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
-    scanInterval(config.apName, config.sensitive, config.password, config.scanInterval);
+    scanInterval(config.apName, config.connectRange, config.leaveRange, config.password, config.scanInterval);
     moveInterval(config.AccelInterval, config.ExerciseThreadhold, config.forceSenseTime);
     loggingInterval(config.LoggingInterval, config.ExerciseDataFileName, config.fsOption);
     winston.level = config.loglevel;

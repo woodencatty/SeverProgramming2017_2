@@ -8,18 +8,19 @@ wifi.init({
 });
 
 module.exports = {
-    searchAPD: (apName, password, TargetRSSI) => {
+    searchAPD: (apName, password, connectRange, leaveRange) => {
         wifi.getCurrentConnections((err, curcon) => {
             console.log(curcon[0].signal_level);
             //todo : check signal
-            if (curcon[0].signal_level > -20) {
+            if (curcon[0].signal_level > connectRange) {
                 if (searched == false) {
                     sendData.SubmitIDDname('IDD001');
                     sendData.SubmitUserExercise(20);
                     searched = true;
                 } else if (searched == true) {
                 }
-            } else if (curcon[0].signal_level < -40) {
+            } else if (curcon[0].signal_level < leaveRange) {
+                sendData.SubmitUserLeave();
                 searched = false;
             }
         });

@@ -25,6 +25,10 @@ function Setup_IDD_Socket(){
         response.writeHead(200);        
         console.log(request.headers.exercise);        
         response.end("gotit");
+      } else if (request.url == '/patient/leave') {
+        response.writeHead(200);        
+        response.end("good-bye");
+        let IDD_ID = "";        
       }
       else {
         console.log("error");
@@ -65,6 +69,7 @@ router.get('/detected', function (req, res, next) {
   Identifycallback = (name)=>{
    res.render('detected', { username:name });
   }
+  
   restAPI.requestUserInfo(IDD_ID, serverIP, serverPort, Identifycallback);
 
 });
