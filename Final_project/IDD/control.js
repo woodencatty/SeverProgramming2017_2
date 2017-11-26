@@ -15,12 +15,6 @@ function scanInterval(apName, connectRange, leaveRange, password, scanInterval) 
   }, scanInterval);
 }
 
-function moveInterval(AccelInterval, ExerciseThreadhold, forceSenseTime) {
-  this.moveInterval = setInterval(() => {
-    exercise.setExerciseCount(ExerciseThreadhold, forceSenseTime);
-  }, AccelInterval);
-}
-
 function loggingInterval(loggingInterval, filename, fsOption) {
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
