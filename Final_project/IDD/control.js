@@ -11,7 +11,11 @@ let dateTime = new Date();
 
 function scanInterval(apName, connectRange, leaveRange, password, scanInterval) {
   this.scanInterval = setInterval(() => {
+    ExerciseCallback = function (Action) {
+    console.log(Action);
+    }      
     scanAP.searchAPD(apName, password, connectRange, leaveRange);
+    exercise.getExercise(ExerciseCallback);
   }, scanInterval);
 }
 
