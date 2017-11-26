@@ -12,8 +12,6 @@ dt.build();
 
 // dt.print(); // Show Trees
 
-console.log("Classify : ", );
-
 dt.prune(1.0); // 1.0 : mingain.
 module.exports = {
         getExercise : (callback)=>{
