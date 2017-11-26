@@ -20,14 +20,14 @@ function loggingInterval(loggingInterval, filename, fsOption) {
   console.log("logging");
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
-    ExerciseCallback = function (Action) {
+    ExerciseCallback = (Action) =>{
       console.log(Action);
-      fs.open(filename, fsOption, function (err, fd) {
+      fs.open(filename, fsOption, (err, fd) =>{
         if (err) throw err;
         var buf = new Buffer(Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
         winston.log('debug', Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
 
-        fs.write(fd, buf, 0, buf.length, null, function (err, written, buffer) {
+        fs.write(fd, buf, 0, buf.length, null, (err, written, buffer) =>{
           if (err) throw err;
           fs.close(fd, () => {
           });
@@ -40,7 +40,7 @@ function loggingInterval(loggingInterval, filename, fsOption) {
 
 function initialize() {
   winston.log('debug', "IDD initialized");
-  fs.readFile('./settings.conf', 'utf8', function (err, data) {
+  fs.readFile('./settings.conf', 'utf8',(err, data)=> {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
     scanInterval(config.apName, config.connectRange, config.leaveRange, config.password, config.scanInterval);
