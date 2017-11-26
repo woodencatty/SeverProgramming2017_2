@@ -24,11 +24,12 @@ function moveInterval(AccelInterval, ExerciseThreadhold, forceSenseTime) {
 function loggingInterval(loggingInterval, filename, fsOption) {
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
-    ExerciseCallback = function (ExerciseCount) {
+    ExerciseCallback = function (Action) {
+      console.log(Action);
       fs.open(filename, fsOption, function (err, fd) {
         if (err) throw err;
-        var buf = new Buffer(ExerciseCount + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
-        winston.log('debug', ExerciseCount + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
+        var buf = new Buffer(Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
+        winston.log('debug', Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
 
         fs.write(fd, buf, 0, buf.length, null, function (err, written, buffer) {
           if (err) throw err;
