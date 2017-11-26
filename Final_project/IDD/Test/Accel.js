@@ -8,11 +8,13 @@ adxl345.init()
   .catch((err) => console.error(`ADXL345 initialization failed: ${err} `));
 
 //가속도값 측정 모듈화
+setInterval(()=>{
     adxl345.getAcceleration(true) // true for g-force units, else false for m/s²
-      .then((acceleration) => {
-        //가속도값(X, Y, Z) 반환
-        console.log(acceleration);
-      })
-      .catch((err) => {
-        console.log(`ADXL345 read error: ${err}`);
-      });
+    .then((acceleration) => {
+      //가속도값(X, Y, Z) 반환
+      console.log(acceleration);
+    })
+    .catch((err) => {
+      console.log(`ADXL345 read error: ${err}`);
+    });
+}, 300)
