@@ -12,7 +12,6 @@ let dateTime = new Date();
 function scanInterval(apName, connectRange, leaveRange, password, scanInterval) {
   this.scanInterval = setInterval(() => {
     scanAP.searchAPD(apName, password, connectRange, leaveRange);
-    console.log("what?");
   }, scanInterval);
 }
 
@@ -21,7 +20,6 @@ function loggingInterval(loggingInterval, filename, fsOption) {
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
     ExerciseCallback = (Action) =>{
-      console.log(Action);
       fs.open(filename, fsOption, (err, fd) =>{
         if (err) throw err;
         var buf = new Buffer(Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
