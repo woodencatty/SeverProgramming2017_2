@@ -16,6 +16,7 @@ function scanInterval(apName, connectRange, leaveRange, password, scanInterval) 
 }
 
 function loggingInterval(loggingInterval, filename, fsOption) {
+  console.log("logging");
   //5초에 한번 걸음 수를 업데이트하여 로그에 저장함.
   this.loggingInterval = setInterval(() => {
     ExerciseCallback = function (Action) {
