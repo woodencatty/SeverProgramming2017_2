@@ -1,7 +1,5 @@
 const http = require('http');
 
-
-
 function Setup_APD_Socket() {
   http.createServer((request, response) => {
     if (request.method == 'GET') {
