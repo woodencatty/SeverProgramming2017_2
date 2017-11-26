@@ -17,6 +17,7 @@ module.exports = {
         getExercise : (callback)=>{
 
             GetAccelCallback_2 = (AccelX, AccelY, AccelZ) => {
+                console.log(dt.classify([AccelX.toFixed(3), AccelY.toFixed(3), AccelZ.toFixed(3)]));
                     callback(dt.classify([AccelX.toFixed(3), AccelY.toFixed(3), AccelZ.toFixed(3)]));
                             }
 
