@@ -42,7 +42,6 @@ function initialize() {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
     scanInterval(config.apName, config.connectRange, config.leaveRange, config.password, config.scanInterval);
-    moveInterval(config.AccelInterval, config.ExerciseThreadhold, config.forceSenseTime);
     loggingInterval(config.LoggingInterval, config.ExerciseDataFileName, config.fsOption);
     winston.level = config.loglevel;
   });
