@@ -7,28 +7,29 @@ const restAPI = require('./rest_api.js');
 const fs = require('fs');
 const http = require('http');
 
-let refreshInterval = 0;
-let IDD_ID = "IDD001";
+let refreshInterval = 1;
+let IDD_ID = "";
+let User_Name = "";
 
 let serverIP = "";
 let serverPort = "";
 
-function Setup_IDD_Socket(){
+function Setup_IDD_Socket() {
   http.createServer((request, response) => {
     if (request.method == 'POST') {
       if (request.url == '/identify/information') {
         IDD_ID = request.headers.idd_id;
         response.writeHead(200);
         response.end("gotit");    //IDD에 확인메세지 전송
-        console.log("Hi! "+ IDD_ID);   //환자 식별
+        console.log("Hi! " + IDD_ID);   //환자 식별
       } else if (request.url == '/patient/exercise') {
-        response.writeHead(200);        
-        console.log(request.headers.exercise);        
+        response.writeHead(200);
+        console.log(request.headers.exercise);
         response.end("gotit");
       } else if (request.url == '/patient/leave') {
-        response.writeHead(200);        
+        response.writeHead(200);
         response.end("good-bye");
-        let IDD_ID = "";        
+        let IDD_ID = "";
       }
       else {
         console.log("error");
@@ -44,7 +45,7 @@ function Setup_IDD_Socket(){
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
-    Setup_IDD_Socket();    
+    Setup_IDD_Socket();
     /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
       interval = config.refreshInterval;*/
     serverIP = config.serverIP;
@@ -66,14 +67,23 @@ router.get('/', function (req, res, next) {
 
 router.get('/detected', function (req, res, next) {
 
-  Identifycallback = (name)=>{
-   res.render('detected', { username:name });
+  Identifycallback = (returnData) => {
+    User_Name = returnData.patientName; // 환자이름 빼먹음;
+    res.render('detected', { username: User_Name });
   }
-  
   restAPI.requestUserInfo(IDD_ID, serverIP, serverPort, Identifycallback);
 
 });
 
+router.get('/reset', function (req, res, next) {
+  IDD_ID = "";
+  res.render('reset');
+});
+
+router.get('/exercise_start', function (req, res, next) {
+  IDD_ID = "";
+  res.render('exercise_start');
+});
 
 initialize();
 
