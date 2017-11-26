@@ -51,7 +51,7 @@ function initialize() {
     serverIP = config.serverIP;
     serverPort = config.serverPort;
   });
-
+  console.log("Page is Running..(3000)");
 }
 
 
