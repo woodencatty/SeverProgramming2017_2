@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<title>SMASH CARE MOVEMENT</title>
+</head> 
+<body> 
+<h1>환자정보수정</h1> 
+<% if (dbcheck) { %>
+ 	<script>
+        alert("중요정보를 입력하지 않았습니다.");
+	</script>
+<% } %>
+<form method="post">
+           <div>
+                <label>*환자 번호</label>
+                <input type='text' name="patientNumber" value="<%= patientNumber %>"/>
+            </div>
+            <div>
+                <label>*환자 이름</label>
+                <input type='text' name="patientName" value="<%= patientName %>"/>
+            </div>
+            <div>
+                <label>*병명</label>
+                <input type='text' name="disease" value="<%= disease %>"/>
+            </div>
+            <div>
+                <label>*상태</label>
+                <input type='name' name="status" value="<%= status %>"/>
+            </div>
+            <input type="submit" value="등록하기"/>
+       </form>  
+</body>
+</html>

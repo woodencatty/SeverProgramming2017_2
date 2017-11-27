@@ -8,6 +8,7 @@ const fs = require('fs');
 const http = require('http');
 
 let refreshInterval = 1;
+let APD_ID = "";
 let IDD_ID = "";
 let User_Name = "";
 
@@ -23,7 +24,7 @@ function Setup_IDD_Socket() {
         response.end("gotit");    //IDD에 확인메세지 전송
         console.log("Hi! " + IDD_ID);   //환자 식별
       } else if (request.url == '/patient/exercise') {
-        response.writeHead(200);
+        response.writeHead(200);  
         console.log(request.headers.exercise);
         response.end("gotit");
       } else if (request.url == '/patient/leave') {
@@ -50,6 +51,7 @@ function initialize() {
       interval = config.refreshInterval;*/
     serverIP = config.serverIP;
     serverPort = config.serverPort;
+    APD_ID = config.deviceName;
   });
   console.log("Page is Running..(3000)");
 }
@@ -57,13 +59,22 @@ function initialize() {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  if (IDD_ID == "") {
-    res.render('index', { Interval: refreshInterval/*, temp: sensor.getTemp, humi: sensor.getHumi*/ });
-  } else {
-    res.redirect('/detected');
+  Statuscallback = (returnData) => {
+    if(returnData){
+      if (IDD_ID == "") {
+        res.render('index', { Interval: refreshInterval/*, temp: sensor.getTemp, humi: sensor.getHumi*/ });
+      } else {
+        res.redirect('/detected');
+      }}else {res.redirect('/unactivated');}
   }
+  restAPI.requestDeviceStatus("APD001", serverIP, serverPort, Statuscallback);
+
+    
 });
 
+router.get('/unactivated', function (req, res, next) {
+    res.redirect('/index_unactive');
+});
 
 router.get('/detected', function (req, res, next) {
 

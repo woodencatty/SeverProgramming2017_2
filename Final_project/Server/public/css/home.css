@@ -29,7 +29,6 @@ body {
 
 .wrap {
     width: 1900px;
-    height: 970px;
 }
 
 .title {
@@ -89,6 +88,7 @@ body {
     font-size: 20px;
     line-height: 20px;
     margin-top: 10px;
+    color: #aaaaaa;
 }
 
 .menu_item .item_contents {

@@ -3,7 +3,6 @@ const scanAP = require('./search_ap.js')   //포스터기기 탐색 모듈 impor
 
 
 const fs = require('fs');
-const winston = require('winston');
 require('date-utils');
 
 let dateTime = new Date();
@@ -23,8 +22,6 @@ function loggingInterval(loggingInterval, filename, fsOption) {
       fs.open(filename, fsOption, (err, fd) =>{
         if (err) throw err;
         var buf = new Buffer(Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
-        winston.log('debug', Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
-
         fs.write(fd, buf, 0, buf.length, null, (err, written, buffer) =>{
           if (err) throw err;
           fs.close(fd, () => {
@@ -37,13 +34,11 @@ function loggingInterval(loggingInterval, filename, fsOption) {
 }
 
 function initialize() {
-  winston.log('debug', "IDD initialized");
   fs.readFile('./settings.conf', 'utf8',(err, data)=> {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
     scanInterval(config.apName, config.connectRange, config.leaveRange, config.password, config.scanInterval);
     loggingInterval(config.LoggingInterval, config.ExerciseDataFileName, config.fsOption);
-    winston.level = config.loglevel;
   });
 }
 

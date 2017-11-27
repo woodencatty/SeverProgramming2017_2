@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device=width, initial-scale=1">
+        
+        <title>SMASH CARE MOVEMENT</title>
+        
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+        
+        <!-- Custom CSS -->
+        <link href="css/table.css" rel="stylesheet">
+        
+        <!-- JQuery -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        
+        <script>
+            jQuery(document).ready(function() {
+                /* 개통/정지 설정 */
+                $('tbody tr').each(function() {
+                    var td = $(this).children();
+                    var button = td.eq(3).children();
+                    /* 기기 상태가 '-'인가 아닌거로 설정 */
+                    if(td.eq(2).text() == '-') {
+                        /* 색 설정 */
+                        button.eq(1).removeClass('btn_enable');
+                        button.eq(1).addClass('btn_disable');
+                    } else {
+                        /* 색 설정 */
+                        button.eq(0).removeClass('btn_enable');
+                        button.eq(0).addClass('btn_disable');
+                    }
+                });
+                
+                /* 검색창 포커스인 포커스 아웃 효과 */
+                $('input').focusin(function() {
+                    $('.search').css('border-color', '#00afec');
+                    $('.search').css('box-shadow', '0 0 15px rgba(0, 175, 236, 0.5)');
+                    
+                    $('input').focusout(function() {
+                        $('.search').css('border-color', '#e0e0e0');
+                        $('.search').css('box-shadow', 'none');
+                    });
+                });
+                
+                /* 검색 기능 */
+                var search = function() {
+                    var id = $('input').val();
+                    $('tbody tr').hide();
+                    var item = $("tbody > tr > td:nth-child(4n+1):contains('" + id + "')");
+                    
+                    $(item).parent().show();
+                };
+                /* 버튼 눌렀을때 검색 */
+                $('#search_btn').click(function() {
+                    search();
+                });
+                /* 엔터 눌렀을때 검색 */
+                $('input').keydown(function (key) {
+                    if(key.keyCode == 13){
+                        search();
+                    }
+                });
+            });
+        </script>  
+        
+    </head>
+    
+    <body>
+    <div class="wrap">
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <!-- 브랜드 로고 -->
+                <div class="navbar-brand"><img src="img/nav_brand.png" width="300px"></div>
+                <!-- 메뉴 -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <!-- 홈 링크 -->
+                            <a class="nav-link currnet" href="#">홈으로</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 기기 관리 링크 -->
+                            <a class="nav-link" href="#">기기 관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 계정 관리 링크 -->
+                            <a class="nav-link" href="#">계정 관리</a>
+                        </li>
+                        <li class="nav-item active">
+                            <!-- 기기 개통 링크 -->
+                            <a class="nav-link" href="#">기기 개통</a>
+                        </li>
+                    </ul>
+                    <!-- 계정 아이디 -->
+                    <div class="my-auto profile">
+                        <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                        <!-- 비민번호 변경 링크 -->
+                        <a class="nav-link my-auto" href="#">Kim Hangeom</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    
+        <!-- Table -->
+        <div class="content mx-auto">
+            <div class="container my-auto">
+                <!-- Table Head -->
+                <div class="row content_head">
+                    <!-- 제목 -->
+                    <div class="col-lg-3 content_title">
+                        <p>기기 개통</p>
+                    </div>
+                    <!-- 검색 -->
+                    <div class="col-lg-7">
+                        <div class="search">
+                            <input type="text" placeholder="기기 아이디를 입력하세요.">
+                            <input type="submit" class="my-auto mx-auto search_btn" id="search_btn" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Table Body -->
+                <table class="table device_manage">
+                    <thead>
+                        <tr>
+                            <th>기기 아이디</th>
+                            <th>IP 주소</th>
+                            <th>기기 상태</th>
+                            <th>개통 / 정지</th>
+                        </tr>
+                    </thead>
+                    <!-- 테이블 내용 -->
+                    <tbody>
+                        <!-- Sample -->
+                        <tr>
+                            <td>
+                                <!-- 기기 아이디 -->
+                                <img width="30px" height="30px" src="img/poster_icon.png">
+                                APD - 011
+                            </td>
+                            <!-- IP 주소 -->
+                            <td>123.123.123.123</td>
+                            <td>
+                                <!-- 기기 상태 -->
+                                <!-- 개통된 상태면 img+"개통됨"으로 하고, 미개통 상태면 "-"로 입력함 -->
+                                <img src="img/net_icon.png" width="30px">
+                                개통됨
+                            </td>
+                            <td>
+                                <!-- 개통 정지 버튼 -->
+                                <button class="btn_enable">개통하기</button>
+                                <button class="btn_enable">정지하기</button>
+                            </td>
+                        </tr>
+                        <!-- Sample -->
+                    </tbody>
+                </table>
+        </div>
+        
+    </div>
+    </body>
+    
+</html>
