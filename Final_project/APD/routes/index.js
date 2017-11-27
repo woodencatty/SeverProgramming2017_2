@@ -60,7 +60,7 @@ router.get('/', function (req, res, next) {
     if(returnData == "1"){
       if (IDD_ID == "") {
         sensorcallback = (temp, humi)=>{
-          res.render('index', { Interval: refreshInterval, temp: Temp, humi: Humi });
+          res.render('index', { Interval: refreshInterval, temp: temp, humi: humi });
         }
         sensor.getTemp(sensorcallback);
       } else {
