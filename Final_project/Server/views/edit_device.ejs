@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device=width, initial-scale=1">
+
+    <title>SMASH CARE MOVEMENT</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <link href="css/add.css" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+</head>
+
+<body>
+   <% if (errcheck) { %>
+ 	    <script>
+            alert("환자가 사용중인 기기라 기기번호는 수정할 수 없습니다.");
+	   </script>
+    <% }else if(dbcheck){ %>
+        <script>
+            alert("중요정보를 입력하지 않았습니다..");
+	   </script>
+    <% } %>
+            <div class="wrap">
+                <!-- Navigation -->
+                <nav class="navbar navbar-expand-lg fixed-top">
+                    <div class="container">
+                        <!-- 브랜드 로고 -->
+                        <div class="navbar-brand"><img src="img/nav_brand.png" width="300px"></div>
+                        <!-- 메뉴 -->
+                        <div class="collapse navbar-collapse">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <!-- 홈 링크 -->
+                                    <a class="nav-link currnet" onclick="location.href='/admin'">홈으로</a>
+                                </li>
+                                <li class="nav-item">
+                                    <!-- 기기 관리 링크 -->
+                                    <a class="nav-link" onclick="location.href='/devicemanager'">기기 관리</a>
+                                </li>
+                                <li class="nav-item">
+                                    <!-- 계정 관리 링크 -->
+                                    <a class="nav-link" onclick="location.href='/doctor_manage'">계정 관리</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <!-- 기기 개통 링크 -->
+                                    <a class="nav-link" onclick="location.href='/man_opening'">기기 개통</a>
+                                </li>
+                            </ul>
+                            <!-- 계정 아이디 -->
+                            <div class="my-auto profile">
+                                <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                                <!-- 비민번호 변경 링크 -->
+                                <a class="nav-link my-auto" onclick="location.href='/adminpass'">
+                                    <%= name %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Insert -->
+                <div class="content mx-auto">
+                    <div class="container my-auto">
+                        <!-- Insert Head -->
+                        <div class="row content_head">
+                            <!-- 제목 -->
+                            <div class="col-lg-4 content_title">
+                                <p>기기 정보 수정</p>
+                            </div>
+                        </div>
+                        <!-- 입력 폼 -->
+                        <form method="post">
+                            <div class="row content_body">
+                                <div class="col-lg-5">
+                                    <label for="device_id">*기기 아이디</label>
+                                    <!-- 기기 아이디 입력 -->
+                                    <input type="text" class="form-control" name="deviceNumber" value="<%= deviceNumber %>">
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <% if(sort=="포스터 기기"){ %>
+                                    <div class="col-lg-3">
+                                        <label for="device_kind">*기기 종류</label>
+                                        <!-- 기기 종류 선택 -->
+                                        <select name="sort" class="form-control">
+                                <option selected>포스터 기기</option>
+                                <option>환자 식별 기기</option>
+                            </select>
+                                    </div>
+                                    <% }else{ %>
+                                        <div class="col-lg-3">
+                                            <label for="device_kind">*기기 종류</label>
+                                            <!-- 기기 종류 선택 -->
+                                            <select name="sort" class="form-control">
+                                <option>포스터 기기</option>
+                                <option selected>환자 식별 기기</option>
+                            </select>
+                                        </div>
+                                        <% } %>
+                                            <div class="col-lg-5">
+                                                <label for="device_version">*기기 버젼</label>
+                                                <!-- 기기 버젼 입력 -->
+                                                <input type="text" class="form-control" name="version" value="<%= version %>">
+                                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <label for="device_ip4">*IP_4</label>
+                                    <!-- IP4 입력 -->
+                                    <input type="text" class="form-control" name="ipv4_address" value="<%= ipv4_address %>">
+                                </div>
+                                <div class="col-lg-5">
+                                    <label for="device_ip6">*IP_6</label>
+                                    <!-- IP6 입력 -->
+                                    <input type="text" class="form-control" name="ipv6_address" value="<%= ipv6_address %>">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <label for="device_status">*설치 장소</label>
+                                    <!-- 기기 설치 장소 입력 -->
+                                    <input type="text" class="form-control" name="place" value="<%= place %>">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="offset-10 col-lg-2">
+                                    <!-- 제출하기 -->
+                                    <input type="submit" class="submit" value="+ 등록하기">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+</body>
+
+</html>

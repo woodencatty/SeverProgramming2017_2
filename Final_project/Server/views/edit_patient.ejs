@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device=width, initial-scale=1">
+        
+        <title>SMASH CARE MOVEMENT</title>
+        
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+        
+        <!-- Custom CSS -->
+        <link href="css/add.css" rel="stylesheet">
+        
+        <!-- JQuery -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        
+    </head>
+    
+    <body>
+    <% if (dbcheck) { %>
+ 	    <script>
+            alert("중요정보를 입력하지 않았습니다.");
+	   </script>
+    <% } %>
+    <div class="wrap">
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <!-- 브랜드 로고 -->
+                <div class="navbar-brand"><img src="img/nav_brand.png" width="300px"></div>
+                <!-- 메뉴 -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <!-- 홈 링크 -->
+                            <a class="nav-link currnet" onclick="location.href='/medic'">홈으로</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 계정 관리 링크 -->
+                            <a class="nav-link" onclick="location.href='/patient_manage'">환자 관리</a>
+                        </li>
+                        <li class="nav-item active">
+                            <!-- 기기 개통 링크 -->
+                            <a class="nav-link" onclick="location.href='/doctor_opening'">기기 개통</a>
+                        </li>
+                    </ul>
+                    <!-- 계정 아이디 -->
+                    <div class="my-auto profile">
+                        <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                        <!-- 비민번호 변경 링크 -->
+                        <a class="nav-link my-auto" onclick="location.href='/changemedic'"><%= name %></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    
+        <!-- Insert -->
+        <div class="content mx-auto">
+            <div class="container my-auto">
+                <!-- Insert Head -->
+                <div class="row content_head">
+                    <!-- 제목 -->
+                    <div class="col-lg-5 content_title">
+                        <p>환자 정보 수정</p>
+                    </div>
+                </div>
+                <!-- 입력 폼 -->
+                <form method="post">
+                    <div class="row content_body">
+                        <div class="col-lg-5">
+                            <label for="patient_num">*환자 번호</label>
+                            <!-- 환자 번호 입력 -->
+                            <input type="text" class="form-control" name="patientNumber" value="<%= patientNumber %>">
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="patient_name">*환자 이름</label>
+                            <!-- 환자 이름 입력 -->
+                            <input type="text" class="form-control" name="patientName" value="<%= patientName %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label for="patient_disease">*병명</label>
+                            <!-- 병명 입력 -->
+                            <input type="text" class="form-control" name="disease" value="<%= disease %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <label for="patient_status">*상태</label>
+                            <!-- 환자 상태 입력 -->
+                            <input type="text" class="form-control" name="status" value="<%= status %>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-10 col-lg-2">
+                            <!-- 제출하기 -->
+                            <input type="submit" class="submit"
+                            value="+ 등록하기">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    </body>
+    
+</html>

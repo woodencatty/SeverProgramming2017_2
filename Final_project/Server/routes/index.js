@@ -22,62 +22,62 @@ const client = mysql.createConnection({
     database: 'Tues_8team'
 });
 
-
 function Setup_APD_Socket() {
-    http.createServer((request, response) => {
-        if (request.method == 'GET') {
-            if (request.url == '/patient/information') {
-                console.log(request.headers.idd_id);
-                client.query('SELECT * FROM patient WHERE deviceNumber = ?', [request.headers.idd_id], (err, rows) => {
-                    console.log(err);                    
-                    console.log(rows);                    
-                    if (!rows.length) {
-                        console.log("DB query Error!");
-                        response.writeHead(404);
-                        response.end();
-                    } else {
-                        response.writeHead(200);
-                        response.end(rows[0].patientName.toString()); //보내는 부분. 가공이 필요함.
-                    }
-                });
-            } else if (request.url == '/device/status') {
-                console.log(request.headers.apd_id);
-                client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
-                    console.log(err);                    
-                    console.log(rows);                    
-                    if (!rows.length) {
-                        console.log("DB query Error!");
-                        response.writeHead(404);
-                        response.end();
-                    } else {
-                        response.writeHead(200);
-                        response.end(rows[0].activated.toString()); //보내는 부분. 가공이 필요함.
-                    }
-                });
-            } else {
-                console.log("GET error");
-                response.writeHead(404);
-                response.end();
-            }
-        } /* GET method */
-        else if (request.method == 'POST') {
-            if (request.url == '/device/error') {
-                //에러수집
-            }
-            if (request.url == '/patient/exercise') {
-                // 운동 프로그램 수집
-            } else {
-                console.log("POST error");
-                response.writeHead(404);
-                response.end();
-            }
-        }
-    }).listen(65009, () => {
-        console.log('Device Socket Running (65009) ...');
-    });
+  http.createServer((request, response) => {
+      if (request.method == 'GET') {
+          if (request.url == '/patient/information') {
+              console.log(request.headers.idd_id);
+              client.query('SELECT * FROM patient WHERE deviceNumber = ?', [request.headers.idd_id], (err, rows) => {
+                  console.log(err);                    
+                  console.log(rows);                    
+                  if (!rows.length) {
+                      console.log("DB query Error!");
+                      response.writeHead(404);
+                      response.end();
+                  } else {
+                      response.writeHead(200);
+                      response.end(rows[0].patientName.toString()); //보내는 부분. 가공이 필요함.
+                  }
+              });
+          } else if (request.url == '/device/status') {
+              console.log(request.headers.apd_id);
+              client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
+                  console.log(err);                    
+                  console.log(rows);                    
+                  if (!rows.length) {
+                      console.log("DB query Error!");
+                      response.writeHead(404);
+                      response.end();
+                  } else {
+                      response.writeHead(200);
+                      response.end(rows[0].activated.toString()); //보내는 부분. 가공이 필요함.
+                  }
+              });
+          } else {
+              console.log("GET error");
+              response.writeHead(404);
+              response.end();
+          }
+      } /* GET method */
+      else if (request.method == 'POST') {
+          if (request.url == '/device/error') {
+              //에러수집
+          }
+          if (request.url == '/patient/exercise') {
+              // 운동 프로그램 수집
+          } else {
+              console.log("POST error");
+              response.writeHead(404);
+              response.end();
+          }
+      }
+  }).listen(65009, () => {
+      console.log('Device Socket Running (65009) ...');
+  });
 }
 
 Setup_APD_Socket();
+
 
 router.get('/', (req, res, next) => {
     if (logcheck) {
@@ -198,7 +198,8 @@ router.get('/deviceAdd', (req, res, next) => {
             dbcheck = false;
         }
         req.session.now = (new Date()).toUTCString();
-        res.render('deviceAdd', {
+        res.render('add_device', {
+            name: req.session.user_name,
             dbcheck: check
         });
     } else {
@@ -209,9 +210,14 @@ router.get('/deviceAdd', (req, res, next) => {
 router.get('/deviceEdit', (req, res, next) => {
     if (req.session.user_id == 'admin') {
         var check = false;
+        var echeck = false;
         if (dbcheck) {
             check = true;
             dbcheck = false;
+        }
+        if (errcheck) {
+            echeck = true;
+            errcheck = false;
         }
         client.query('SELECT * FROM device WHERE deviceNumber = ?', [req.session.deviceNumber], (err, rows) => {
             if (err) {
@@ -222,15 +228,16 @@ router.get('/deviceEdit', (req, res, next) => {
                 res.redirect('/');
             } else {
                 req.session.now = (new Date()).toUTCString();
-                res.render('deviceEdit', {
+                res.render('edit_device', {
+                    name: req.session.user_name,
                     deviceNumber: rows[0].deviceNumber,
                     sort: rows[0].sort,
                     version: rows[0].version,
                     ipv4_address: rows[0].ipv4_address,
                     ipv6_address: rows[0].ipv6_address,
-                    activated: rows[0].activated,
                     place: rows[0].place,
-                    dbcheck: check
+                    dbcheck: check,
+                    errcheck: echeck
                 });
             }
         });
@@ -262,7 +269,8 @@ router.get('/doctor_add', (req, res, next) => {
             dbcheck = false;
         }
         req.session.now = (new Date()).toUTCString();
-        res.render('doctor_add', {
+        res.render('add_doctor', {
+            name: req.session.user_name,
             dbcheck: check
         });
     } else {
@@ -289,7 +297,8 @@ router.get('/doctor_edit', (req, res, next) => {
                 var dec = crypto.createDecipher('aes192', key);
                 var decpass = dec.update(rows[0].password, 'base64', 'utf8');
                 decpass += dec.final('utf8');
-                res.render('doctor_edit', {
+                res.render('edit_doctor', {
+                    name: req.session.user_name,
                     employeeNumber: rows[0].employeeNumber,
                     id: rows[0].id,
                     password: decpass,
@@ -362,7 +371,8 @@ router.get('/patient_add', (req, res, next) => {
                 dbcheck = false;
             }
             req.session.now = (new Date()).toUTCString();
-            res.render('patient_add', {
+            res.render('add_patient', {
+                name: req.session.user_name,
                 dbcheck: check
             });
         }
@@ -388,7 +398,8 @@ router.get('/patient_edit', (req, res, next) => {
                     res.redirect('/');
                 } else {
                     req.session.now = (new Date()).toUTCString();
-                    res.render('patient_edit', {
+                    res.render('edit_patient', {
+                        name: req.session.user_name,
                         patientNumber: rows[0].patientNumber,
                         patientName: rows[0].patientName,
                         disease: rows[0].disease,
@@ -532,12 +543,8 @@ router.post('/changemedic', function (request, response) {
 });
 router.post('/deviceAdd', function (request, response) {
     var body = request.body;
-    var activated = false;
-    if (body.activated != null) {
-        var activated = true;
-    }
     if (body.deviceNumber != '' && body.sort != '' && body.version != '') {
-        client.query('INSERT INTO device(deviceNumber,sort,version,ipv4_address,ipv6_address,activated,place) VALUES (?,?,?,?,?,?,?)', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, activated, body.place], (err, rows) => {
+        client.query('INSERT INTO device(deviceNumber,sort,version,ipv4_address,ipv6_address,activated,place) VALUES (?,?,?,?,?,?,?)', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, false, body.place], (err, rows) => {
             if (err) {
                 console.log(err);
             }
@@ -566,17 +573,18 @@ router.post('/devicemanager', function (request, response) {
 });
 router.post('/deviceEdit', function (request, response) {
     var body = request.body;
-    var activated = false;
-    if (body.activated != null) {
-        var activated = true;
-    }
     if (body.deviceNumber != '' && body.sort != '' && body.version != '') {
-        client.query('UPDATE device SET deviceNumber=?, sort=?, version=?, ipv4_address=?, ipv6_address=?, activated=?, place=? WHERE deviceNumber=?', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, activated, body.place, request.session.deviceNumber], (err, rows) => {
+        client.query('UPDATE device SET deviceNumber=?, sort=?, version=?, ipv4_address=?, ipv6_address=?, activated=?, place=? WHERE deviceNumber=?', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, false, body.place, request.session.deviceNumber], (err, rows) => {
             if (err) {
                 console.log(err);
+                errcheck = true;
             }
-            request.session.deviceNumber = null;
-            response.redirect('/devicemanager');
+            if(errcheck){
+                response.redirect('/deviceEdit');
+            }else{
+                request.session.deviceNumber = null;
+                response.redirect('/devicemanager');
+            }
         });
     } else {
         dbcheck = true;
