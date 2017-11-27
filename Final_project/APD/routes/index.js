@@ -57,6 +57,7 @@ function initialize() {
 router.get('/', function (req, res, next) {
 
   Statuscallback = (returnData) => {
+    console.log(returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
         sensorcallback = (temp, humi)=>{
@@ -72,7 +73,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/unactivated', function (req, res, next) {
-  res.render('/index_unactive');
+  res.render('index_unactive');
 });
 
 router.get('/detected', function (req, res, next) {
