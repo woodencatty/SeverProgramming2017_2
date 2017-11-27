@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-//const sensor = require('./sensor.js');
-const AP = require('./hotSpot.js');
+const sensor = require('./sensor.js');
+//const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
 const http = require('http');
@@ -58,7 +58,10 @@ function initialize() {
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (IDD_ID == "") {
-    res.render('index', { Interval: refreshInterval/*, temp: sensor.getTemp, humi: sensor.getHumi*/ });
+    sensorcallback = (temp, humi)=>{
+      res.render('index', { Interval: refreshInterval, temp: Temp, humi: Humi });
+    }
+    sensor.getTemp(sensorcallback);
   } else {
     res.redirect('/detected');
   }
