@@ -4,10 +4,7 @@
 <title>기기관리</title> 
 <script language='javascript'>
  function formChk(){
-    if(confirm("삭제하시겠습니까?")){
-        document.getElementById('delete').submit();
-      document.delete.submit(); 
-    }
+    alert("삭제가 완료되었습니다.");
  }
 </script>
 </head> 
@@ -32,7 +29,7 @@
 <form id="delete" method="post">
 <input type="hidden" value="<%= item.deviceNumber %>" name ="deviceNumber">
 <input type="hidden" value="delete" name ="type">
-<input type="button" value="삭제" onClick="javascript:formChk()">
+<input type="submit" value="삭제" onClick="javascript:formChk()">
 </form>
 </td>
 </tr> 

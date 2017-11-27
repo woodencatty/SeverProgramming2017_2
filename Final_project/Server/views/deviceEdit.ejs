@@ -5,17 +5,35 @@
 </head> 
 <body> 
 <h1>기기수정</h1> 
+<% if (dbcheck) { %>
+ 	<script>
+        alert("중요정보를 입력하지 않았습니다.");
+	</script>
+<% } %>
 <form method="post">
            <div>
-                <label>기기 아이디</label>
+                <label>*기기 아이디</label>
                 <input type='text' name="deviceNumber" value="<%= deviceNumber %>"/>
             </div>
+            <% if(sort=="포스터 기기"){ %>
+                <div>
+                    <label>*기기 종류</label>
+			        <select name="sort">
+                      <option selected>포스터 기기
+                      <option>환자 식별 기기
+                    </select>
+                </div>
+            <% }else{ %>
+                <div>
+                    <label>*기기 종류</label>
+			        <select name="sort">
+                      <option>포스터 기기
+                      <option selected>환자 식별 기기
+                    </select>
+                </div>
+            <% } %>
             <div>
-                <label>기기 종류</label>
-                <input type='text' name="sort" value="<%= sort %>"/>
-            </div>
-            <div>
-			    <label>기기 버전</label>
+			    <label>*기기 버전</label>
                 <input type='text' name="version" value="<%= version %>"/>
             </div>
             <div>
@@ -28,7 +46,7 @@
             </div>
             <div>
                 <label>기기상태</label>
-                <input type='text' name="activated" value="<%= activated %>"/>
+                <input type='checkbox' name="activated" value="<%= activated %>"/>
             </div>
             <div>
                 <label>설치 장소</label>

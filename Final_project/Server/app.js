@@ -27,7 +27,7 @@ app.use(session({
 	secret: 'secret key',
 	resave: false,
 	cookie: {
-    	maxAge: 1000 * 60 * 5 //시간제한
+    	maxAge: 1000 * 60 * 60 //시간제한
   	}
 }));
 

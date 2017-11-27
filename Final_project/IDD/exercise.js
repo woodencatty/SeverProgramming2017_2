@@ -1,24 +1,25 @@
 var data = require('./model.js');
-
-var result = ['None','Premium','Basic','Basic','Premium','None','Basic','Premium','None','None','None','None','Basic','None','Basic','Basic'];
-
 var ml = require('machine_learning');
+var accel = require('./sensor.js');
 
 var dt = new ml.DecisionTree({
-data : data.data,
-result : result
+    data: data.data,
+    result: data.result
 });
 
-dt.build();
 
 // dt.print(); // Show Trees
 
-console.log("Classify : ", );
 
-dt.prune(1.0); // 1.0 : mingain.
 module.exports = {
-        getExercise : (callback)=>{
-            callback(dt.classify(['(direct)','USA','yes',5]));
+    getExercise: (callback) => {
+        getExercisecallback = (AccelX, AccelY, AccelZ) => {
+            dt.build();
+            //console.log(dt.classify([AccelX.toFixed(3), AccelY.toFixed(3), AccelZ.toFixed(3)]));
+            callback(dt.classify([AccelX.toFixed(3), AccelY.toFixed(3), AccelZ.toFixed(3)]));
+            dt.prune(1.0); // 1.0 : mingain.            
         }
-    
+        accel.getAccel(getExercisecallback);
+    }
+
 }

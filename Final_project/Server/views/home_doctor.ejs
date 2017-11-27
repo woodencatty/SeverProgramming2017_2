@@ -24,13 +24,13 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <p class="title text-uppercase"><span>Doctor</span> loging</p>
-                        <p class="sub_title_1"><%= id %>님 환영합니다. <%= id %> 님께서는 현재 의료진으로 로그인 하셨습니다.</p>
+                        <p class="sub_title_1"><%= id %>님 환영합니다. <%= id %>님께서는 현재 의료진으로 로그인 하셨습니다.</p>
                         <p class="sub_title_2">의료진으로 로그인한 계정에는 다음과 같은 권한이 허용됩니다. 원하시는 기능을 클릭해주세요.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 offset-2">
-                        <div class="menu_item" onclick="location.href='/changemedic'">
+                        <div class="menu_item" onclick="location.href='/patient_manage'">
                             <img src="img/home_icon2.png"  width="230px" height="230px">
                             <p class="item_title">환자 관리</p>
                             <p class="item_sub_title">Patient Management</p>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="menu_item">
+                        <div class="menu_item" onclick="location.href='/doctor_opening'">
                             <img src="img/home_icon3.png" width="230px" height="230px">
                             <p class="item_title">기기 개통</p>
                             <p class="item_sub_title">Device Opening</p>
