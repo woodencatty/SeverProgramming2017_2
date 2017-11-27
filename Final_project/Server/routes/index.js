@@ -69,7 +69,7 @@ function Setup_APD_Socket() {
             }
         }
     }).listen(65009, () => {
-        console.log('Server Running (65009) ...');
+        console.log('Device Socket Running (65009) ...');
     });
 }
 
