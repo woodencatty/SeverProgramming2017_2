@@ -17,9 +17,9 @@ var closingcheck = false;
 const client = mysql.createConnection({
     host: 'localhost',
     port: 3306,
-    user: 'root',
+    user: 'Tues_8team',
     password: 'gachon654321',
-    database: 'project'
+    database: 'Tues_8team'
 });
 
 
