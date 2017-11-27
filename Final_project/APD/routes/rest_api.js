@@ -152,8 +152,9 @@ module.exports = {
 						let serverdata = '';
 		
 						response.on('data', function (chunk) {
-								var returnData = JSON.parse(chunk);				
-								callback(returnData.avtivated);
+							console.log(chunk.toString());
+								//var returnData = JSON.parse(chunk);				
+								callback(chunk.toString());
 						});
 						response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 		

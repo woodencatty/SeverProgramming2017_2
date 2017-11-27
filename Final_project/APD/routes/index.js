@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-//const sensor = require('./sensor.js');
+const sensor = require('./sensor.js');
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
@@ -57,11 +57,10 @@ function initialize() {
 router.get('/', function (req, res, next) {
 
   Statuscallback = (returnData) => {
-    console.log(returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
         sensorcallback = (temp, humi)=>{
-          res.render('index', { Interval: refreshInterval/*, temp: Temp, humi: Humi */});
+          res.render('index', { Interval: refreshInterval, temp: Temp, humi: Humi });
         }
         sensor.getTemp(sensorcallback);
       } else {
