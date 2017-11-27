@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const sensor = require('./sensor.js');
+//const sensor = require('./sensor.js');
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
@@ -11,9 +11,6 @@ let refreshInterval = 1;
 let APD_ID = "";
 let IDD_ID = "";
 let User_Name = "";
-
-let serverIP = "";
-let serverPort = "";
 
 function Setup_IDD_Socket() {
   http.createServer((request, response) => {
@@ -49,9 +46,8 @@ function initialize() {
     Setup_IDD_Socket();
     /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
       interval = config.refreshInterval;*/
-    serverIP = config.serverIP;
-    serverPort = config.serverPort;
     APD_ID = config.deviceName;
+    restAPI.init(config.serverIP, config.serverPort);
   });
   console.log("Page is Running..(3000)");
 }
@@ -64,7 +60,7 @@ router.get('/', function (req, res, next) {
     if(returnData){
       if (IDD_ID == "") {
         sensorcallback = (temp, humi)=>{
-          res.render('index', { Interval: refreshInterval, temp: Temp, humi: Humi });
+          res.render('index', { Interval: refreshInterval/*, temp: Temp, humi: Humi */});
         }
         sensor.getTemp(sensorcallback);
       } else {

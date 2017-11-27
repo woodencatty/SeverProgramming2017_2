@@ -16,8 +16,8 @@ function Setup_APD_Socket() {
           }
         });
       } else if (request.url == '/device/status') {
-        console.log(request.headers.idd_id);
-        client.query('SELECT * FROM activated WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
+        console.log(request.headers.apd_id);
+        client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
           if (!rows.length) {
             response.writeHead(200);
             response.end(rows);      //보내는 부분. 가공이 필요함.

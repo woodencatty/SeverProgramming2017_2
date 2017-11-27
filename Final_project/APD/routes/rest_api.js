@@ -1,8 +1,11 @@
 const http = require('http');										//http 요청 모듈
 
+var serverIP = "";
+var serverPort = "";
+
 POST_APDError = {														//POST요청 JSON데이터 정의
-	host: "",
-	port: "",
+	host: serverIP,
+	port: serverPort,
 	path: '/device/error',
 	method: 'POST'
 };
@@ -11,8 +14,8 @@ var sys_error = "";
 
 
 POST_UserExercise = {														//POST요청 JSON데이터 정의
-	host: "",
-	port: "",
+	host: serverIP,
+	port: serverPort,
 	path: '/patient/exercise',
 	method: 'POST'
 };
@@ -20,25 +23,27 @@ POST_UserExercise = {														//POST요청 JSON데이터 정의
 var exercise = 0;
 
 GET_UserInfo = {														//POST요청 JSON데이터 정의
-	host: "",
-	port: "",
+	host: serverIP,
+	port: serverPort,
 	path: '/patient/information',
 	method: 'GET'
 };
 
 GET_DeviceStatus = {														//POST요청 JSON데이터 정의
-	host: "",
-	port: "",
+	host: serverIP,
+	port: serverPort,
 	path: '/device/status',
 	method: 'GET'
 };
 
 module.exports = {
+	init: (IP, Port)=>{
+		serverIP = IP;
+		serverPort = Port;
+	},
 
-	SubmitError: (ID, serverIP, serverPort) => {
 
-		POST_APDError.host = serverIP;
-		POST_APDError.port = serverPort;
+	SubmitError: (ID) => {
 
 		SubmitErrorcallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
@@ -68,11 +73,8 @@ module.exports = {
 		req.end();
 	},
 
-	SubmitUserExercise: (exercise, serverIP, serverPort) => {
+	SubmitUserExercise: (exercise) => {
 		
-		POST_UserExercise.host = serverIP;
-		POST_UserExercise.port = serverPort;
-
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -102,10 +104,7 @@ module.exports = {
 		req.end();
 	},
 
-	requestUserInfo: (ID, serverIP, serverPort, callback) => {
-
-		GET_UserInfo.host = serverIP;
-		GET_UserInfo.port = serverPort;
+	requestUserInfo: (ID, callback) => {
 
 		console.log(serverIP + serverPort);
 		getUserInfocallback = function (response) {
@@ -138,10 +137,7 @@ module.exports = {
 		req.end();
 	},
 	
-	requestDeviceStatus: (ID, serverIP, serverPort, callback) => {
-		
-				GET_UserInfo.host = serverIP;
-				GET_UserInfo.port = serverPort;
+	requestDeviceStatus: (ID, callback) => {
 		
 				console.log(serverIP + serverPort);
 				getDeviceStatuscallback = function (response) {
