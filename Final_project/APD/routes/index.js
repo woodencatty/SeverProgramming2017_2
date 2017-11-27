@@ -67,9 +67,8 @@ router.get('/', function (req, res, next) {
         res.redirect('/detected');
       }}else {res.redirect('/unactivated');}
   }
-  restAPI.requestDeviceStatus("APD001", serverIP, serverPort, Statuscallback);
+  restAPI.requestDeviceStatus("APD001",  Statuscallback);
 
-    
 });
 
 router.get('/unactivated', function (req, res, next) {

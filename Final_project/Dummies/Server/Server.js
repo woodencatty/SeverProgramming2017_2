@@ -19,6 +19,7 @@ function Setup_APD_Socket() {
         console.log(request.headers.apd_id);
         client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
           if (!rows.length) {
+            console.log(err);
             response.writeHead(200);
             response.end(rows);      //보내는 부분. 가공이 필요함.
           } else {
