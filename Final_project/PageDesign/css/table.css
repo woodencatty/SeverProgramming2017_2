@@ -39,8 +39,8 @@ body {
 .wrap {
     display: flex;
     flex-direction: column;
-    width: 1920px;
-    height: 970px;
+    width: 1900px;
+    min-height: 970px;
 }
 
 .navbar {
