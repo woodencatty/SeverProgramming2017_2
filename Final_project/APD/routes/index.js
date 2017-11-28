@@ -55,8 +55,9 @@ function initialize() {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-
+  console.log("routed to /")
   Statuscallback = (returnData) => {
+    console.log("get data : " + returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
         sensorcallback = (temp, humi)=>{
@@ -81,7 +82,7 @@ router.get('/detected', function (req, res, next) {
     User_Name = returnData.patientName; // 환자이름 빼먹음;
     res.render('detected', { username: User_Name });
   }
-  restAPI.requestUserInfo(IDD_ID, serverIP, serverPort, Identifycallback);
+  restAPI.requestUserInfo(IDD_ID,Identifycallback);
 
 });
 
