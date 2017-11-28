@@ -9,6 +9,7 @@ module.exports = {
         temp.read(22, DHT22, (err, temp, humi) => {
             console.log("sensor")            
             if (!err) {
+                console.log(temp + "  "+ humi);
                 callback(temp, humi);
             } else { console.log("Error detected in DHT22 sensor"); }
         });
