@@ -48,7 +48,7 @@ module.exports = {
 		let req = http.request(POST_IDDname, SubmitIDDnamecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
-			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
+			console.log('can not connect to APD');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
 		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
@@ -77,7 +77,7 @@ module.exports = {
 		let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
-			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
+			console.log('can not connect to APD');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
@@ -106,7 +106,7 @@ module.exports = {
 		let req = http.request(POST_Userleave, SubmitUserLeavecallback);						//POST요청 전송
 		req.on('error', function (error) {
 
-			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
+			console.log('can not connect to APD');								// 관리서버와 연결 불가능할 때에 오류 체크
 
 		});
 		req.end();
