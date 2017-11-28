@@ -1,7 +1,7 @@
 const http = require('http');										//http 요청 모듈
 
-var serverIP = "";
-var serverPort = "";
+var serverIP = "192.9.44.53";
+var serverPort = "65009";
 
 POST_APDError = {														//POST요청 JSON데이터 정의
 	host: serverIP,
