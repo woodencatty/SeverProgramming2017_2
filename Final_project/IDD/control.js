@@ -21,7 +21,7 @@ function loggingInterval(loggingInterval, filename, fsOption) {
     ExerciseCallback = (Action) =>{
       fs.open(filename, fsOption, (err, fd) =>{
         if (err) throw err;
-        var buf = new Buffer(Action + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
+        var buf = new Buffer(Action.toString() + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + '\n');
         fs.write(fd, buf, 0, buf.length, null, (err, written, buffer) =>{
           if (err) throw err;
           fs.close(fd, () => {
