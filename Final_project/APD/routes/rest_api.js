@@ -119,8 +119,8 @@ module.exports = {
 				let serverdata = '';
 
 				response.on('data', function (chunk) {
-						var returnData = JSON.parse(chunk);				
-						callback(returnData);
+						//var returnData = JSON.parse(chunk);				
+						callback(chunk.toString()); // 문자열 형태로 돌려줌
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 
