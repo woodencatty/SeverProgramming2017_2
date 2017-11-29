@@ -14,9 +14,9 @@ function scanInterval(apName, connectRange, leaveRange, password, scanInterval) 
   }, scanInterval);
 }
 
-function moveInterval(AccelInterval, walkThreadhold, forceSenseTime) {
+function StepInterval(AccelInterval, walkThreadhold, forceSenseTime) {
   this.valueInterval = setInterval(() => {
-    move.setWalkCount(walkThreadhold, forceSenseTime);
+    exercise.setWalkCount(walkThreadhold, forceSenseTime);
   }, AccelInterval);
 }
 
@@ -63,7 +63,7 @@ function initialize() {
   fs.readFile('./settings.conf', 'utf8',(err, data)=> {
     //저장한 활동량 로그에서 데이터를 읽어 전송한다.
     var config = JSON.parse(data);
-    moveInterval(config.AccelInterval, config.walkThreadhold, config.forceSenseTime);    
+    StepInterval(config.AccelInterval, config.walkThreadhold, config.forceSenseTime);    
     scanInterval(config.apName, config.connectRange, config.leaveRange, config.password, config.scanInterval);
     loggingInterval(config.LoggingInterval, config.ExerciseDataFileName, config.fsOption);
   });
