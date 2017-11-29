@@ -16,7 +16,7 @@ function scanInterval(apName, connectRange, leaveRange, password, scanInterval) 
 
 function StepInterval(AccelInterval, walkThreadhold, forceSenseTime) {
   this.valueInterval = setInterval(() => {
-    exercise.setWalkCount(walkThreadhold, forceSenseTime);
+    exercise.setStepCount(walkThreadhold, forceSenseTime);
   }, AccelInterval);
 }
 
