@@ -1,4 +1,4 @@
-var data = require('./model.js');
+var data = require('./ml_exercise_model.js');
 var ml = require('machine_learning');
 var accel = require('./sensor.js');
 
