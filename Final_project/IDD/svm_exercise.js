@@ -52,9 +52,9 @@ module.exports = {
             i++;
             if (force > ExerciseThreadhold) {
                 if (!count_flag) {
-                    ExerciseCount++;
+                    StepCount++;
                     count_flag = true;
-                    console.log(ExerciseCount);
+                    console.log(StepCount);
                 }
             } else {
                 count_flag = false;
@@ -65,6 +65,6 @@ module.exports = {
         callback(StepCount);
     },
     resetStepCount: () => {
-        ExerciseCount = 0;
+        StepCount = 0;
     }
 }
