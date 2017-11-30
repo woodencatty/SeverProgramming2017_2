@@ -22,7 +22,9 @@ function Setup_IDD_Socket() {
         console.log("Hi! " + IDD_ID);   //환자 식별
       } else if (request.url == '/patient/exercise') {
         response.writeHead(200);  
+        restAPI.SubmitUserExercise(request.headers.idd_id, request.headers.exercise);
         console.log(request.headers.exercise);
+        IDD_ID = request.headers.idd_id;        
         response.end("gotit");
       } else if (request.url == '/patient/leave') {
         response.writeHead(200);
@@ -39,7 +41,6 @@ function Setup_IDD_Socket() {
     console.log('Socket is Running (3010) ...');
   });
 }
-
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);

@@ -56,7 +56,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					return chunk;	// 서버 데이터 받는부분
+					console.log(chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
@@ -73,7 +73,7 @@ module.exports = {
 		req.end();
 	},
 
-	SubmitUserExercise: (exercise) => {
+	SubmitUserExercise: (ID, exercise) => {
 		
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
@@ -86,7 +86,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					return chunk;	// 서버 데이터 받는부분
+					console.log(chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
@@ -100,7 +100,8 @@ module.exports = {
 			console.log(error);
 		});
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
-
+		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
+		
 		req.end();
 	},
 

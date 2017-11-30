@@ -55,7 +55,7 @@ module.exports = {
 		console.log("message send!");
 		req.end();
 	},
-	SubmitUserExercise: (exercise) => {
+	SubmitUserExercise: (ID, exercise) => {
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
 			if (response.statusCode != 200) {
@@ -81,6 +81,8 @@ module.exports = {
 
 		});
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
+		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
+		
 
 		req.end();
 	}, 

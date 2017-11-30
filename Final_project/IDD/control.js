@@ -44,10 +44,9 @@ function loggingInterval(loggingInterval, filename, fsOption) {
     StepCountcallback = (StepCount) =>{
       fs.open(filename, fsOption, (err, fd) =>{
         if (err) throw err;
-        console.log(buf);
-        var buf = new Buffer("[" + StepCount.toString() + ',' + dateTime.toFormat('YYYY,MM,DD,HH24,MI,SS') + ']\n');
+        var buf = new Buffer("[" + StepCount.toString() + ',' + dateTime.toFormat('YYYY-MM-DD HH24:MI:SS') + ']\n');
         fs.write(fd, buf, 0, buf.length, null, (err, written, buffer) =>{
-          console.log(buf);          
+          console.log(buf.toString());          
           if (err) throw err;
           fs.close(fd, () => {
             exercise.resetStepCount();

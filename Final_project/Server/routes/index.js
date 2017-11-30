@@ -21,6 +21,15 @@ const client = mysql.createConnection({
     password: 'gachon654321',
     database: 'Tues_8team'
 });
+const http = require('http');
+
+const client = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'Tues_8team',
+    password: 'gachon654321',
+    database: 'Tues_8team'
+});
 
 function Setup_APD_Socket() {
   http.createServer((request, response) => {
@@ -65,6 +74,18 @@ function Setup_APD_Socket() {
           }
           if (request.url == '/patient/exercise') {
               // 운동 프로그램 수집
+              client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [request.headers.exercise, request.headers.idd_id], (err, rows) => {
+                console.log(err);                    
+                console.log(rows);                    
+                if (!rows.length) {
+                    console.log("DB query Error!");
+                    response.writeHead(404);
+                    response.end();
+                } else {
+                    response.writeHead(200);
+                    response.end("update success"); //보내는 부분. 가공이 필요함.
+                }
+            });
           } else {
               console.log("POST error");
               response.writeHead(404);
@@ -77,6 +98,7 @@ function Setup_APD_Socket() {
 }
 
 Setup_APD_Socket();
+
 
 
 router.get('/', (req, res, next) => {

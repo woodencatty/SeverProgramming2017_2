@@ -3,6 +3,8 @@ const sendData = require('./rest_api.js')   //포스터기기 연결 모듈 impo
 var wifi = require('node-wifi');
 var searched = false;
 
+const fs = require('fs');
+
 wifi.init({
     iface: null // network interface, choose a random wifi interface if set to null 
 });
@@ -15,7 +17,7 @@ module.exports = {
             if (curcon[0].signal_level > connectRange) {
                 if (searched == false) {
                     sendData.SubmitIDDname('IDD001');
-                    sendData.SubmitUserExercise(20);
+                    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { sendData.SubmitUserExercise('IDD001', readtext);});
                     searched = true;
                 } else if (searched == true) {
                 }
