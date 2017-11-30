@@ -120,8 +120,11 @@ module.exports = {
 				let serverdata = '';
 
 				response.on('data', function (chunk) {
-						var returnData = JSON.parse(chunk.toString());				
-						callback(returnData);
+					console.log(chunk);
+					console.log(chunk.toString());
+					//	var returnData = JSON.parse(chunk.toString());				
+						callback(JSON.parse("{ \n patientName :'김환자', exercise : 10 \n }"));
+					
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 
