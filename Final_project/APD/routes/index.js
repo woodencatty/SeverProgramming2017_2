@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const sensor = require('./sensor.js');
+/*const sensor = require('./sensor.js');*/
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
@@ -10,7 +10,9 @@ const http = require('http');
 let refreshInterval = 1;
 let APD_ID = "";
 let IDD_ID = "";
+
 let User_Name = "";
+let User_Exercise = "";
 
 function Setup_IDD_Socket() {
   http.createServer((request, response) => {
@@ -61,10 +63,12 @@ router.get('/', function (req, res, next) {
     console.log("get data : " + returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
+        res.render('index', { Interval: refreshInterval});
+        /*
         sensorcallback = (temp, humi)=>{
           res.render('index', { Interval: refreshInterval, temp: temp, humi: humi });
         }
-        sensor.getTemp(sensorcallback);
+        sensor.getTemp(sensorcallback);*/
       } else {
         res.redirect('/detected');
       }}else {res.redirect('/unactivated');}
@@ -81,6 +85,7 @@ router.get('/detected', function (req, res, next) {
 
   Identifycallback = (returnData) => {
     User_Name = returnData.patientName; // 환자이름 빼먹음;
+    User_Exercise = returnData.exercise;
     res.render('detected', { username: User_Name });
   }
   restAPI.requestUserInfo(IDD_ID,Identifycallback);

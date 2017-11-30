@@ -45,8 +45,8 @@ function Setup_APD_Socket() {
                       response.end();
                   } else {
                       response.writeHead(200);
-                      response.end(rows[0].patientName.toString()); //보내는 부분. 가공이 필요함.
-                  }
+                      response.end(rows[0].toString()); //보내는 부분. 가공이 필요함.
+                    }
               });
           } else if (request.url == '/device/status') {
               console.log(request.headers.apd_id);
