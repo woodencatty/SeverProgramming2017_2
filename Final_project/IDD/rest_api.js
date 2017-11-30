@@ -76,14 +76,12 @@ module.exports = {
 		}
 		let req = http.request(POST_UserExercise, SubmitUserExercisecallback);						//POST요청 전송
 		req.on('error', function (error) {
-
 			console.log('can not connect to APD');								// 관리서버와 연결 불가능할 때에 오류 체크
-
 		});
+		console.log(exercise);
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
 		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부
 		
-
 		req.end();
 	}, 
 	SubmitUserLeave: () => {
