@@ -21,15 +21,6 @@ const client = mysql.createConnection({
     password: 'gachon654321',
     database: 'Tues_8team'
 });
-const http = require('http');
-
-const client = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'Tues_8team',
-    password: 'gachon654321',
-    database: 'Tues_8team'
-});
 
 function Setup_APD_Socket() {
   http.createServer((request, response) => {
