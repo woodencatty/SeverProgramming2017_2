@@ -17,7 +17,7 @@ module.exports = {
             if (curcon[0].signal_level > connectRange) {
                 if (searched == false) {
                     sendData.SubmitIDDname('IDD001');
-                    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { sendData.SubmitUserExercise('IDD001', readtext);});
+                    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { sendData.SubmitUserExercise('IDD001', readtext.toString());});
                     searched = true;
                 } else if (searched == true) {
                 }
