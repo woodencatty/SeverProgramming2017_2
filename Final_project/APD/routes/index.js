@@ -85,8 +85,7 @@ router.get('/unactivated', function (req, res, next) {
 router.get('/detected', function (req, res, next) {
 
   Identifycallback = (returnData) => {
-    User_Name = returnData.patientName; // 환자이름 빼먹음;
-    User_Exercise = returnData.exercise;
+    User_Name = returnData; // 환자이름 빼먹음;
     res.render('detected', { username: User_Name });
   }
   restAPI.requestUserInfo(IDD_ID,Identifycallback);

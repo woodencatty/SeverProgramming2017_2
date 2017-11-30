@@ -36,7 +36,7 @@ function Setup_APD_Socket() {
                       response.end();
                   } else {
                       response.writeHead(200);
-                      response.end("{ patientName : " + rows[0].patientName.toString()+ ", exercise : " +  rows[0].exercise.toString() + "}"); //보내는 부분. 가공이 필요함.
+                      response.end(rows.patientName.toString()); //보내는 부분. 가공이 필요함.
                     }
               });
           } else if (request.url == '/device/status') {
