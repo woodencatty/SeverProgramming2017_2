@@ -120,7 +120,7 @@ module.exports = {
 				let serverdata = '';
 
 				response.on('data', function (chunk) {
-						var returnData = JSON.parse(chunk);				
+						var returnData = JSON.parse(chunk.toString());				
 						callback(returnData);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
