@@ -65,7 +65,7 @@ function Setup_APD_Socket() {
           }
           if (request.url == '/patient/exercise') {
               // 운동 프로그램 수집
-              client.query('UPDATE patient SET exercise=20 WHERE deviceNumber=?', [request.headers.idd_id], (err, rows) => {
+              client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [request.headers.exercise, request.headers.idd_id], (err, rows) => {
                 console.log(err);                    
                 console.log(rows);                    
                 if (!rows.length) {
