@@ -1,6 +1,6 @@
 const http = require('http');										//http 요청 모듈
 
-var serverIP = "203.249.127.32";
+var serverIP = "192.9.44.53";
 var serverPort = "65009";
 
 POST_APDError = {														//POST요청 JSON데이터 정의
@@ -56,7 +56,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					return chunk;	// 서버 데이터 받는부분
+					console.log(chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
@@ -87,7 +87,7 @@ module.exports = {
 			} else {
 				let serverdata = '';
 				response.on('data', function (chunk) {							//응답 데이터를 JSON형태로 파싱함
-					return chunk;	// 서버 데이터 받는부분
+					console.log(chunk);
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 					console.log(serverdata);
@@ -102,6 +102,7 @@ module.exports = {
 		});
 		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부		
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
+
 
 		req.end();
 	},
@@ -120,9 +121,8 @@ module.exports = {
 			} else {
 				let serverdata = '';
 
-				response.on('data', function (chunk) {
-						var returnData = JSON.parse(chunk);				
-						callback(returnData);
+				response.on('data', function (chunk) {				
+						callback(chunk.toString());
 				});
 				response.on('end', function () {									//응답이 끝났을 시 데이터 추출
 
@@ -169,6 +169,7 @@ module.exports = {
 					console.log('관리서버와 연결할 수 없습니다.');
 					console.log(error); 								// 관리서버와 연결 불가능할 때에 오류 체크
 				});
+				console.log("sending REST");
 				req.setHeader("apd_id", ID);											//헤더에 요청 데이터 첨부
 				req.end();
 			}

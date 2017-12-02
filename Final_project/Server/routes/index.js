@@ -37,7 +37,7 @@ function Setup_APD_Socket() {
                   } else {
                       response.writeHead(200);
                       response.end(rows[0].patientName.toString()); //보내는 부분. 가공이 필요함.
-                  }
+                    }
               });
           } else if (request.url == '/device/status') {
               console.log(request.headers.apd_id);
@@ -74,6 +74,7 @@ function Setup_APD_Socket() {
                 }
             });}
           if (request.url == '/patient/exercise') {
+
             client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, Date.now(), request.headers.exercise], (err) => {
                 if (err) {
                     console.log(err);
@@ -98,6 +99,7 @@ function Setup_APD_Socket() {
 }
 
 Setup_APD_Socket();
+
 
 
 router.get('/', (req, res, next) => {

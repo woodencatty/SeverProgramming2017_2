@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const sensor = require('./sensor.js');
+/*const sensor = require('./sensor.js');*/
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
@@ -10,7 +10,9 @@ const http = require('http');
 let refreshInterval = 1;
 let APD_ID = "";
 let IDD_ID = "";
+
 let User_Name = "";
+let User_Exercise = "";
 
 function Setup_IDD_Socket() {
   http.createServer((request, response) => {
@@ -22,7 +24,10 @@ function Setup_IDD_Socket() {
         console.log("Hi! " + IDD_ID);   //환자 식별
       } else if (request.url == '/patient/exercise') {
         response.writeHead(200);  
+        restAPI.SubmitUserExercise(request.headers.idd_id, request.headers.exercise);
         console.log(request.headers.exercise);
+        console.log(request.headers.idd_id);
+        IDD_ID = request.headers.idd_id;        
         response.end("gotit");
         restAPI.SubmitUserExercise(request.headers.idd_id, request.headers.exercise);
       } else if (request.url == '/patient/leave') {
@@ -40,7 +45,6 @@ function Setup_IDD_Socket() {
     console.log('Socket is Running (3010) ...');
   });
 }
-
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
@@ -56,14 +60,17 @@ function initialize() {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-
+  console.log("routed to /")
   Statuscallback = (returnData) => {
+    console.log("get data : " + returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
+        res.render('index', { Interval: refreshInterval, temp: 0, humi: 0});
+        /*
         sensorcallback = (temp, humi)=>{
           res.render('index', { Interval: refreshInterval, temp: temp, humi: humi });
         }
-        sensor.getTemp(sensorcallback);
+        sensor.getTemp(sensorcallback);*/
       } else {
         res.redirect('/detected');
       }}else {res.redirect('/unactivated');}
@@ -79,10 +86,10 @@ router.get('/unactivated', function (req, res, next) {
 router.get('/detected', function (req, res, next) {
 
   Identifycallback = (returnData) => {
-    User_Name = returnData.patientName; // 환자이름 빼먹음;
+    User_Name = returnData; // 환자이름 빼먹음;
     res.render('detected', { username: User_Name });
   }
-  restAPI.requestUserInfo(IDD_ID, serverIP, serverPort, Identifycallback);
+  restAPI.requestUserInfo(IDD_ID,Identifycallback);
 
 });
 

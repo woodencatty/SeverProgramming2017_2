@@ -4,7 +4,7 @@ const Accel = require('./sensor.js');   //가속도 센서 모듈 import
 
 //변환하여 저장할 값.
 let i = 0;
-let ExerciseCount = 0;
+let StepCount = 0;
 
 let AccelX_1 = 0.0;
 let AccelY_1 = 0.0;
@@ -21,7 +21,7 @@ let changeZ = 0.0;
 let count_flag = false;
 
 module.exports = {
-    setExerciseCount: (ExerciseThreadhold, forceSenseTime) => {
+    setStepCount: (ExerciseThreadhold, forceSenseTime) => {
         GetAccelCallback_1 = (AccelX, AccelY, AccelZ) => {
 
 
@@ -52,18 +52,19 @@ module.exports = {
             i++;
             if (force > ExerciseThreadhold) {
                 if (!count_flag) {
-                    ExerciseCount++;
+                    StepCount++;
                     count_flag = true;
+                    console.log(StepCount);
                 }
             } else {
                 count_flag = false;
             }
         }, forceSenseTime);
     },
-    getExerciseCount: (callback) => {
-        callback(ExerciseCount);
+    getStepCount: (callback) => {
+        callback(StepCount);
     },
-    resetExerciseCount: () => {
-        ExerciseCount = 0;
+    resetStepCount: () => {
+        StepCount = 0;
     }
 }
