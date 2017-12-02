@@ -74,18 +74,25 @@ function Setup_APD_Socket() {
                 }
             });}
           if (request.url == '/patient/exercise') {
-            client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, Date.now(), request.headers.exercise], (err) => {
-                if (err) { 
-                    console.log(err);
-                    console.log("DB query Error!");
-                    response.writeHead(404);
-                    response.end();
-                }else {
-                    console.log("SUCCESS");
-                    response.writeHead(200);
-                    response.end();                
-                }
-            });
+              var exercise_arr = request.headers.exercise.split('|');
+              exercise_arr.forEach((element)=> {
+                exercise_arr[element] = exercise_arr[element].split(',');
+              }, this);
+
+              exercise_arr.forEach(function(element) {
+                client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, element[1], element[0]], (err) => {
+                    if (err) { 
+                        console.log(err);
+                        console.log("DB query Error!");
+                        response.writeHead(404);
+                        response.end();
+                    }else {
+                        console.log("SUCCESS");
+                        response.writeHead(200);
+                        response.end();                
+                    }
+                });
+              }, this);
           } else {
               console.log("POST error");
               response.writeHead(404);
@@ -700,7 +707,7 @@ router.post('/patient_manage', function (request, response) {
 router.post('/patient_add', function (request, response) {
     var body = request.body;
     if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '') {
-        client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status], body.exercise], (err, rows) => {
+        client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise], (err, rows) => {
             if (err) {
                 console.log(err);
             }
