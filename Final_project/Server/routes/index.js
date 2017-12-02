@@ -76,7 +76,7 @@ function Setup_APD_Socket() {
           if (request.url == '/patient/exercise') {
 
             client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, Date.now(), request.headers.exercise], (err) => {
-                if (err) {
+                if (err) { 
                     console.log(err);
                     console.log("DB query Error!");
                     response.writeHead(404);
