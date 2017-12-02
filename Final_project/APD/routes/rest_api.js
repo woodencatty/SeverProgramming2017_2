@@ -74,7 +74,7 @@ module.exports = {
 		req.end();
 	},
 
-	SubmitUserExercise: (exercise) => {
+	SubmitUserExercise: (ID, exercise) => {
 		
 		SubmitUserExercisecallback = function (response) {
 			console.log('HTTP Response Code : ' + response.statusCode);		//리턴코드를 분석하여 상태 확인
@@ -100,6 +100,7 @@ module.exports = {
 			console.log('관리서버와 연결할 수 없습니다.');								// 관리서버와 연결 불가능할 때에 오류 체크
 			console.log(error);
 		});
+		req.setHeader("idd_id", ID);											//헤더에 요청 데이터 첨부		
 		req.setHeader("exercise", exercise);											//헤더에 요청 데이터 첨부
 
 		req.end();

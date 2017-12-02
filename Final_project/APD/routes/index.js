@@ -24,6 +24,7 @@ function Setup_IDD_Socket() {
         response.writeHead(200);  
         console.log(request.headers.exercise);
         response.end("gotit");
+        restAPI.SubmitUserExercise(request.headers.idd_id, request.headers.exercise);
       } else if (request.url == '/patient/leave') {
         response.writeHead(200);
         response.end("good-bye");
