@@ -68,6 +68,7 @@ module.exports = {
 			console.log('관리서버와 연결할 수 없습니다.');	
 			console.log(error);							// 관리서버와 연결 불가능할 때에 오류 체크
 		});
+		req.setHeader("apd_id", ID);											//헤더에 요청 데이터 첨부		
 		req.setHeader("sys_error", sys_error);											//헤더에 요청 데이터 첨부
 
 		req.end();

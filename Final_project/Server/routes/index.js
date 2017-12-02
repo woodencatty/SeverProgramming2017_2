@@ -61,10 +61,31 @@ function Setup_APD_Socket() {
       } /* GET method */
       else if (request.method == 'POST') {
           if (request.url == '/device/error') {
-              //에러수집
-          }
+            client.query('INSERT INTO error (apd_id, date, err) VALUES (?,?,?)', [request.headers.apd_id, Date.now(), request.headers.sys_error], (err) => {
+                if (err) {
+                    console.log(err);
+                    console.log("DB query Error!");
+                    response.writeHead(404);
+                    response.end();
+                }else {
+                    console.log("SUCCESS");
+                    response.writeHead(200);
+                    response.end();                
+                }
+            });}
           if (request.url == '/patient/exercise') {
-              // 운동 프로그램 수집
+            client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, Date.now(), request.headers.exercise], (err) => {
+                if (err) {
+                    console.log(err);
+                    console.log("DB query Error!");
+                    response.writeHead(404);
+                    response.end();
+                }else {
+                    console.log("SUCCESS");
+                    response.writeHead(200);
+                    response.end();                
+                }
+            });
           } else {
               console.log("POST error");
               response.writeHead(404);
