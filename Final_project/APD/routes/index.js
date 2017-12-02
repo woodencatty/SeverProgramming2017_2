@@ -100,7 +100,7 @@ router.get('/reset', function (req, res, next) {
 
 router.get('/exercise_start', function (req, res, next) {
   IDD_ID = "";
-  res.render('exercise_start');
+  res.render('exercise_1');
 });
 
 initialize();
