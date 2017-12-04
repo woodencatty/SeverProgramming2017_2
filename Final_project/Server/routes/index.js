@@ -104,7 +104,7 @@ function Setup_APD_Socket() {
                 });
             }
             if (request.url == '/patient/exercise') {
-                var exercise_arr = request.headers.exercise.split('|');
+                var exercise_arr = request.headers.exercise.split(']');
                 exercise_arr.forEach((element) => {
                     exercise_arr[element] = exercise_arr[element].toString().split(',');
                 }, this);
