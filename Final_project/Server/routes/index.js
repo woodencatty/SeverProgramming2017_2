@@ -108,7 +108,7 @@ function Setup_APD_Socket() {
                 exercise_arr.forEach((element) => {
                     console.log(element);
                     var temp_arr = new Array(2);
-                    temp_arr = exercise_arr[element].split(',');
+                    temp_arr = exercise_arr[element].toString().split(',');
                     exercise_arr[element] = temp_arr;
                 }, this);
                 exercise_arr.forEach(function (element) {
