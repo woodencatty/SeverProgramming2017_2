@@ -46,11 +46,14 @@
                     
                     var name = $(this).text() + ' 환자 운동량';
                     $('.patient_name').text(name);
+                    console.log(name);
                     var date_data = new Array;
                     var exer_data = new Array;
                         <% exdata.forEach(function (item) { %>
                             var exercise = <%= item.exercise %>;
+                                                console.log(exercise);
                             var arr_exercise = exercise.split(',');
+                                                                            console.log(arr_exercise);
                            if(<%= item.name %> == name){
                             date_data.push(arr_exercise[0]);
                             exer_data.push(arr_exercise[1]);
