@@ -39,7 +39,7 @@ function Setup_APD_Socket() {
                         response.end(rows[0].activated.toString()); //보내는 부분. 가공이 필요함.
                         client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
                         });
-                    }
+                    } 
                 });
             } else if (request.url == '/patient/exercise') {
                 console.log(request.headers.idd_id);
@@ -90,12 +90,9 @@ function Setup_APD_Socket() {
                 });
             }
             if (request.url == '/patient/exercise') {
-                var exercise_arr = request.headers.exercise.split('|');
-                exercise_arr.forEach((element) => {
-                    exercise_arr[element] = exercise_arr[element].split(',');
-                }, this);
+                var exercise_arr = request.headers.exercise.split(']');
                 exercise_arr.forEach(function (element) {
-                    client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, element[1], element[0]], (err) => {
+                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, element], (err) => {  
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
@@ -107,7 +104,7 @@ function Setup_APD_Socket() {
                             response.end();
                         }
                     });
-                }, this);
+                });
             } else {
                 console.log("POST error");
                 response.writeHead(404);
