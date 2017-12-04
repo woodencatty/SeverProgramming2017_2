@@ -5,6 +5,8 @@ var searched = false;
 
 const fs = require('fs');
 
+
+var exec = require('child_process').exec;
 wifi.init({
     iface: null // network interface, choose a random wifi interface if set to null 
 });
@@ -16,7 +18,12 @@ module.exports = {
             //todo : check signal
             if (curcon[0].signal_level > connectRange && searched == false) {
                 sendData.SubmitIDDname('IDD001');
-                fs.readFile('./exercise_log', 'utf8', function (error, readtext) { sendData.SubmitUserExercise('IDD001', readtext.toString()); });
+                fs.readFile('./exercise_log', 'utf8', function (error, readtext) { sendData.SubmitUserExercise('IDD001', readtext.toString());
+            
+exec("sudo rm exercise_log", function (error, stdout, stderr) {
+    console.log(stdout);
+ });
+  });
                 searched = true;
             }
             if (curcon[0].signal_level < leaveRange && searched == true) {

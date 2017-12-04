@@ -113,7 +113,7 @@ function Setup_APD_Socket() {
                             response.writeHead(404);
                             response.end();
                         } else {
-                            console.log("SUCCESS");
+                            console.log("exercise input SUCCESS");
                             response.writeHead(200);
                             response.end();
                         }

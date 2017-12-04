@@ -3,10 +3,15 @@
   <head>
     <title>인식화면</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+                <script src="/js/jquery-3.2.1.min.js"></script>
       	<script type="text/javascript" src="/js/tts.js"></script>
         <meta http-equiv="refresh" content="15;url='/reset'" >
   </head>
   <body>
+ <% $(document).ready(function () { %>
+<%	$("tts").attr("src", <%= query %>); %>
+
+<% }); %>
     <h1>안녕하세요! <%= username %>님! </h1>
     <h2>같이 운동할까요?</h2>
 
