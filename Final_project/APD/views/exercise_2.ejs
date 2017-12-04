@@ -8,6 +8,12 @@
       	<script type="text/javascript" src="/js/tts.js"></script>
   </head>
   <body>
+  <script type="text/javascript"> 
+ $(document).ready(function () { 
+	$("tts").attr("src", <%= query %>); 
+ }); 
+  </script>
+
   <p id="ViewTimer"></p><img src="/exercise/exercise_2.png" id="img" width="576" height="900"/>
     <a href="/end"> 그만하기 </a>    
   </body>
