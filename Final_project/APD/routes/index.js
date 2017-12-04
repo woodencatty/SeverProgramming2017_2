@@ -9,7 +9,7 @@ const http = require('http');
 
 let refreshInterval = 1;
 let APD_ID = "";
-let IDD_ID = "";
+let IDD_ID = "IDD001";
 
 let User_Name = "";
 let User_Exercise = "";
@@ -84,10 +84,9 @@ router.get('/unactivated', function (req, res, next) {
 });
 
 router.get('/detected', function (req, res, next) {
-
   Identifycallback = (returnData) => {
     User_Name = returnData; // 환자이름 빼먹음;
-    var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=안녕하세요! "+User_Name+"님! 같이 운동 해볼까요?&tl=ko-kr"
+    var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=안녕하세요! "+User_Name+"님! 같이 운동 해볼까요?&tl=ko-kr"
     console.log(tts_query);
     res.render('detected', { username: User_Name, query: tts_query});
   }
@@ -112,13 +111,13 @@ router.get('/reset', function (req, res, next) {
 });
 
 router.get('/exercise_1', function (req, res, next) {
-  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=저를 따라 주먹을 쥐었다 폈다 해봐요!&tl=ko-kr"
+  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=저를 따라 주먹을 쥐었다 폈다 해봐요!&tl=ko-kr"
   
   res.render('exercise_1');
 });
 
 router.get('/exercise_2', function (req, res, next) {
-  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=저를 따라 뒷짐을 지고, 올려 봅시다!&tl=ko-kr"
+  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=저를 따라 뒷짐을 지고, 올려 봅시다!&tl=ko-kr"
   
   res.render('exercise_2');
 });
