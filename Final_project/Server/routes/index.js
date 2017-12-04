@@ -108,29 +108,28 @@ function Setup_APD_Socket() {
             }
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
-                var name = "";
                 client.query('SELECT * FROM patient WHERE deviceNumber = ?', [request.headers.idd_id], (err, rows) => {
                     if (!rows.length) {
                         console.log("DB query Error!");
                     } else {
-                        name = rows[0].patientName.toString(); //보내는 부분. 가공이 필요함.
+                        for(let i=0; i<exercise_arr.length-1; i++){
+                            client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [rows[0].patientName.toString(), exercise_arr[i]], (err) => {  
+                                if (err) {
+                                    console.log(err);
+                                    console.log("DB query Error!");
+                                    response.writeHead(404);
+                                    response.end();
+                                } else {
+                                    console.log("SUCCESS");
+                                    response.writeHead(200);
+                                    response.end();
+                                }
+                            });
+                        }
                     }
                 });
 
-                for(let i=0; i<exercise_arr.length-1; i++){
-                    client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [name, exercise_arr[i]], (err) => {  
-                        if (err) {
-                            console.log(err);
-                            console.log("DB query Error!");
-                            response.writeHead(404);
-                            response.end();
-                        } else {
-                            console.log("SUCCESS");
-                            response.writeHead(200);
-                            response.end();
-                        }
-                    });
-                }
+
             } else {
                 console.log("POST error");
                 response.writeHead(404);
