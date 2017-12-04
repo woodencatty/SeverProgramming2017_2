@@ -8,10 +8,13 @@
         <meta http-equiv="refresh" content="15;url='/reset'" >
   </head>
   <body>
- <% $(document).ready(function () { %>
-<%	$("tts").attr("src", <%= query %>); %>
 
-<% }); %>
+  <script type="text/javascript"> 
+ $(document).ready(function () { 
+	$("tts").attr("src", <%= query %>); 
+ }); 
+  </script>
+
     <h1>안녕하세요! <%= username %>님! </h1>
     <h2>같이 운동할까요?</h2>
 
