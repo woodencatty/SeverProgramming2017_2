@@ -105,14 +105,8 @@ function Setup_APD_Socket() {
             }
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
-                exercise_arr.forEach((element) => {
-                    console.log(element);
-                    var temp_arr = new Array(2);
-                    temp_arr = exercise_arr[element].toString().split(',');
-                    exercise_arr[element] = temp_arr;
-                }, this);
                 exercise_arr.forEach(function (element) {
-                    client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, element[1], element[0]], (err) => {
+                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?,?)', [request.headers.idd_id, element], (err) => {
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
