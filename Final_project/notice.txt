@@ -1,0 +1,79 @@
+add_patient, edit_patient -> 추가
+ 
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <label for="patient_status">*운동프로그램</label>
+                            <!-- 환자 운동프로그램 입력 -->
+                            <input type="text" class="form-control" name="exercise">
+                        </div>
+                    </div>
+
+index -> 추가
+
+router.get('/patient_edit', (req, res, next) => {
+    client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
+        if (!rows.length) {
+            logcheck = true;
+            res.redirect('/');
+        } else {
+            var check = false;
+            if (dbcheck) {
+                check = true;
+                dbcheck = false;
+            }
+            client.query('SELECT * FROM patient WHERE patientNumber = ?', [req.session.patientNumber], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (!rows.length) {
+                    logcheck = true;
+                    res.redirect('/');
+                } else {
+                    req.session.now = (new Date()).toUTCString();
+                    res.render('edit_patient', {
+                        name: req.session.user_name,
+                        patientNumber: rows[0].patientNumber,
+                        patientName: rows[0].patientName,
+                        disease: rows[0].disease,
+                        status: rows[0].status,
+                        exercise: rows[0].exercise,
+                        dbcheck: check
+                    });
+                }
+            });
+        }
+    });
+});
+
+
+... 중략
+
+
+
+router.post('/patient_add', function (request, response) {
+    var body = request.body;
+    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '' && body.exercise != '') {
+        client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise], (err, rows) => {
+            if (err) {
+                console.log(err);
+            }
+            response.redirect('/patient_manage');
+        });
+    } else {
+        dbcheck = true;
+        response.redirect('/patient_add');
+    }
+});
+router.post('/patient_edit', function (request, response) {
+    var body = request.body;
+    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '' && body.exercise != '') {
+        client.query('UPDATE patient SET patientNumber=?, patientName=?, disease=?, status=?, exercise=? WHERE patientNumber=?', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise, request.session.patientNumber]);
+        request.session.patientNumber = null;
+        response.redirect('/patient_manage');
+    } else {
+        dbcheck = true;
+        response.redirect('/patient_edit');
+    }
+});
+
+

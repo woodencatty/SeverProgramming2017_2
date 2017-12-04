@@ -459,6 +459,7 @@ router.get('/patient_edit', (req, res, next) => {
                         patientName: rows[0].patientName,
                         disease: rows[0].disease,
                         status: rows[0].status,
+                        exercise: rows[0].exercise,
                         dbcheck: check
                     });
                 }
@@ -732,7 +733,7 @@ router.post('/patient_manage', function (request, response) {
 });
 router.post('/patient_add', function (request, response) {
     var body = request.body;
-    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '') {
+    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '' && body.exercise != '') {
         client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise], (err, rows) => {
             if (err) {
                 console.log(err);
@@ -746,8 +747,8 @@ router.post('/patient_add', function (request, response) {
 });
 router.post('/patient_edit', function (request, response) {
     var body = request.body;
-    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '') {
-        client.query('UPDATE patient SET patientNumber=?, patientName=?, disease=?, status=? WHERE patientNumber=?', [body.patientNumber, body.patientName, body.disease, body.status, request.session.patientNumber]);
+    if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '' && body.exercise != '') {
+        client.query('UPDATE patient SET patientNumber=?, patientName=?, disease=?, status=?, exercise=? WHERE patientNumber=?', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise, request.session.patientNumber]);
         request.session.patientNumber = null;
         response.redirect('/patient_manage');
     } else {
