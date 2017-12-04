@@ -71,11 +71,17 @@ function Setup_APD_Socket() {
                     } else {
                         let previous_data = rows[0].exercise.toString().split(',');
                         let update_data = ""
-                        response.writeHead(200);
-                        response.end(previous_data[0]); //보내는 부분. 가공이 필요함.
+                        if(previous_data[0] == ""){
+                            response.writeHead(200);
+                            response.end("end"); //보내는 부분. 가공이 필요함.    
+                            client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', ["", request.headers.idd_id]);                                                    
+                        } else{
+                            response.writeHead(200);
+                            response.end(previous_data[0]); //보내는 부분. 가공이 필요함.    
                             for (let i = 1; i < previous_data.length; i++) {
                                 update_data += (previous_data[i] + ",");
                             }
+                        }
                         client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
             }
                 });

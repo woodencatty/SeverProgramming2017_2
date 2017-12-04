@@ -120,6 +120,12 @@ router.get('/exercise2', function (req, res, next) {
   res.render('exercise2', {query: tts_query});
 });
 
+router.get('/end', function (req, res, next) {
+  var tts_query = "수고하셨어요!"
+  
+  res.render('end', {query: tts_query});
+});
+
 initialize();
 
 module.exports = router;
