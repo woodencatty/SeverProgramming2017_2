@@ -9,9 +9,13 @@
   </head>
   <body>
   
-      <audio class="unvisible" controls autoplay>
-  <source id= "tts" src="<%= query %>" type="audio/mpeg">
-  </audio>
+
+<script type="text/javascript">
+var speech = "<%= query %>";
+console.log(speech);
+responsiveVoice.speak(speech, "Korean Female");
+</script>
+
 
   <p id="ViewTimer"></p><img src="/exercise/exercise_2.png" id="img" width="576" height="900"/>
     <a href="/end"> 그만하기 </a>    

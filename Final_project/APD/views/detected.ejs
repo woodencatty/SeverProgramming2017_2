@@ -4,23 +4,25 @@
     <title>인식화면</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
                 <script src="/js/jquery-3.2.1.min.js"></script>
-      	<script type="text/javascript" src="/js/tts.js"></script>
+        <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
         <meta http-equiv="refresh" content="15;url='/reset'" >
   </head>
   <body>
 
     <h1>안녕하세요! <br> <%= username %>님! </h1>
-    <h2>같이 운동할까요?</h2>
+    <h2>같이 운동해볼까요?</h2>
 <br><br><br><br><br><br><br><br><br>
 
-
+<script type="text/javascript">
+var speech = "<%= query %>";
+console.log(speech);
+responsiveVoice.speak(speech, "Korean Female", {rate: 0.8});
+</script>
 
      <a href="/search_exercise">그래요! </a> <br> <br>
      <a href="/reset"> 안해. </a>
 
-    <audio class="unvisible" controls autoplay>
-  <source id= "tts" src="<%= query %>" type="audio/mpeg">
-  </audio>
+    
   
     </body>
 </html>

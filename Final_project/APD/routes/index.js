@@ -86,7 +86,7 @@ router.get('/unactivated', function (req, res, next) {
 router.get('/detected', function (req, res, next) {
   Identifycallback = (returnData) => {
     User_Name = returnData; // 환자이름 빼먹음;
-    var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=안녕하세요! "+User_Name+"님! 같이 운동 해볼까요?&tl=ko-kr"
+    var tts_query = "안녕하세요! "+User_Name+"님! 같이 운동 해볼까요?"
     console.log(tts_query);
     res.render('detected', { username: User_Name, query: tts_query});
   }
