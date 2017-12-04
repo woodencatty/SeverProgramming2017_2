@@ -43,13 +43,23 @@
                 /* 모달 제목 자동 설정 */
                 
                 $('.patient_manage a').click(function() {
+                    
                     var name = $(this).text() + ' 환자 운동량';
-                    $('.patient_name').text(name)
+                    $('.patient_name').text(name);
+                    var date_data = new Array;
+                    var exer_data = new Array;
+                        <% exdata.forEach(function (item) { %>
+                            var exercise = <%= item.exercise %>;
+                            var arr_exercise = exercise.split(',');
+                           if(<%= item.name %> == name){
+                            date_data.push(arr_exercise[0]);
+                            exer_data.push(arr_exercise[1]);
+                           }
        var myLineChart = new Chart(ctx, {
               type: 'line',
               data: {
                   /* x축 항목 */
-                labels: ["Mar 1", "Mar 10"],
+                labels: date_data,
                 datasets: [{
                   label: "Sessions",
                   lineTension: 0.0,
@@ -63,7 +73,7 @@
                   pointHitRadius: 20,
                   pointBorderWidth: 2,
                     /* 데이터 값 */
-                  data: [10000, 38451],
+                  data: exer_data,
                 }],
               },
               options: {

@@ -108,8 +108,17 @@ function Setup_APD_Socket() {
             }
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
+                var name = "";
+                client.query('SELECT * FROM patient WHERE deviceNumber = ?', [request.headers.idd_id], (err, rows) => {
+                    if (!rows.length) {
+                        console.log("DB query Error!");
+                    } else {
+                        name = rows[0].patientName.toString(); //보내는 부분. 가공이 필요함.
+                    }
+                });
+
                 for(let i=0; i<exercise_arr.length-1; i++){
-                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, exercise_arr[i]], (err) => {  
+                    client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [name, exercise_arr[i]], (err) => {  
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
@@ -532,13 +541,16 @@ router.get('/patient_manage', (req, res, next) => {
             logcheck = true;
             res.redirect('/');
         } else {
-            client.query('SELECT * FROM patient', (err, rows) => {
+            client.query('SELECT * FROM exercise', (err, exercise_data) => {
+            client.query('SELECT * FROM patient', (err, user_data) => {
                 req.session.now = (new Date()).toUTCString();
                 res.render('patient_manage', {
                     name: req.session.user_name,
-                    data: rows
+                    data: user_data,
+                    exdata: exercise_data
                 });
             });
+        });                
         }
     });
 });

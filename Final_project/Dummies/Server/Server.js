@@ -53,19 +53,18 @@ function Setup_APD_Socket() {
                     } else {
                         let previous_data = rows[0].exercise.toString().split(',');
                         let update_data = ""
-                        response.writeHead(200);
-                        response.end(previous_data[0]); //보내는 부분. 가공이 필요함.
-                        if(previous_data[0] == "end"){
-                            update_data == "end";
-                        }else{
+                        if(previous_data[0] == ""){
+                            response.writeHead(200);
+                            response.end("end"); //보내는 부분. 가공이 필요함.    
+                            client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', ["", request.headers.idd_id]);                                                    
+                        } else{
+                            response.writeHead(200);
+                            response.end(previous_data[0]); //보내는 부분. 가공이 필요함.    
                             for (let i = 1; i < previous_data.length; i++) {
                                 update_data += (previous_data[i] + ",");
-                                if (i == previous_data.length - 1) {
-                                    update_data += previous_data[i];
-                                }
                             }
                         }
-                        client.query('UPDATE patient SET exercise=?, WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
+                        client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
             }
                 });
             } else {
@@ -91,8 +90,17 @@ function Setup_APD_Socket() {
             }
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
-                exercise_arr.forEach(function (element) {
-                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, element], (err) => {  
+                var name = "";
+                client.query('SELECT * FROM patient WHERE deviceNumber = ?', [request.headers.idd_id], (err, rows) => {
+                    if (!rows.length) {
+                        console.log("DB query Error!");
+                    } else {
+                        name = rows[0].patientName.toString(); //보내는 부분. 가공이 필요함.
+                    }
+                });
+
+                for(let i=0; i<exercise_arr.length-1; i++){
+                    client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [name, exercise_arr[i]], (err) => {  
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
@@ -104,7 +112,7 @@ function Setup_APD_Socket() {
                             response.end();
                         }
                     });
-                });
+                }
             } else {
                 console.log("POST error");
                 response.writeHead(404);
