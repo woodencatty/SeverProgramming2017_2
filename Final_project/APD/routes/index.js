@@ -9,7 +9,7 @@ const http = require('http');
 
 let refreshInterval = 1;
 let APD_ID = "";
-let IDD_ID = "IDD001";
+let IDD_ID = "";
 
 let User_Name = "";
 let User_Exercise = "";
