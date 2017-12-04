@@ -69,15 +69,12 @@ function Setup_APD_Socket() {
                         response.writeHead(404);
                         response.end();
                     } else {
-                        let previous_data = rows[0].exercise.toString().split(', ');
+                        let previous_data = rows[0].exercise.toString().split(',');
                         let update_data = ""
                         response.writeHead(200);
                         response.end(previous_data[0]); //보내는 부분. 가공이 필요함.
                             for (let i = 1; i < previous_data.length; i++) {
-                                update_data += (previous_data[i] + ", ");
-                                if (i == previous_data.length - 1) {
-                                    update_data += previous_data[i];
-                                }
+                                update_data += (previous_data[i] + ",");
                             }
                         client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
             }
