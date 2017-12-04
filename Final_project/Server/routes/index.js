@@ -83,7 +83,7 @@ function Setup_APD_Socket() {
                                 }
                             }
                         }
-                        client.query('UPDATE patient SET exercise=?, WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
+                        client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
             }
                 });
             } else {

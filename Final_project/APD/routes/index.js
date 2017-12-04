@@ -97,7 +97,7 @@ router.get('/search_exercise', function (req, res, next) {
     User_Exercise = returnData; // 환자이름 빼먹음;
     res.redirect('/'+returnData);
   }
-  restAPI.requestUserExercise(IDD_ID,Identifycallback);
+  restAPI.requestUserExercise(IDD_ID,dentifycallback);
 });
 
 router.get('/reset', function (req, res, next) {
@@ -108,16 +108,16 @@ router.get('/reset', function (req, res, next) {
   res.render('reset');
 });
 
-router.get('/exercise_1', function (req, res, next) {
+router.get('/exercise1', function (req, res, next) {
   var tts_query = "저를 따라 주먹을 쥐었다 폈다 해봐요!"
   
-  res.render('exercise_1', {query: tts_query});
+  res.render('exercise1', {query: tts_query});
 });
 
-router.get('/exercise_2', function (req, res, next) {
+router.get('/exercise2', function (req, res, next) {
   var tts_query = "저를 따라 뒷짐을 지고, 올려 봅시다!"
   
-  res.render('exercise_2', {query: tts_query});
+  res.render('exercise2', {query: tts_query});
 });
 
 initialize();
