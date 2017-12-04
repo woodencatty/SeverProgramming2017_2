@@ -118,7 +118,7 @@ function Setup_APD_Socket() {
                             response.end();
                         }
                     });
-                }, this);
+                });
             } else {
                 console.log("POST error");
                 response.writeHead(404);
