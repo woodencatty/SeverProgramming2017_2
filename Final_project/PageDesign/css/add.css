@@ -75,6 +75,22 @@ body {
     color: #004593;
 }
 
+.dropdown-menu {
+    margin-left: 35px;
+    font-family: Light;
+    font-size: 15px;
+}
+
+.dropdown-menu li a {
+    color: #000;
+    text-decoration: #000;
+}
+
+.dropdown-menu li a:hover {
+    color: #004593;
+    text-decoration: #000;
+}
+
 .profile {
     display: flex;
     height: 44px;

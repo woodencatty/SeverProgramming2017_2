@@ -18,6 +18,10 @@
         <!-- JQuery -->
         <script src="js/jquery-3.2.1.min.js"></script>
         
+        <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
+        
     </head>
     
     <body>
@@ -49,10 +53,14 @@
                         </li>
                     </ul>
                     <!-- 계정 아이디 -->
-                    <div class="my-auto profile">
+                    <div class="my-auto profile dropdown">
                         <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
                         <!-- 비민번호 변경 링크 -->
-                        <a class="nav-link my-auto" href="#">Kim Hangeom</a>
+                        <a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">Kim Hangeom <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                            <li><a href="#">비밀번호 변경</a></li>
+                            <li><a href="#">로그아웃</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -91,7 +99,7 @@
                         <div class="col-lg-5">
                             <label for="doctor_password">계정 비밀번호</label>
                             <!-- 의료진 비밀번호 입력 -->
-                            <input type="text" class="form-control" id="doctor_password">
+                            <input type="password" class="form-control" id="doctor_password">
                         </div>
                     </div>
                     <div class="row">
@@ -99,6 +107,11 @@
                             <label for="doctor_part">소속 부서</label>
                             <!-- 의료진 부서 입력 -->
                             <input type="text" class="form-control" id="doctor_part">
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="doctor_part">비밀먼호 확인</label>
+                            <!-- 의료진 비밀번호 확인 입력 -->
+                            <input type="password" class="form-control" id="doctor_part">
                         </div>
                     </div>
                     <div class="row">

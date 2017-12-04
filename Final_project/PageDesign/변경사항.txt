@@ -1,0 +1,65 @@
+1. 부트스트랩 자바스크립트 추가
+
+        <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
+
+
+2. 계정 아이디에 드롭다운 박스 추가
+
+	<!-- 계정 아이디 -->
+        <div class="my-auto profile dropdown">
+        	<img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+        	<!-- 비민번호 변경 링크 -->
+        	<a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">Kim Hangeom <span class="caret"></span></a>
+        	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        		<li><a href="#">비밀 번호 변경</a></li>
+        		<li><a href="#">로그아웃</a></li>
+                </ul>
+        </div>
+
+3. 비밀번호 input type password로 변경 / 비밀번호 확인 추가
+
+4. password_change.html 추가 (비밀번호 변경)
+
+5. patient_manager.html 변경
+
+	- 환자 이름의 텍스트 부분 <a>태그로 감싸고 모달과 연결
+	
+		<a href="" data-toggle="modal" data-target="#Modal">김한검</a>
+	
+	- 모달 코드 추가
+
+		<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+     						<!-- 모달 제목으로 환자이름 자동 설정 -->
+						<h5 class="modal-title" id="ModalLabel"><span class="patient_name">Modal title</span></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<canvas id="myAreaChart" width="100%" height="30"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	- 상단에 chart 자바스크립트 링크와, 제목 자동 설정 코드 추가
+
+		<!-- Chart JS -->
+		<script src="js/chart/Chart.js"></script>
+
+		/* 모달 제목 자동 설정 */
+                
+                $('.patient_manage a').click(function() {
+                    var name = $(this).text() + ' 환자 운동량';
+                    $('.patient_name').text(name)
+                })
+
+	- 하단에 그래프 자바스크립트 추가
+
+6. js 폴더 안에 chart 자바스크립트 파일 추가
+
+7. table.css, add.css 수정

@@ -75,10 +75,26 @@ body {
     color: #004593;
 }
 
+.dropdown-menu {
+    margin-left: 35px;
+    font-family: Light;
+    font-size: 15px;
+}
+
+.dropdown-menu li a {
+    color: #000;
+    text-decoration: #000;
+}
+
+.dropdown-menu li a:hover {
+    color: #004593;
+    text-decoration: #000;
+}
+
 .profile {
     display: flex;
     height: 44px;
-    margin-left: 100px;
+    margin-left: 75px;
     margin-right: 40px;
     height: 100%
 }
@@ -183,6 +199,19 @@ body {
     border-top: 2px solid #004593;
     vertical-align: middle;
     height: 90px;
+    border-color: #e0e0e0;
+}
+
+.table td a {
+    vertical-align: middle;
+    color: #000;
+    text-decoration: #000;
+    outline: none !important;
+}
+
+.table td a:hover {
+    color: #004593;
+    text-decoration: #000;
 }
 
 .table img {
@@ -293,4 +322,29 @@ tr button:first-child {
 .patient_manage td:nth-child(5) {
     padding-right: 85px;
     text-align: right;
+}
+
+.modal {
+        text-align: center;
+}
+ 
+@media screen and (min-width: 768px) { 
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+ 
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    width: 1000px;
+}
+
+.modal-body {
+    margin-top: 50px;
+    margin-bottom: 80px;
 }
