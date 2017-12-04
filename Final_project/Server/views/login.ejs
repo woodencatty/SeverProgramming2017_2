@@ -13,13 +13,25 @@
         
         <!-- Custom styles for this template -->
         <link href="./css/login.css" rel="stylesheet">
-        
+                <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
     </head>
     
     <body>
 		<% if (logincheck) { %>
      		<script>
 				alert("잘못된접근입니다");
+    		</script>
+		<% } %>
+       <% if (logoutcheck) { %>
+     		<script>
+				alert("로그아웃되었습니다.");
+    		</script>
+		<% } %>
+       <% if (loginerrcheck) { %>
+     		<script>
+				alert("아이디 혹은 비밀번호를 잘못입력하셨습니다.");
     		</script>
 		<% } %>
         <div class="my-auto mx-auto d-flex text-center wrap">

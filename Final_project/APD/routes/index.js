@@ -87,14 +87,12 @@ router.get('/detected', function (req, res, next) {
   Identifycallback = (returnData) => {
     User_Name = returnData; // 환자이름 빼먹음;
     var tts_query = "안녕하세요! "+User_Name+"님! 같이 운동 해볼까요?"
-    console.log(tts_query);
     res.render('detected', { username: User_Name, query: tts_query});
   }
   restAPI.requestUserInfo(IDD_ID,Identifycallback);
 });
 
 router.get('/search_exercise', function (req, res, next) {
-
   dentifycallback = (returnData) => {
     User_Exercise = returnData; // 환자이름 빼먹음;
     res.redirect('/'+returnData);
@@ -111,15 +109,15 @@ router.get('/reset', function (req, res, next) {
 });
 
 router.get('/exercise_1', function (req, res, next) {
-  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=저를 따라 주먹을 쥐었다 폈다 해봐요!&tl=ko-kr"
+  var tts_query = "저를 따라 주먹을 쥐었다 폈다 해봐요!"
   
-  res.render('exercise_1');
+  res.render('exercise_1', {query: tts_query});
 });
 
 router.get('/exercise_2', function (req, res, next) {
-  var tts_query = "http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=50&client=tw-ob&q=저를 따라 뒷짐을 지고, 올려 봅시다!&tl=ko-kr"
+  var tts_query = "저를 따라 뒷짐을 지고, 올려 봅시다!"
   
-  res.render('exercise_2');
+  res.render('exercise_2', {query: tts_query});
 });
 
 initialize();

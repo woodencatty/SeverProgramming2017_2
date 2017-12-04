@@ -14,10 +14,13 @@
         
         <!-- Custom CSS -->
         <link href="css/table.css" rel="stylesheet">
+               <link href="css/add.css" rel="stylesheet">
+                <!-- Bootstrap JS -->
         
         <!-- JQuery -->
         <script src="js/jquery-3.2.1.min.js"></script>
-        
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
         <script>
             jQuery(document).ready(function() {
                 /* 개통/정지 설정 */
@@ -96,10 +99,15 @@
                     </ul>
                     <!-- 계정 아이디 -->
                     <div class="my-auto profile">
-                        <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
-                        <!-- 비민번호 변경 링크 -->
-                        <a class="nav-link my-auto" onclick="location.href='/adminpass'"><%= name %></a>
-                    </div>
+                                <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                                <!-- 관리자 비밀번호 변경 링크 -->
+                                <a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">
+                                    <%= name %> <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li><a href="/adminpass">비밀번호 변경</a></li>
+                                    <li><a href="/logout">로그아웃</a></li>
+                                </ul>
+                            </div>
                 </div>
             </div>
         </nav>

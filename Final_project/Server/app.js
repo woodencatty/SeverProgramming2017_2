@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
+    key: 'sid',
 	secret: 'secret key',
 	resave: false,
 	cookie: {

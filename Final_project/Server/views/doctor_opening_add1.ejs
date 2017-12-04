@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<title>기기등록</title> 
+</head> 
+<body> 
+<h1>기기등록</h1> 
+<% if (dbcheck) { %>
+ 	<script>
+        alert("중요정보를 입력하지 않았습니다.");
+	</script>
+<% } %>
+
+<form method="post">
+          <div>
+                <img width="30px" height="30px" src="img/man_icon.png">
+                <input type='hidden' name="deviceNumber" value="<%= deviceNumber %>"/>
+                <%= deviceNumber %>
+            </div>
+           <div>
+                <label>*환자번호</label>
+                <input type='text' name="patientNumber"/>
+            </div>
+            <input type="submit" value="등록하기"/>
+       </form>  
+</body> 
+</html>

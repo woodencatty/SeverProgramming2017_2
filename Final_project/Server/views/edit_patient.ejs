@@ -17,7 +17,9 @@
         
         <!-- JQuery -->
         <script src="js/jquery-3.2.1.min.js"></script>
-        
+                <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
     </head>
     
     <body>
@@ -51,10 +53,15 @@
                     </ul>
                     <!-- 계정 아이디 -->
                     <div class="my-auto profile">
-                        <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
-                        <!-- 비민번호 변경 링크 -->
-                        <a class="nav-link my-auto" onclick="location.href='/changemedic'"><%= name %></a>
-                    </div>
+                                <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                                <!-- 관리자 비밀번호 변경 링크 -->
+                                <a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">
+                                    <%= name %> <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li><a href="/changemedic">개인정보 변경</a></li>
+                                    <li><a href="/logout">로그아웃</a></li>
+                                </ul>
+                            </div>
                 </div>
             </div>
         </nav>
@@ -97,11 +104,11 @@
                             <input type="text" class="form-control" name="status" value="<%= status %>">
                         </div>
                     </div>
-                    <div class="row">
+                     <div class="row">
                         <div class="col-lg-10">
                             <label for="patient_status">*운동프로그램</label>
                             <!-- 환자 운동프로그램 입력 -->
-                            <input type="text" class="form-control" name="exercise">
+                            <input type="text" class="form-control" name="exercise" value="<%= exercise %>">
                         </div>
                     </div>
                     <div class="row">

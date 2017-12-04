@@ -8,11 +8,15 @@ const http = require('http');
 
 var key = 'secret';
 var logcheck = false;
+var logoutcheck = false;
 var dbcheck = false;
 var deletecheck = false;
 var errcheck = false;
 var openingcheck = false;
 var closingcheck = false;
+var loginerrcheck = false;
+var passcheck = false;
+
 
 const client = mysql.createConnection({
     host: 'localhost',
@@ -105,20 +109,20 @@ function Setup_APD_Socket() {
             }
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
-                exercise_arr.forEach(function (element) {
-                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, element], (err) => {  
+                for(let i=0; i<exercise_arr.length-1; i++){
+                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, exercise_arr[i]], (err) => {  
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
                             response.writeHead(404);
                             response.end();
                         } else {
-                            console.log("exercise input SUCCESS");
+                            console.log("SUCCESS");
                             response.writeHead(200);
                             response.end();
                         }
                     });
-                });
+                }
             } else {
                 console.log("POST error");
                 response.writeHead(404);
@@ -132,20 +136,27 @@ function Setup_APD_Socket() {
 
 Setup_APD_Socket();
 
-
-
 router.get('/', (req, res, next) => {
+    var check = false;
+    var echeck = false;
+    var errlongin = false;
     if (logcheck) {
-        console.log(logcheck);
-        res.render('login', {
-            logincheck: true
-        });
+        check = true;
         logcheck = false;
-    } else {
-        res.render('login', {
-            logincheck: false
-        });
     }
+    if (logoutcheck) {
+        echeck = true;
+        logoutcheck = false;
+    }
+    if (loginerrcheck) {
+        errlongin = true;
+        loginerrcheck = false;
+    }
+    res.render('login', {
+        logincheck: check,
+        logoutcheck: echeck,
+        loginerrcheck: errlongin
+    });
 });
 router.get('/init', (req, res, next) => {
     var enc = crypto.createCipher('aes192', key);
@@ -185,6 +196,13 @@ router.get('/admin', (req, res, next) => {
         res.redirect('/');
     }
 });
+router.get('/logout', (req, res, next) => {
+    req.session.destroy(function () {
+        req.session;
+    });
+    logoutcheck = true;
+    res.redirect('/');
+});
 router.get('/medic', (req, res, next) => {
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
         if (!rows.length) {
@@ -201,7 +219,21 @@ router.get('/medic', (req, res, next) => {
 router.get('/adminpass', (req, res, next) => {
     if (req.session.user_id == 'admin') {
         req.session.now = (new Date()).toUTCString();
-        res.render('adminpass');
+        var check = false;
+        var echeck = false;
+        if (errcheck) {
+            check = true;
+            errcheck = false;
+        }
+        if (passcheck) {
+            echeck = true;
+            passcheck = false;
+        }
+        res.render('change_password', {
+            name: req.session.user_id,
+            check: check,
+            passcheck: echeck,
+        });
     } else {
         logcheck = true;
         res.redirect('/');
@@ -214,7 +246,53 @@ router.get('/changemedic', (req, res, next) => {
             res.redirect('/');
         } else {
             req.session.now = (new Date()).toUTCString();
-            res.render('changemedic');
+            var check = false;
+            if (dbcheck) {
+                check = true;
+                dbcheck = false;
+            }
+            var pcheck = false;
+            if (passcheck) {
+                pcheck = true;
+                passcheck = false;
+            }
+            var echeck = false;
+            if (errcheck) {
+                echeck = true;
+                errcheck = false;
+            }
+            req.session.now = (new Date()).toUTCString();
+            var dec = crypto.createDecipher('aes192', key);
+            var decpass = dec.update(rows[0].password, 'base64', 'utf8');
+            decpass += dec.final('utf8');
+            var day = rows[0].birth.toLocaleString();
+            var date = day.split(' ');
+            var birth = date[0].toString();
+            var d1 = birth.split('-');
+            var d2 = d1[1];
+            var d3 = d1[2];
+            if (d1[1].length < 2) {
+                d2 = '0' + d1[1];
+            }
+            if (d1[2].length < 2) {
+                d3 = '0' + d1[2];
+            }
+            var day2 = d1[0] + '-' + d2 + '-' + d3;
+            console.log(day2);
+            res.render('changemedic', {
+                user_id: req.session.user_name,
+                employeeNumber: rows[0].employeeNumber,
+                id: rows[0].id,
+                password: decpass,
+                name: rows[0].name,
+                belong: rows[0].belong,
+                contact: rows[0].contact,
+                address: rows[0].address,
+                birth: day2,
+                dbcheck: check,
+                passcheck: pcheck,
+                check: echeck
+            });
         }
     });
 });
@@ -323,10 +401,28 @@ router.get('/doctor_add', (req, res, next) => {
             check = true;
             dbcheck = false;
         }
+        var pcheck = false;
+        if (passcheck) {
+            pcheck = true;
+            passcheck = false;
+        }
+        var echeck = false;
+        if (errcheck) {
+            echeck = true;
+            errcheck = false;
+        }
+        var lcheck = false;
+        if (logcheck) {
+            lcheck = true;
+            logcheck = false;
+        }
         req.session.now = (new Date()).toUTCString();
         res.render('add_doctor', {
             name: req.session.user_name,
-            dbcheck: check
+            dbcheck: check,
+            passcheck: pcheck,
+            errcheck: echeck,
+            logcheck: lcheck
         });
     } else {
         logcheck = true;
@@ -340,6 +436,21 @@ router.get('/doctor_edit', (req, res, next) => {
             check = true;
             dbcheck = false;
         }
+        var pcheck = false;
+        if (passcheck) {
+            pcheck = true;
+            passcheck = false;
+        }
+        var echeck = false;
+        if (errcheck) {
+            echeck = true;
+            errcheck = false;
+        }
+        var lcheck = false;
+        if (logcheck) {
+            lcheck = true;
+            logcheck = false;
+        }
         client.query('SELECT * FROM medic WHERE employeeNumber = ?', [req.session.employeeNumber], (err, rows) => {
             if (err) {
                 console.log(err);
@@ -349,11 +460,26 @@ router.get('/doctor_edit', (req, res, next) => {
                 res.redirect('/');
             } else {
                 req.session.now = (new Date()).toUTCString();
+                req.session.doctorId = rows[0].id;
                 var dec = crypto.createDecipher('aes192', key);
                 var decpass = dec.update(rows[0].password, 'base64', 'utf8');
                 decpass += dec.final('utf8');
+                var day = rows[0].birth.toLocaleString();
+                var date = day.split(' ');
+                var birth = date[0].toString();
+                var d1 = birth.split('-');
+                var d2 = d1[1];
+                var d3 = d1[2];
+                if (d1[1].length < 2) {
+                    d2 = '0' + d1[1];
+                }
+                if (d1[2].length < 2) {
+                    d3 = '0' + d1[2];
+                }
+                var day2 = d1[0] + '-' + d2 + '-' + d3;
+                console.log(day2);
                 res.render('edit_doctor', {
-                    name: req.session.user_name,
+                    user_id: req.session.user_id,
                     employeeNumber: rows[0].employeeNumber,
                     id: rows[0].id,
                     password: decpass,
@@ -361,8 +487,11 @@ router.get('/doctor_edit', (req, res, next) => {
                     belong: rows[0].belong,
                     contact: rows[0].contact,
                     address: rows[0].address,
-                    birth: rows[0].birth,
-                    dbcheck: check
+                    birth: day2,
+                    dbcheck: check,
+                    passcheck: pcheck,
+                    errcheck: echeck,
+                    logcheck: lcheck
                 });
             }
         });
@@ -500,8 +629,21 @@ router.get('/doctor_opening_add', (req, res, next) => {
                 check = true;
                 dbcheck = false;
             }
+            var echeck = false;
+            if (errcheck) {
+                echeck = true;
+                errcheck = false;
+            }
+            var ocheck = false;
+            if (openingcheck) {
+                ocheck = true;
+                openingcheck = false;
+            }
             res.render('doctor_opening_add', {
                 dbcheck: check,
+                errcheck: echeck,
+                openingcheck: ocheck,
+                name: req.session.user_name,
                 deviceNumber: req.session.deviceNumber
             });
         }
@@ -524,13 +666,15 @@ router.post('/', function (request, response) {
                 request.session.user_name = 'admin';
                 response.redirect('/admin');
             } else {
-                response.redirect('/error');
+                loginerrcheck = true;
+                response.redirect('/');;
             }
         });
     } else {
         client.query('SELECT * FROM medic WHERE id = ?', [body.id], (err, rows) => {
             if (!rows.length) {
-                response.redirect('/error');
+                loginerrcheck = true;
+                response.redirect('/');;
             } else {
                 var enc = crypto.createCipher('aes192', key);
                 var encpass = enc.update(body.password, 'utf8', 'base64');
@@ -540,7 +684,8 @@ router.post('/', function (request, response) {
                     request.session.user_name = rows[0].name;
                     response.redirect('/medic');
                 } else {
-                    response.redirect('/error');
+                    loginerrcheck = true;
+                    response.redirect('/');;
                 }
             }
         });
@@ -556,7 +701,8 @@ router.post('/adminpass', function (request, response) {
         var checkpass = check.update(body.check, 'utf8', 'base64');
         checkpass += check.final('base64');
         if (read.toString() != checkpass) {
-            response.redirect('/error');
+            errcheck = true;
+            response.redirect('/adminpass');
         } else if (body.password == body.passwordcheck) {
             var enc = crypto.createCipher('aes192', key);
             var encpass = enc.update(body.password, 'utf8', 'base64');
@@ -564,7 +710,8 @@ router.post('/adminpass', function (request, response) {
             fs.writeFile('settings.conf', encpass, 'utf8');
             response.redirect('/admin');
         } else {
-            response.redirect('/error');
+            passcheck = true;
+            response.redirect('/adminpass');
         }
     });
 });
@@ -573,27 +720,32 @@ router.post('/medic', function (request, response) {
 });
 router.post('/changemedic', function (request, response) {
     var body = request.body;
+    var check = crypto.createCipher('aes192', key);
+    var checkpass = check.update(body.check, 'utf8', 'base64');
+    checkpass += check.final('base64');
     client.query('SELECT * FROM medic WHERE id = ?', [request.session.user_id], (err, rows) => {
-        if (!rows.length) {
-            response.redirect('/error');
-        } else {
-            var check = crypto.createCipher('aes192', key);
-            var checkpass = check.update(body.check, 'utf8', 'base64');
-            checkpass += check.final('base64');
-            if (checkpass == rows[0].password) {
-                if (body.password == body.passwordcheck) {
-                    var enc = crypto.createCipher('aes192', key);
-                    var encpass = enc.update(body.password, 'utf8', 'base64');
-                    encpass += enc.final('base64');
-                    client.query('UPDATE medic SET employeeNumber=?, id=?, password=?, name = ?, belong=?, contact=?, address=?, birth=? WHERE id=?', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth, request.session.user_id]);
-                    request.session.user_id = body.id;
-                    response.redirect('/medic');
-                } else {
-                    response.redirect('/error');
+        if (checkpass != rows[0].password) {
+            errcheck = true;
+            response.redirect('/changemedic');
+        } else if (body.password != body.passwordcheck) {
+            passcheck = true;
+            response.redirect('/changemedic');
+        } else if (body.employeeNumber != '' && body.id != '' && body.password != '' && body.name != '' && body.belong != '' && body.contact != '' && body.address != '' && body.birth != '' && body.id != 'admin') {
+            var enc = crypto.createCipher('aes192', key);
+            var encpass = enc.update(body.password, 'utf8', 'base64');
+            encpass += enc.final('base64');
+
+            client.query('UPDATE medic SET employeeNumber=?, id=?, password=?, name=?, belong=?, contact=?, address=? , birth=? WHERE id=?', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth, request.session.user_id], (err, rows) => {
+                if (err) {
+                    console.log(err);
                 }
-            } else {
-                response.redirect('/error');
-            }
+                request.session.user_id = body.id;
+                request.session.user_name = body.name;
+                response.redirect('/medic');
+            });
+        } else {
+            passcheck = true;
+            response.redirect('/changemedic');
         }
     });
 });
@@ -630,7 +782,7 @@ router.post('/devicemanager', function (request, response) {
 router.post('/deviceEdit', function (request, response) {
     var body = request.body;
     if (body.deviceNumber != '' && body.sort != '' && body.version != '') {
-        client.query('UPDATE device SET deviceNumber=?, sort=?, version=?, ipv4_address=?, ipv6_address=?, activated=?, place=? WHERE deviceNumber=?', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, false, body.place, request.session.deviceNumber], (err, rows) => {
+        client.query('UPDATE device SET deviceNumber=?, sort=?, version=?, ipv4_address=?, ipv6_address=?, place=? WHERE deviceNumber=?', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, body.place, request.session.deviceNumber], (err, rows) => {
             if (err) {
                 console.log(err);
                 errcheck = true;
@@ -650,16 +802,32 @@ router.post('/deviceEdit', function (request, response) {
 router.post('/doctor_add', function (request, response) {
     var body = request.body;
     console.log(body);
-    if (body.employeeNumber != '' && body.id != '' && body.password != '' && body.name != '' && body.belong != '' && body.contact != '' && body.address != '' && body.birth != '' && body.id != 'admin') {
-        var enc = crypto.createCipher('aes192', key);
-        var encpass = enc.update(body.password, 'utf8', 'base64');
-        encpass += enc.final('base64');
-        client.query('INSERT INTO medic(employeeNumber,id,password,name,belong,contact,address,birth) VALUES (?,?,?,?,?,?,?,?)', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth], (err, rows) => {
-            if (err) {
-                console.log(err);
-            }
-            response.redirect('/doctor_manage');
-        });
+    if (body.password != body.password2) {
+        passcheck = true;
+        response.redirect('/doctor_add');
+    } else if (body.employeeNumber != '' && body.id != '' && body.password != '' && body.name != '' && body.belong != '' && body.contact != '' && body.address != '' && body.birth != '') {
+        if (body.id == 'admin') {
+            errcheck = true;
+            response.redirect('/doctor_add');
+        } else {
+            client.query('SELECT id FROM medic WHERE id=?', [body.id], (err, rows) => {
+                if (!rows.length) {
+                    var enc = crypto.createCipher('aes192', key);
+                    var encpass = enc.update(body.password, 'utf8', 'base64');
+                    encpass += enc.final('base64');
+                    client.query('INSERT INTO medic(employeeNumber,id,password,name,belong,contact,address,birth) VALUES (?,?,?,?,?,?,?,?)', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth], (err, rows) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        response.redirect('/doctor_manage');
+                    });
+                } else {
+                    logcheck = true;
+                    response.redirect('/doctor_add');
+                }
+            });
+        }
+
     } else {
         dbcheck = true;
         response.redirect('/doctor_add');
@@ -681,17 +849,51 @@ router.post('/doctor_manage', function (request, response) {
 });
 router.post('/doctor_edit', function (request, response) {
     var body = request.body;
-    if (body.employeeNumber != '' && body.id != '' && body.password != '' && body.name != '' && body.belong != '' && body.contact != '' && body.address != '' && body.birth != '' && body.id != 'admin') {
-        var enc = crypto.createCipher('aes192', key);
-        var encpass = enc.update(body.password, 'utf8', 'base64');
-        encpass += enc.final('base64');
-        client.query('UPDATE medic SET employeeNumber=?, id=?, password=?, name=?, belong=?, contact=?, address=? , birth=? WHERE employeeNumber=?', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth, request.session.employeeNumber], (err, rows) => {
-            if (err) {
-                console.log(err);
-            }
-            request.session.employeeNumber = null;
-            response.redirect('/doctor_manage');
-        });
+    if (body.password != body.password2) {
+        passcheck = true;
+        response.redirect('/doctor_edit');
+    } else if (body.employeeNumber != '' && body.id != '' && body.password != '' && body.name != '' && body.belong != '' && body.contact != '' && body.address != '' && body.birth != '') {
+        if (body.id == 'admin') {
+            errcheck = true;
+            response.redirect('/doctor_edit');
+        } else {
+            client.query('SELECT * FROM medic WHERE id=?', [body.id], (err, rows) => {
+                if(err){
+                    logcheck = true;
+                    console.log('2');
+                    response.redirect('/doctor_edit');
+                }
+                else if (!rows.length) {
+                    console.log('3');
+                    var enc = crypto.createCipher('aes192', key);
+                    var encpass = enc.update(body.password, 'utf8', 'base64');
+                    encpass += enc.final('base64');
+                    client.query('UPDATE medic SET employeeNumber=?, id=?, password=?, name=?, belong=?, contact=?, address=? , birth=? WHERE employeeNumber=?', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth, request.session.employeeNumber], (err, rows) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        request.session.employeeNumber = null;
+                        response.redirect('/doctor_manage');
+                    });
+                } else if (rows[0].id == request.session.doctorId) {
+                    console.log('4');
+                    var enc = crypto.createCipher('aes192', key);
+                    var encpass = enc.update(body.password, 'utf8', 'base64');
+                    encpass += enc.final('base64');
+                    client.query('UPDATE medic SET employeeNumber=?, id=?, password=?, name=?, belong=?, contact=?, address=? , birth=? WHERE employeeNumber=?', [body.employeeNumber, body.id, encpass, body.name, body.belong, body.contact, body.address, body.birth, request.session.employeeNumber], (err, rows) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        request.session.employeeNumber = null;
+                        response.redirect('/doctor_manage');
+                    });
+                } else {
+                    console.log('5');
+                    logcheck = true;
+                    response.redirect('/doctor_edit');
+                }
+            });
+        }
     } else {
         dbcheck = true;
         response.redirect('/doctor_edit');
@@ -780,17 +982,40 @@ router.post('/doctor_opening', function (request, response) {
 router.post('/doctor_opening_add', function (request, response) {
     var body = request.body;
     if (body.patientNumber != "") {
-        client.query('UPDATE device SET activated=true WHERE deviceNumber=?', [body.deviceNumber], (err, rows) => {
+        client.query('SELECT patientNumber FROM patient WHERE patientNumber=?', [body.patientNumber], (err, rows) => {
             if (err) {
-                console.log(err);
+                errcheck = true;
+                response.redirect('/doctor_opening_add');
+            }
+            if (!rows.length) {
+                errcheck = true;
+                response.redirect('/doctor_opening_add');
+            } else {
+                client.query('SELECT deviceNumber FROM patient WHERE patientNumber=?', [body.patientNumber], (err, rows) => {
+                    if (rows[0].deviceNumber == null) {
+                        client.query('UPDATE patient SET deviceNumber=? WHERE patientNumber=?', [body.deviceNumber, body.patientNumber], (err, rows) => {
+                            if (err) {
+                                errcheck = true;
+                                response.redirect('/doctor_opening_add');
+                            } else {
+                                client.query('UPDATE device SET activated=true WHERE deviceNumber=?', [body.deviceNumber], (err, rows) => {
+                                    if (err) {
+                                        errcheck = true;
+                                        response.redirect('/doctor_opening_add');
+                                    } else {
+                                        response.redirect('/doctor_opening');
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        openingcheck = true;
+                        response.redirect('/doctor_opening_add');
+                    }
+                });
+
             }
         });
-        client.query('UPDATE patient SET deviceNumber=? WHERE patientNumber=?', [body.deviceNumber, body.patientNumber], (err, rows) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-        response.redirect('/doctor_opening');
     } else {
         dbcheck = true;
         response.redirect('/doctor_opening_add');

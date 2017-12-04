@@ -1,26 +1,119 @@
 <!DOCTYPE html>
-<html> 
-<head> 
-<title>기기등록</title> 
-</head> 
-<body> 
-<h1>기기등록</h1> 
-<% if (dbcheck) { %>
+<html lang="ko">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device=width, initial-scale=1">
+        
+        <title>SMASH CARE MOVEMENT</title>
+        
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+        
+        <!-- Custom CSS -->
+        <link href="css/add.css" rel="stylesheet">
+        
+        <!-- JQuery -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
+    </head>
+    
+    <body>
+    <% if (dbcheck) { %>
+ 	    <script>
+            alert("중요정보를 입력하지 않았습니다.");
+	   </script>
+    <% } %>
+    <% if (errcheck) { %>
  	<script>
-        alert("중요정보를 입력하지 않았습니다.");
+        alert("일치하는 환자정보가 없습니다.");
 	</script>
 <% } %>
-<form method="post">
-          <div>
-                <img width="30px" height="30px" src="img/man_icon.png">
+   <% if (openingcheck) { %>
+ 	<script>
+        alert("이미 기기가 설정된 환자입니다.");
+	</script>
+<% } %>
+    <div class="wrap">
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <!-- 브랜드 로고 -->
+                <div class="navbar-brand"><img src="img/nav_brand.png" width="300px"></div>
+                <!-- 메뉴 -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <!-- 홈 링크 -->
+                            <a class="nav-link currnet" onclick="location.href='/medic'">홈으로</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 계정 관리 링크 -->
+                            <a class="nav-link" onclick="location.href='/patient_manage'">환자 관리</a>
+                        </li>
+                        <li class="nav-item active">
+                            <!-- 기기 개통 링크 -->
+                            <a class="nav-link" onclick="location.href='/doctor_opening'">기기 개통</a>
+                        </li>
+                    </ul>
+                    <!-- 계정 아이디 -->
+                    <div class="my-auto profile">
+                                <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                                <!-- 관리자 비밀번호 변경 링크 -->
+                                <a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">
+                                    <%= name %> <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li><a href="/changemedic">개인정보 변경</a></li>
+                                    <li><a href="/logout">로그아웃</a></li>
+                                </ul>
+                            </div>
+                </div>
+            </div>
+        </nav>
+    
+        <!-- Insert -->
+        <div class="content mx-auto">
+            <div class="container my-auto">
+                <!-- Insert Head -->
+                <div class="row content_head">
+                    <!-- 제목 -->
+                    <div class="col-lg-5 content_title">
+                        <p>환자 기기 등록</p>
+                    </div>
+                </div>
+                <!-- 입력 폼 -->
+                <form method="post">
+                    <div class="row content_body">
+                        <div class="col-lg-5">
+                            <img width="30px" height="30px" src="img/man_icon.png">
                 <input type='hidden' name="deviceNumber" value="<%= deviceNumber %>"/>
                 <%= deviceNumber %>
-            </div>
-           <div>
-                <label>*환자번호</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <label>*환자번호</label>
                 <input type='text' name="patientNumber"/>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="offset-10 col-lg-2">
+                            <!-- 제출하기 -->
+                            <input type="submit" class="submit"
+                            value="+ 등록하기">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <input type="submit" value="등록하기"/>
-       </form>  
-</body> 
+        </div>
+        
+    </div>
+    </body>
+    
 </html>
