@@ -218,7 +218,7 @@
               type: 'line',
               data: {
                   /* x축 항목 */
-                labels: <%= date_data %>,
+                labels: ["2017-04-20 10:10:10", "2017-04-20 10:10:20", "2017-04-20 10:10:30", "2017-04-20 10:10:40", "2017-04-20 10:10:50"],
                 datasets: [{
                   label: "Sessions",
                   lineTension: 0.0,
@@ -232,7 +232,7 @@
                   pointHitRadius: 20,
                   pointBorderWidth: 2,
                     /* 데이터 값 */
-                  data: <%= exer_data %>,
+                  data: [3, 2, 6, 5, 6, 7],
                 }],
               },
               options: {
@@ -252,8 +252,8 @@
                     ticks: {
                         /* y축 항목 */
                       min: 0,
-                      max: 40000,
-                      maxTicksLimit: 5
+                      max: 10,
+                      maxTicksLimit: 1
                     },
                     gridLines: {
                       color: "rgba(0, 0, 0, .125)",
