@@ -106,7 +106,8 @@ function Setup_APD_Socket() {
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
                 exercise_arr.forEach((element) => {
-                    exercise_arr[element] = exercise_arr[element].toString().split(',');
+                    console.log(element);
+                    //exercise_arr[element] = exercise_arr[element].toString().split(',');
                 }, this);
                 exercise_arr.forEach(function (element) {
                     client.query('INSERT INTO exercise (idd_id, date, exercise) VALUES (?,?,?)', [request.headers.idd_id, element[1], element[0]], (err) => {
