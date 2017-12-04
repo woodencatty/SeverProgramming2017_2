@@ -542,11 +542,14 @@ router.get('/patient_manage', (req, res, next) => {
         } else {
             client.query('SELECT * FROM exercise', (err, exercise_data) => {
             client.query('SELECT * FROM patient', (err, user_data) => {
+                var date_arr = ["may 1", "may 2"];
+                var exer_arr = [10, 10];
                 req.session.now = (new Date()).toUTCString();
                 res.render('patient_manage', {
                     name: req.session.user_name,
                     data: user_data,
-                    exdata: exercise_data
+                    date_data: date_arr,
+                    exer_data: exer_arr
                 });
             });
         });                

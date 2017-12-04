@@ -44,19 +44,6 @@
                 
                 $('.patient_manage a').click(function() {
 
-                var date_data = new Array;
-                    var exer_data = new Array;
-                        <% exdata.forEach(function (item) { %>
-                            var exercise = <%= item.exercise %>;
-                                                console.log(exercise);
-                            var arr_exercise = exercise.split(',');
-                                                                            console.log(arr_exercise);
-                           if(<%= item.name %> == name){
-                            date_data.push(arr_exercise[0]);
-                            exer_data.push(arr_exercise[1]);
-                           }
-                           <% }); %>
-
             // -- Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#292b2c';
@@ -67,7 +54,7 @@
               type: 'line',
               data: {
                   /* x축 항목 */
-                labels: date_data,
+                labels: <%= date_data %>,
                 datasets: [{
                   label: "Sessions",
                   lineTension: 0.0,
@@ -81,7 +68,7 @@
                   pointHitRadius: 20,
                   pointBorderWidth: 2,
                     /* 데이터 값 */
-                  data: exer_data,
+                  data: <%= exer_data %>,
                 }],
               },
               options: {
