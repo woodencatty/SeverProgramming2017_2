@@ -9,20 +9,14 @@
   </head>
   <body>
 
-  <script type="text/javascript"> 
- $(document).ready(function () { 
-	$("tts").attr("src", <%= query %>); 
- }); 
-  </script>
-
     <h1>안녕하세요! <%= username %>님! </h1>
     <h2>같이 운동할까요?</h2>
 
-     <a href="/exercise_start">  그래요! </a> <br> <br>
+     <a href="/search_exercise">  그래요! </a> <br> <br>
      <a href="/reset"> 안해. </a>
 
     <audio controls autoplay>
-  <source id= "tts" src="" type="audio/mpeg">
+  <source id= "tts" src="<%= query %>" type="audio/mpeg">
   </audio>
   
     </body>

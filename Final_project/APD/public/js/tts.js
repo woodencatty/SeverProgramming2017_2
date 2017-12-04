@@ -1,3 +1,3 @@
 $(document).ready(function () {
-	$("tts").attr("src", "<%= query %>");
+	$("#tts").attr("src", "<%= query %>");
 });

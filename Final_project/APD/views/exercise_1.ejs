@@ -3,16 +3,15 @@
   <head>
     <title>운동 승낙</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-        <meta http-equiv="refresh" content="10;url='/exercise_2'">
+        <meta http-equiv="refresh" content="10;url='/search_exercise'">
             <script src="/js/jquery-3.2.1.min.js"></script>
       	<script type="text/javascript" src="/js/tts.js"></script>
   </head>
   <body>
-  <script type="text/javascript"> 
- $(document).ready(function () { 
-	$("tts").attr("src", <%= query %>); 
- }); 
-  </script>
+
+      <audio controls autoplay>
+  <source id= "tts" src="<%= query %>" type="audio/mpeg">
+  </audio>
 
   <p id="ViewTimer"></p><img src="/exercise/exercise_1.png" id="img" width="576" height="900"/>
     <a href="/end"> 그만하기 </a>    
