@@ -106,7 +106,7 @@ function Setup_APD_Socket() {
             if (request.url == '/patient/exercise') {
                 var exercise_arr = request.headers.exercise.split(']');
                 exercise_arr.forEach(function (element) {
-                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?,?)', [request.headers.idd_id, element], (err) => {
+                    client.query('INSERT INTO exercise (idd_id, exercise) VALUES (?,?)', [request.headers.idd_id, element], (err) => {
                         if (err) {
                             console.log(err);
                             console.log("DB query Error!");
