@@ -54,7 +54,7 @@
               type: 'line',
               data: {
                   /* x축 항목 */
-                labels: ["may 1", "may 2"],
+                labels: <%= date_data %>,
                 datasets: [{
                   label: "Sessions",
                   lineTension: 0.0,
@@ -68,7 +68,7 @@
                   pointHitRadius: 20,
                   pointBorderWidth: 2,
                     /* 데이터 값 */
-                  data: [10, 10],
+                  data: <%= exer_data %>,
                 }],
               },
               options: {
