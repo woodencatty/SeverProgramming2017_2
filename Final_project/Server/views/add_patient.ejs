@@ -28,6 +28,11 @@
             alert("중요정보를 입력하지 않았습니다.");
 	   </script>
     <% } %>
+    <% if (errcheck) { %>
+ 	    <script>
+            alert("허용 문자수를 넘었습니다.");
+	   </script>
+    <% } %>
     <div class="wrap">
         
         <!-- Navigation -->

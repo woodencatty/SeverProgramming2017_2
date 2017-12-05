@@ -38,6 +38,11 @@
             alert("비밀번호와 확인문자가 서로 다릅니다.");
         </script>
     <% } %>
+    <% if (openingcheck) { %>
+ 	    <script>
+            alert("허용 문자수를 넘었습니다..");
+        </script>
+    <% } %>
     <div class="wrap">
         
         <!-- Navigation -->

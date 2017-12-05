@@ -9,7 +9,7 @@ const http = require('http');
 
 let refreshInterval = 1;
 let APD_ID = "";
-let IDD_ID = "IDD001";
+let IDD_ID = "";
 
 let User_Name = "";
 let User_Exercise = "";
@@ -121,7 +121,7 @@ router.get('/exercise2', function (req, res, next) {
 });
 
 router.get('/end', function (req, res, next) {
-  var tts_query = "수고하셨어요!"
+  var tts_query = "수고하셨어요! 이제 휴식을 취하는게 좋을 것 같아요."
   
   res.render('end', {query: tts_query});
 });
