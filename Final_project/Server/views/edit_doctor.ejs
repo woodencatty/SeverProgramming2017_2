@@ -43,6 +43,11 @@
             alert("중복된 아이디입니다.");
         </script>
     <% } %>
+    <% if (openingcheck) { %>
+ 	    <script>
+            alert("허용된 문자수를 넘겼습니다");
+        </script>
+    <% } %>
     <div class="wrap">
         
         <!-- Navigation -->

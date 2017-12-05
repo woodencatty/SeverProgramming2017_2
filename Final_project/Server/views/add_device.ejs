@@ -29,6 +29,12 @@
 
         </script>
         <% } %>
+           <% if (errcheck) { %>
+        <script>
+            alert("허용문자범위를 초과하였습니다(45자)");
+
+        </script>
+        <% } %>
             <div class="wrap">
 
                 <!-- Navigation -->
