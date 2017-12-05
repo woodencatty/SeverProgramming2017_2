@@ -65,12 +65,12 @@ router.get('/', function (req, res, next) {
     console.log("get data : " + returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
-        res.render('index', { Interval: refreshInterval, temp: 0, humi: 0});
-        /*
+       /* res.render('index', { Interval: refreshInterval, temp: 0, humi: 0});
+        */
         sensorcallback = (temp, humi)=>{
           res.render('index', { Interval: refreshInterval, temp: temp, humi: humi });
         }
-        sensor.getTemp(sensorcallback);*/
+        sensor.getTemp(sensorcallback);
       } else {
         res.redirect('/detected');
       }}else {res.redirect('/unactivated');}
