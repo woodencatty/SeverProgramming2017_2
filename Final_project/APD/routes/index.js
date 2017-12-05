@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-/*const sensor = require('./sensor.js');*/
+const sensor = require('./sensor.js');
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
 const fs = require('fs');
