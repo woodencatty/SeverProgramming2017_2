@@ -4,6 +4,8 @@ var router = express.Router();
 const sensor = require('./sensor.js');
 //const AP = require('./hotSpot.js');
 const restAPI = require('./rest_api.js');
+const bluetooth = require('./ble_central.js')   
+
 const fs = require('fs');
 const http = require('http');
 
@@ -13,7 +15,7 @@ let IDD_ID = "";
 
 let User_Name = "";
 let User_Exercise = "";
-
+/*
 function Setup_IDD_Socket() {
   http.createServer((request, response) => {
     if (request.method == 'POST') {
@@ -40,12 +42,12 @@ function Setup_IDD_Socket() {
         response.writeHead(404);
         response.end();
       }
-    } /* GET method */
+    } 
   }).listen(3010, () => {
     console.log('Socket is Running (3010) ...');
   });
 }
-
+*/
 
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
