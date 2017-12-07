@@ -1,6 +1,5 @@
 const bleno = require('bleno');
 const util = require('util');
-const fs = require('fs');
 
 var deviceName = 'IDD001';
 var exercise_log = "";
@@ -23,7 +22,6 @@ var SwitchCharacteristic = function () {
 util.inherits(SwitchCharacteristic, Characteristic);
 
 SwitchCharacteristic.prototype.onReadRequest = function (offset, callback) {
-    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { exercise_log = readtext.toString()});
     console.log('read request');
     var data = new Buffer(exercise_log, 'utf8');
     callback(this.RESULT_SUCCESS, data);

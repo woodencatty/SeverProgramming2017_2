@@ -9,7 +9,7 @@ const http = require('http');
 
 let refreshInterval = 1;
 let APD_ID = "";
-let IDD_ID = "IDD001";
+let IDD_ID = "";
 
 let User_Name = "";
 let User_Exercise = "";
@@ -45,6 +45,8 @@ function Setup_IDD_Socket() {
     console.log('Socket is Running (3010) ...');
   });
 }
+
+
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
@@ -55,6 +57,12 @@ function initialize() {
     restAPI.init(config.serverIP, config.serverPort);
   });
   console.log("Page is Running..(3000)");
+}
+
+module.exports = {
+    IDD_found : (ID)=>{
+        IDD_ID = ID;
+    }
 }
 
 

@@ -1,8 +1,4 @@
 const noble = require('noble');
-const control = require('./index.js');
-const restAPI = require('./rest_api.js');
-
-
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
         noble.startScanning(['ff10']);
@@ -17,7 +13,6 @@ noble.on('discover', function (peripheral) {
         console.log("블루투스> 주소: " + peripheral.address);
         console.log("블루투스> 신호세기(RSSI): " + peripheral.rssi);
         console.log("------------------------------------");
-        IDD_found(peripheral.advertisement.localName);
     }
     connectAndSetUp(peripheral);
 });
@@ -43,6 +38,5 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
 
     switchCharacteristic.read ((error, data)=>{
         console.log(data);
-        restAPI.SubmitUserExercise(peripheral.advertisement.localName, data.toString());
             })
 }
