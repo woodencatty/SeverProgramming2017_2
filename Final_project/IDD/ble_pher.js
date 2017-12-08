@@ -53,10 +53,7 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
             });
         
 }
-}
-
-setInterval(()=>{
     fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
         sendData(readtext);
         });
-}, 1000)
+}
