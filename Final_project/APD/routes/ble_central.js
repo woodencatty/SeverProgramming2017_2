@@ -1,53 +1,62 @@
-const noble = require('noble');
+const bleno = require('bleno');
+const util = require('util');
 const control = require('./index.js');
-const restAPI = require('./rest_api.js');
 
+var deviceName = 'APD';
+var exercise_log_arr;
+var data_count = 0;
 
-noble.on('stateChange', function (state) {
-    if (state === 'poweredOn') {
-        noble.startScanning(['ff10']);
-    } else {
-        noble.stopScanning();
-    }
-});
-noble.on('discover', function (peripheral) {
-    if (peripheral.advertisement.localName == 'IDD001') {
-        console.log("블루투스> 찾았음(discovery) ------------------------- ");
-        console.log("블루투스> 이름: " + peripheral.advertisement.localName);
-        console.log("블루투스> 주소: " + peripheral.address);
-        console.log("블루투스> 신호세기(RSSI): " + peripheral.rssi);
-        console.log("------------------------------------");
-       //control.IDD_found(peripheral.advertisement.localName);
-    }
-    connectAndSetUp(peripheral);
-});
-
-function connectAndSetUp(peripheral) {
-    peripheral.connect(function (error) {
-        var serviceUUIDs = ['ff10'];
-        var characteristicUUIDs = ['ff11'];
-        peripheral.discoverSomeServicesAndCharacteristics
-            (serviceUUIDs, characteristicUUIDs,
-            onServicesAndCharacteristicsDiscovered);
+var Characteristic = bleno.Characteristic;
+var PrimaryService = bleno.PrimaryService;
+var SwitchCharacteristic = function () {
+    SwitchCharacteristic.super_.call(this, {
+        uuid: 'ff11',
+        properties: ['read', 'write'],
+        descriptors: [
+            new bleno.Descriptor({
+                uuid: '2901',
+                value: 'IDD'
+            })
+        ]
     });
-    // attach disconnect handler
-   // peripheral.on('disconnect', onDisconnect);
-}
+};
+util.inherits(SwitchCharacteristic, Characteristic);
 
-function onServicesAndCharacteristicsDiscovered(error, services, characteristics) {
-    if (error) {
-        console.log('Error discovering services and characteristics ' + error);
-        return;
+SwitchCharacteristic.prototype.onWriteRequest = function (data, offset, withoutResponse, callback) {
+    console.log('write request');
+    console.log(data);
+    callback(this.RESULT_SUCCESS);
+    };
+
+var lightService = new PrimaryService({
+    uuid: 'ff10',
+    characteristics: [
+        new SwitchCharacteristic()
+    ]
+});
+bleno.on('stateChange', function (state) {
+    if (state === 'poweredOn') {
+        bleno.startAdvertising(deviceName, [lightService.uuid]);
+        console.log("-------------------------------");
+        console.log("블루투스 > ON (" + deviceName + " 가동)");
+    } else {
+        bleno.stopAdvertising();
+        console.log("블루투스 > Advertising 을 중단합니다");
     }
-    var switchCharacteristic = characteristics[0];
+});
 
-    readDataInterval = setInterval(()=>{
-        switchCharacteristic.read ((error, data)=>{
-            console.log(data);
-            if(data == "end"){
-                clearInterval(readDataInterval);
-            }
-                })
-    }, 500);
-
-}
+bleno.on('advertisingStart', function (error) {
+    if (!error) {
+    console.log("블루투스 > Advertising 을 시작합니다...");
+    console.log("---------------------------------------");
+    bleno.setServices([lightService]);
+    }
+    else
+    console.log("블루투스 > Advertising 도중 오류발생");
+    });
+    // cleanup GPIO on exit
+    function exit() {
+    console.log("블루투스> 프로그램을 종료합니다");
+    process.exit();
+    }
+    process.on('SIGINT', exit);
