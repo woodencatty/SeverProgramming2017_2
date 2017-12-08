@@ -38,6 +38,8 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }
     var switchCharacteristic = characteristics[0];
 
+    
+
     switchCharacteristic.read ((error, data)=>{
         console.log(data);
             })

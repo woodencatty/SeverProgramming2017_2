@@ -41,8 +41,13 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }
     var switchCharacteristic = characteristics[0];
 
-    switchCharacteristic.read ((error, data)=>{
-        console.log(data);
-        restAPI.SubmitUserExercise(peripheral.advertisement.localName, data.toString());
-            })
+    readDataInterval = setInterval(()=>{
+        switchCharacteristic.read ((error, data)=>{
+            console.log(data);
+            if(data == "end"){
+                clearInterval(readDataInterval);
+            }
+                })
+    }, 500);
+
 }

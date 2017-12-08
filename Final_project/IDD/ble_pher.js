@@ -3,8 +3,8 @@ const util = require('util');
 const fs = require('fs');
 
 var deviceName = 'IDD001';
-var exercise_log = "";
-
+var exercise_log_arr;
+var data_count = 0;
 
 var Characteristic = bleno.Characteristic;
 var PrimaryService = bleno.PrimaryService;
@@ -23,15 +23,20 @@ var SwitchCharacteristic = function () {
 util.inherits(SwitchCharacteristic, Characteristic);
 
 SwitchCharacteristic.prototype.onReadRequest = function (offset, callback) {
-    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { exercise_log = readtext.toString()});
+    fs.readFile('./exercise_log', 'utf8', function (error, readtext) { exercise_log_arr = readtext.split(']')});
     console.log('read request');
-    var data = new Buffer(exercise_log, 'utf8');
+    if(data_count < exercise_log_arr.length){
+        var data = new Buffer(exercise_log_arr[data_count], 'utf8');
+        data_count++;
+    }else{
+        var data = new Buffer("end", 'utf8');
+    }
     callback(this.RESULT_SUCCESS, data);
 };
-SwitchCharacteristic.prototype.onWriteRequest =
-    function (data, offset, withoutResponse, callback) {
 
-        callback(this.RESULT_SUCCESS);
+SwitchCharacteristic.prototype.onWriteRequest = function (data, offset, withoutResponse, callback) {
+    console.log('write request');
+    callback(this.RESULT_SUCCESS);
     };
 
 var lightService = new PrimaryService({
