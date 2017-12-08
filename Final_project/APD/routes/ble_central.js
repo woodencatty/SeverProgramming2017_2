@@ -26,7 +26,7 @@ util.inherits(SwitchCharacteristic, Characteristic);
 SwitchCharacteristic.prototype.onWriteRequest = function (data, offset, withoutResponse, callback) {
     console.log('write request');
     console.log(data.toString());
- //   restAPI.SubmitUserExercise("IDD001", data.toString());
+    restAPI.SubmitUserExercise("IDD001", data.toString());
     
     callback(this.RESULT_SUCCESS);
     };
