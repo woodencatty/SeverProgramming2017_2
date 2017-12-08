@@ -1,6 +1,7 @@
 const bleno = require('bleno');
 const util = require('util');
 const control = require('./index.js');
+const restAPI = require('./rest_api.js');
 
 var deviceName = 'APD';
 var exercise_log_arr;
@@ -15,7 +16,7 @@ var SwitchCharacteristic = function () {
         descriptors: [
             new bleno.Descriptor({
                 uuid: '2901',
-                value: 'IDD'
+                value: 'APD'
             })
         ]
     });
@@ -24,7 +25,9 @@ util.inherits(SwitchCharacteristic, Characteristic);
 
 SwitchCharacteristic.prototype.onWriteRequest = function (data, offset, withoutResponse, callback) {
     console.log('write request');
-    console.log(data);
+    console.log(data.toString());
+    restAPI.SubmitUserExercise("IDD001", data.toString());
+    
     callback(this.RESULT_SUCCESS);
     };
 
