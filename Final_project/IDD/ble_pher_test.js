@@ -4,8 +4,6 @@ const util = require('util');
 var deviceName = 'IDD001';
 var exercise_log = "1123321";
 
-console.log("??");
-
 var Characteristic = bleno.Characteristic;
 var PrimaryService = bleno.PrimaryService;
 var SwitchCharacteristic = function () {

@@ -1,7 +1,5 @@
 const noble = require('noble');
 
-console.log("??");
-
 
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
@@ -43,4 +41,8 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     switchCharacteristic.read ((error, data)=>{
         console.log(data);
             })
+}
+
+function onDisconnect(){
+    console.log("연결이 해지되었습니다");
 }
