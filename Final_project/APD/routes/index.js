@@ -49,6 +49,12 @@ function Setup_IDD_Socket() {
 }
 */
 
+module.exports = {
+  IDD_found : (ID)=>{
+      IDD_ID = ID;
+  }
+}
+
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
@@ -59,12 +65,6 @@ function initialize() {
     restAPI.init(config.serverIP, config.serverPort);
   });
   console.log("Page is Running..(3000)");
-}
-
-module.exports = {
-    IDD_found : (ID)=>{
-        IDD_ID = ID;
-    }
 }
 
 
