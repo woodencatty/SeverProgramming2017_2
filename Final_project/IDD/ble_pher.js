@@ -54,6 +54,7 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
         
 }
     fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
+        console.log("reading file");
         sendData(readtext);
         });
 }
