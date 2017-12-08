@@ -1,6 +1,6 @@
 const noble = require('noble');
 const restAPI = require('./rest_api.js');
-
+const fs = require('fs');
 
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
