@@ -2,7 +2,7 @@ const bleno = require('bleno');
 const util = require('util');
 
 var deviceName = 'IDD001';
-var exercise_log = "";
+var exercise_log = "1123321";
 
 
 var Characteristic = bleno.Characteristic;
