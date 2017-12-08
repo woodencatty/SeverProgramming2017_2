@@ -1,4 +1,8 @@
 const noble = require('noble');
+
+console.log("??");
+
+
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
         noble.startScanning(['ff10']);
