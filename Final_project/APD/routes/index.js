@@ -50,7 +50,7 @@ function Setup_IDD_Socket() {
 */
 
 module.exports = {
-  IDD_found : (ID)=>{
+  IDD_found:(ID)=> {
       IDD_ID = ID;
   }
 }

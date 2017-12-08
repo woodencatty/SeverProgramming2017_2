@@ -17,7 +17,7 @@ noble.on('discover', function (peripheral) {
         console.log("블루투스> 주소: " + peripheral.address);
         console.log("블루투스> 신호세기(RSSI): " + peripheral.rssi);
         console.log("------------------------------------");
-       // control.IDD_found(peripheral.advertisement.localName);
+       control.IDD_found(peripheral.advertisement.localName);
     }
     connectAndSetUp(peripheral);
 });
@@ -31,7 +31,7 @@ function connectAndSetUp(peripheral) {
             onServicesAndCharacteristicsDiscovered);
     });
     // attach disconnect handler
-    peripheral.on('disconnect', onDisconnect);
+   // peripheral.on('disconnect', onDisconnect);
 }
 
 function onServicesAndCharacteristicsDiscovered(error, services, characteristics) {
