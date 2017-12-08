@@ -52,7 +52,7 @@ function Setup_IDD_Socket() {
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
-    Setup_IDD_Socket();
+    //Setup_IDD_Socket();
     /* AP.setupAP(config.ssid, config.password, true, config.adaptor);
       interval = config.refreshInterval;*/
     APD_ID = config.deviceName;
