@@ -39,7 +39,7 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }
     var switchCharacteristic = characteristics[0];
 
-    function sendData(byte) {
+        console.log("sending");
         fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
 
             var buffer = new Buffer(readtext.toString(), 'utf8');
@@ -47,11 +47,10 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log('블루투스> 데이터전송(write): ' + byte);
+                    console.log('블루투스> 데이터전송(write): ' + buffer.toString());
                     // console.log(services); // peripheral 로부터 받은 profile 내용을 보려면 // 제거
                     // console.log(characteristics);
                 }
             });
         });
-    }
 }
