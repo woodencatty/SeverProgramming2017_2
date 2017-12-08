@@ -39,10 +39,9 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }
     var switchCharacteristic = characteristics[0];
 
+    function sendData(byte) {
         console.log("sending");
-        fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
-
-            var buffer = new Buffer(readtext.toString(), 'utf8');
+            var buffer = new Buffer(byte, 'utf8');
             switchCharacteristic.write(buffer, false, function (error) {
                 if (error) {
                     console.log(error);
@@ -52,5 +51,12 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
                     // console.log(characteristics);
                 }
             });
-        });
+        
 }
+}
+
+setInterval(()=>{
+    fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
+        sendData(readtext);
+        });
+}, 1000)
