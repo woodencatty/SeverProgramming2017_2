@@ -138,14 +138,11 @@
                         </canvas>
                         <div class="data">
                             <!-- 데이터 테이블 -->
-                            <% console.log(stepCount); %>
-                            <% console.log(stepDate); %>
-
                             <table>
-                            <% for (var i = 1; i < 6; i++) { %>
+                            <% for (var i = 0; i < 6; i++) { %>
                             <tr>
-                                    <td id="date<%=i %>"><%=stepCount[i]%></td>
-                                    <td id="data<%=i %>"><%=stepDate[i]%></td>
+                                    <td id="date<%=i %>"><%=stepDate[i]%></td>
+                                    <td id="data<%=i %>"><%=stepCount[i]%></td>
                                 </tr>
                             <% } %>
                             </table>
@@ -208,15 +205,15 @@
                       display: false
                     },
                     ticks: {
-                      maxTicksLimit: 7
+                      maxTicksLimit: 5
                     }
                   }],
                   yAxes: [{
                     ticks: {
                         /* y축 항목 */
                       min: 0,
-                      max: 4000,
-                      maxTicksLimit: 5
+                      max: 10,
+                      maxTicksLimit: 1
                     },
                     gridLines: {
                       color: "rgba(0, 0, 0, .125)",
