@@ -688,7 +688,7 @@ router.get('/patient_profile', (req, res, next) => {
 
                             temp2 = rows[0].exercise.split(',');
                             temp2.forEach(function(element) {
-                                if(element == null){
+                                if(element == ""){
 
                                 }else{
                                     currentExercise = currentExercise - 20;
