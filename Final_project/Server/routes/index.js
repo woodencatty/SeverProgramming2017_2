@@ -673,34 +673,35 @@ router.get('/patient_profile', (req, res, next) => {
                     logcheck = true;
                     res.redirect('/');
                 } else {
-                    client.query('SELECT * FROM exercise WHERE name = ?', [rows[0].patientName], (err, rows) => {
+                    client.query('SELECT * FROM exercise WHERE name = ?', [rows[0].patientName], (err, rows1) => {
                         console.log(rows);
                         if (!rows.length) {
                             logcheck = true;
                             res.redirect('/');
                         } else {
-                            rows.forEach(function(element) {
+                            rows1.forEach(function(element) {
                                 var temp = element.exercise.split(',');
                                 stepCount.push(temp[0]);
                                 stepDate.push(temp[1]);
                             });
+                            req.session.now = (new Date()).toUTCString();
+                            res.render('patient_profile', {
+                                name: req.session.user_name,
+                                patientNumber: rows[0].patientNumber,
+                                patientName: rows[0].patientName,
+                                disease: rows[0].disease,
+                                deviceNumber: rows[0].deviceNumber,
+                                status: rows[0].status,
+                                exercise: rows[0].exercise,
+                                stepCount: stepCount,
+                                stepDate: stepDate
+                            });
+                            console.log(stepCount);
+                            console.log(stepDate);                            
                         }
                         });
 
-                    console.log(stepCount);
-                    console.log(stepDate);
-                    req.session.now = (new Date()).toUTCString();
-                    res.render('patient_profile', {
-                        name: req.session.user_name,
-                        patientNumber: rows[0].patientNumber,
-                        patientName: rows[0].patientName,
-                        disease: rows[0].disease,
-                        deviceNumber: rows[0].deviceNumber,
-                        status: rows[0].status,
-                        exercise: rows[0].exercise,
-                        stepCount: stepCount,
-                        stepDate: stepDate
-                    });
+
                 }
             });
         }
