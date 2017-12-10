@@ -659,20 +659,6 @@ router.get('/patient_edit', (req, res, next) => {
 router.get('/patient_profile', (req, res, next) => {
     var stepCount = new Array();
     var stepDate = new Array();
-    console.log(req.session.user_name);
-    client.query('SELECT * FROM exercise WHERE name = ?', [req.session.user_name], (err, rows) => {
-        console.log(rows);/*
-        if (!rows.length) {
-            logcheck = true;
-            res.redirect('/');
-        } else {
-            rows.forEach(function(element) {
-                var temp = element.exercise.split(',');
-                stepCount.push(temp[0]);
-                stepDate.push(temp[1]);
-            });
-        }*/
-        });
 
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
         if (!rows.length) {
@@ -687,6 +673,20 @@ router.get('/patient_profile', (req, res, next) => {
                     logcheck = true;
                     res.redirect('/');
                 } else {
+                    client.query('SELECT * FROM exercise WHERE name = ?', [rows[0].patientName], (err, rows) => {
+                        console.log(rows);
+                        if (!rows.length) {
+                            logcheck = true;
+                            res.redirect('/');
+                        } else {
+                            rows.forEach(function(element) {
+                                var temp = element.exercise.split(',');
+                                stepCount.push(temp[0]);
+                                stepDate.push(temp[1]);
+                            });
+                        }
+                        });
+
                     console.log(stepCount);
                     console.log(stepDate);
                     req.session.now = (new Date()).toUTCString();
