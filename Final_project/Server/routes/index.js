@@ -659,8 +659,8 @@ router.get('/patient_edit', (req, res, next) => {
 router.get('/patient_profile', (req, res, next) => {
     var stepCount = new Array();
     var stepDate = new Array();
-    /*
-    client.query('SELECT * FROM exercise WHERE id = ?', [req.session.user_name], (err, rows) => {
+    
+    client.query('SELECT * FROM exercise WHERE name = ?', [req.session.user_name], (err, rows) => {
         if (!rows.length) {
             logcheck = true;
             res.redirect('/');
@@ -672,7 +672,7 @@ router.get('/patient_profile', (req, res, next) => {
             });
         }
         });
-*/
+
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
         if (!rows.length) {
             logcheck = true;
@@ -686,6 +686,8 @@ router.get('/patient_profile', (req, res, next) => {
                     logcheck = true;
                     res.redirect('/');
                 } else {
+                    console.log(stepCount);
+                    console.log(stepDate);
                     req.session.now = (new Date()).toUTCString();
                     res.render('patient_profile', {
                         name: req.session.user_name,
