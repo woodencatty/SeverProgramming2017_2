@@ -1,4 +1,6 @@
 const noble = require('noble');
+
+
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
         noble.startScanning(['ff10']);
@@ -36,7 +38,13 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }
     var switchCharacteristic = characteristics[0];
 
+    
+
     switchCharacteristic.read ((error, data)=>{
         console.log(data);
             })
+}
+
+function onDisconnect(){
+    console.log("연결이 해지되었습니다");
 }
