@@ -139,26 +139,12 @@
                         <div class="data">
                             <!-- 데이터 테이블 -->
                             <table>
-                                <tr>
-                                    <td id="date1">12.08 12h</td>
-                                    <td id="data1">1000</td>
+                            <% for (var i = 1; i < 6; i++) { %>
+                            <tr>
+                                    <td id="date<%=i %>"><%=StepDate[i] %></td>
+                                    <td id="data<%=i %>"><%=StepCount[i] %></td>
                                 </tr>
-                                <tr>
-                                    <td id="date2">12.08 13h</td>
-                                    <td id="data2">3000</td>
-                                </tr>
-                                <tr>
-                                    <td id="date3">12.08 14h</td>
-                                    <td id="data3">2000</td>
-                                </tr>
-                                <tr>
-                                    <td id="date4">12.08 15h</td>
-                                    <td id="data4">3500</td>
-                                </tr>
-                                <tr>
-                                    <td id="date5">12.08 16h</td>
-                                    <td id="data5">2000</td>
-                                </tr>
+                            <% } %>
                             </table>
                         </div>
                     </div>

@@ -657,6 +657,22 @@ router.get('/patient_edit', (req, res, next) => {
     });
 });
 router.get('/patient_profile', (req, res, next) => {
+    var stepCount = new Array();
+    var stepDate = new Array();
+    
+    client.query('SELECT * FROM exercise WHERE id = ?', [req.session.user_name], (err, rows) => {
+        if (!rows.length) {
+            logcheck = true;
+            res.redirect('/');
+        } else {
+            rows.forEach(function(element) {
+                var temp = element.exercise.split(',');
+                stepCount.push(temp[0]);
+                stepDate.push(temp[1]);
+            });
+        }
+        });
+        
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
         if (!rows.length) {
             logcheck = true;
@@ -677,7 +693,10 @@ router.get('/patient_profile', (req, res, next) => {
                         patientName: rows[0].patientName,
                         disease: rows[0].disease,
                         deviceNumber: rows[0].deviceNumber,
-                        status: rows[0].status
+                        status: rows[0].status,
+                        exercise: rows[0].exercise,
+                        stepCount: stepCount,
+                        stepDate: stepDate
                     });
                 }
             });
