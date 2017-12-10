@@ -659,7 +659,7 @@ router.get('/patient_edit', (req, res, next) => {
 router.get('/patient_profile', (req, res, next) => {
     var stepCount = new Array();
     var stepDate = new Array();
-    
+    console.log(req.session.user_name);
     client.query('SELECT * FROM exercise WHERE name = ?', [req.session.user_name], (err, rows) => {
         console.log(rows);/*
         if (!rows.length) {
