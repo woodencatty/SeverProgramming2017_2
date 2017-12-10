@@ -28,6 +28,10 @@
             function formChk(){
                 alert("삭제가 완료되었습니다.");
             }
+            function profile(){
+                console.log('dfjskld');
+                document.getElementById("profile").submit();
+            }
             jQuery(document).ready(function() {
                 /* 검색창 포커스인 포커스 아웃 효과 */
                 $('input').focusin(function() {
@@ -43,20 +47,21 @@
                 /* 모달 제목 자동 설정 */
                 
                 $('.patient_manage a').click(function() {
-
-                    var name = $(this).text() + ' 환자 운동량';
-                    $('.patient_name').text(name);
-                    console.log(name);
-                    
+                    console.log('dfjskld');
+                    $('#profile').submit();
                 });
                 
                 /* 검색 기능 */
                 var search = function() {
                     var id = $('input').val();
                     $('tbody tr').hide();
-                    var item = $("tbody > tr > td:nth-child(5n+2):contains('" + id + "')");
-                    
-                    $(item).parent().show();
+                    var item = $("tbody > tr > td:nth-child(5n+2) > input");
+                    item.each(function() {
+                        var text = $(this).val();
+                        if(text.indexOf(id) != -1) {
+                            $(this).parent().parent().show();
+                        }
+                    })
                 };
                 /* 버튼 눌렀을때 검색 */
                 $('#search_btn').click(function() {
@@ -156,7 +161,11 @@
                             <td>
                                 <!-- 환자 이름 -->
                                 <img width="30px" height="30px" src="img/defualt_profile.png" class="rounded-circle">
-                                <a href="" data-toggle="modal" data-target="#Modal"><%= item.patientName %></a>
+                                <form method="post">
+                                    <input type="hidden" value="<%= item.patientNumber %>" name ="patientNumber">
+                                    <input type="hidden" value="profile" name ="type">
+                                    <input type='submit' class="detail_btn" value="<%= item.patientName %>"/>
+                                </form>
                             </td>
                             <!-- 병명 -->
                             <td><%= item.disease %></td>

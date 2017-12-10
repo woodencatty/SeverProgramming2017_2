@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device=width, initial-scale=1">
+        
+        <title>SMASH CARE MOVEMENT</title>
+        
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+        
+        <!-- Custom CSS -->
+        <link href="css/profile.css" rel="stylesheet">
+        
+        <!-- JQuery -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        
+        <!-- Bootstrap JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap.bundle.js"></script>
+        
+        <!-- Chart JS -->
+        <script src="js/chart/Chart.js"></script>
+        
+    </head>
+    
+    <body>
+    <div class="wrap">
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <!-- 브랜드 로고 -->
+                <div class="navbar-brand"><img src="img/nav_brand.png" width="300px"></div>
+                <!-- 메뉴 -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <!-- 홈 링크 -->
+                            <a class="nav-link currnet" onclick="location.href='/medic'">홈으로</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 계정 관리 링크 -->
+                            <a class="nav-link" onclick="location.href='/patient_manage'">환자 관리</a>
+                        </li>
+                        <li class="nav-item active">
+                            <!-- 기기 개통 링크 -->
+                            <a class="nav-link" onclick="location.href='/doctor_opening'">기기 개통</a>
+                        </li>
+                    </ul>
+                    <!-- 계정 아이디 -->
+                    <div class="my-auto profile">
+                                <img src="img/defualt_profile.png" class="rounded-circle my-auto" width="26px" height="26px">
+                                <!-- 관리자 비밀번호 변경 링크 -->
+                                <a id="dropdownMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" class="nav-link my-auto dropdown-toggle" href="#">
+                                    <%= name %> <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li><a href="/changemedic">개인정보 변경</a></li>
+                                    <li><a href="/logout">로그아웃</a></li>
+                                </ul>
+                            </div>
+                </div>
+            </div>
+        </nav>
+
+       
+       
+        <!-- Profile -->
+        <div class="content mx-auto">
+            <div class="container my-auto">
+                <!-- Profile Head -->
+                <div class="row content_head">
+                    <!-- 환자 이름 -->
+                    <div class="col-lg-12 content_title">
+                        <p><%= patientName %> 환자</p>
+                    </div>
+                    <!-- 환자 정보 -->
+                    <div class="col-lg-3 content_detail">
+                        <p>환자 번호</p>
+                        <p><%= patientNumber %></p>
+                    </div>
+                    <div class="col-lg-3 content_detail">
+                        <p>병명</p>
+                        <p><%= disease %></p>
+                    </div>
+                    <div class="col-lg-3 content_detail">
+                        <p>식별기기 아이디</p>
+                        <p><%= deviceNumber %></p>
+                    </div>
+                    <div class="col-lg-12 content_detail">
+                        <p>환자 상태</p>
+                        <hr>
+                        <p><%= status %></p>
+                    </div>
+                </div>
+                <div class="row content_body">
+                    <!-- 운동 진행 프로그래스바 -->
+                    <div class="col-lg-6 exercise_progress">
+                        <p class="body_title">운동 진행 상황</p>
+                        <hr>
+                        <!-- 내용 샘플 -->
+                        <div class="item">
+                            <!-- 날짜 -->
+                            <p>2017. 12. 08</p>
+                            <!-- aria-valuenow="60", width: 60%; 이 둘을 수치에 맞게 수정 -->
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                <!-- 프로그래스바 위의 숫자 -->
+                                60%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p>2017. 12. 09</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                                50%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p>2017. 12. 10</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                80%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 그래프 -->
+                    <div class="col-lg-6 exercise_amount">
+                        <p class="body_title">운동량</p>
+                        <hr>
+                        <canvas id="myAreaChart" width="100%" height="40">
+                        </canvas>
+                        <div class="data">
+                            <!-- 데이터 테이블 -->
+                            <table>
+                                <tr>
+                                    <td id="date1">12.08 12h</td>
+                                    <td id="data1">1000</td>
+                                </tr>
+                                <tr>
+                                    <td id="date2">12.08 13h</td>
+                                    <td id="data2">3000</td>
+                                </tr>
+                                <tr>
+                                    <td id="date3">12.08 14h</td>
+                                    <td id="data3">2000</td>
+                                </tr>
+                                <tr>
+                                    <td id="date4">12.08 15h</td>
+                                    <td id="data4">3500</td>
+                                </tr>
+                                <tr>
+                                    <td id="date5">12.08 16h</td>
+                                    <td id="data5">2000</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+        <script>
+            // 데이터 추출
+            var date1 = $('#date1').text();
+            var date2 = $('#date2').text();
+            var date3 = $('#date3').text();
+            var date4 = $('#date4').text();
+            var date5 = $('#date5').text();
+            
+            var data1 = Number.parseInt($('#data1').text());
+            var data2 = Number.parseInt($('#data2').text());
+            var data3 = Number.parseInt($('#data3').text());
+            var data4 = Number.parseInt($('#data4').text());
+            var data5 = Number.parseInt($('#data5').text());
+            
+            // Chart.js scripts
+            // -- Set new default font family and font color to mimic Bootstrap's default styling
+            Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+            Chart.defaults.global.defaultFontColor = '#292b2c';
+            // -- Area Chart Example
+            var ctx = document.getElementById("myAreaChart");
+            var myLineChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  /* x축 항목 */
+                labels: [date1, date2, date3, date4, date5],
+                datasets: [{
+                  label: "Sessions",
+                  lineTension: 0.0,
+                  backgroundColor: "rgba(2,117,216,0.2)",
+                  borderColor: "#004593",
+                  pointRadius: 3,
+                  pointBackgroundColor: "#004593",
+                  pointBorderColor: "#004593",
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                  pointHitRadius: 20,
+                  pointBorderWidth: 0,
+                    /* 데이터 값 */
+                  data: [data1, data2, data3, data4, data5],
+                }],
+              },
+              options: {
+                scales: {
+                  xAxes: [{
+                    time: {
+                      unit: 'date'
+                    },
+                    gridLines: {
+                      display: false
+                    },
+                    ticks: {
+                      maxTicksLimit: 7
+                    }
+                  }],
+                  yAxes: [{
+                    ticks: {
+                        /* y축 항목 */
+                      min: 0,
+                      max: 4000,
+                      maxTicksLimit: 5
+                    },
+                    gridLines: {
+                      color: "rgba(0, 0, 0, .125)",
+                    }
+                  }],
+                },
+                legend: {
+                  display: false
+                }
+              }
+            });
+        </script>
+    </body>
+    
+</html>

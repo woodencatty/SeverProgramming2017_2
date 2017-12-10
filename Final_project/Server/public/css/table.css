@@ -63,6 +63,15 @@ body {
     margin: 0px;
 }
 
+.table .detail_btn {
+    background-color: #fff;
+    border: none;
+    font-family: Light;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
 .navbar-brand {
     padding: 0px;
     margin: 10px 0 10px 30px;

@@ -17,7 +17,6 @@ var closingcheck = false;
 var loginerrcheck = false;
 var passcheck = false;
 
-
 const client = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -55,9 +54,8 @@ function Setup_APD_Socket() {
                     } else {
                         response.writeHead(200);
                         response.end(rows[0].activated.toString()); //보내는 부분. 가공이 필요함.
-                        client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {
-                        });
-                    } 
+                        client.query('SELECT activated FROM device WHERE deviceNumber = ?', [request.headers.apd_id], (err, rows) => {});
+                    }
                 });
             } else if (request.url == '/patient/exercise') {
                 console.log(request.headers.idd_id);
@@ -71,19 +69,19 @@ function Setup_APD_Socket() {
                     } else {
                         let previous_data = rows[0].exercise.toString().split(',');
                         let update_data = ""
-                        if(previous_data[0] == ""){
+                        if (previous_data[0] == "") {
                             response.writeHead(200);
                             response.end("end"); //보내는 부분. 가공이 필요함.    
-                            client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', ["", request.headers.idd_id]);                                                    
-                        } else{
+                            client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', ["", request.headers.idd_id]);
+                        } else {
                             response.writeHead(200);
                             response.end(previous_data[0]); //보내는 부분. 가공이 필요함.    
                             for (let i = 1; i < previous_data.length; i++) {
                                 update_data += (previous_data[i] + ",");
                             }
                         }
-                        client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);                        
-            }
+                        client.query('UPDATE patient SET exercise=? WHERE deviceNumber=?', [update_data, request.headers.idd_id]);
+                    }
                 });
             } else {
                 console.log("GET error");
@@ -112,8 +110,8 @@ function Setup_APD_Socket() {
                     if (!rows.length) {
                         console.log("DB query Error!");
                     } else {
-                        for(let i=0; i<exercise_arr.length-1; i++){
-                            client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [rows[0].patientName.toString(), exercise_arr[i]], (err) => {  
+                        for (let i = 0; i < exercise_arr.length - 1; i++) {
+                            client.query('INSERT INTO exercise (name, exercise) VALUES (?,?)', [rows[0].patientName.toString(), exercise_arr[i]], (err) => {
                                 if (err) {
                                     console.log(err);
                                     console.log("DB query Error!");
@@ -354,7 +352,7 @@ router.get('/deviceAdd', (req, res, next) => {
             echeck = true;
             errcheck = false;
         }
-        
+
         req.session.now = (new Date()).toUTCString();
         res.render('add_device', {
             name: req.session.user_name,
@@ -578,18 +576,18 @@ router.get('/patient_manage', (req, res, next) => {
             res.redirect('/');
         } else {
             client.query('SELECT * FROM exercise', (err, exercise_data) => {
-            client.query('SELECT * FROM patient', (err, user_data) => {
-                var date_arr = "['may 1', 'may 2']";
-                var exer_arr = "[10, 10]";
-                req.session.now = (new Date()).toUTCString();
-                res.render('patient_manage', {
-                    name: req.session.user_name,
-                    data: user_data,
-                    date_data: date_arr,
-                    exer_data: exer_arr
+                client.query('SELECT * FROM patient', (err, user_data) => {
+                    var date_arr = "['may 1', 'may 2']";
+                    var exer_arr = "[10, 10]";
+                    req.session.now = (new Date()).toUTCString();
+                    res.render('patient_manage', {
+                        name: req.session.user_name,
+                        data: user_data,
+                        date_data: date_arr,
+                        exer_data: exer_arr
+                    });
                 });
             });
-        });                
         }
     });
 });
@@ -652,6 +650,34 @@ router.get('/patient_edit', (req, res, next) => {
                         exercise: rows[0].exercise,
                         errcheck: echeck,
                         dbcheck: check
+                    });
+                }
+            });
+        }
+    });
+});
+router.get('/patient_profile', (req, res, next) => {
+    client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
+        if (!rows.length) {
+            logcheck = true;
+            res.redirect('/');
+        } else {
+            client.query('SELECT * FROM patient WHERE patientNumber = ?', [req.session.patientNumber], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (!rows.length) {
+                    logcheck = true;
+                    res.redirect('/');
+                } else {
+                    req.session.now = (new Date()).toUTCString();
+                    res.render('patient_profile', {
+                        name: req.session.user_name,
+                        patientNumber: rows[0].patientNumber,
+                        patientName: rows[0].patientName,
+                        disease: rows[0].disease,
+                        deviceNumber: rows[0].deviceNumber,
+                        status: rows[0].status
                     });
                 }
             });
@@ -765,8 +791,8 @@ router.post('/adminpass', function (request, response) {
         if (read.toString() != checkpass) {
             errcheck = true;
             response.redirect('/adminpass');
-        }else if(body.password.length>20){
-            logcheck =true;  
+        } else if (body.password.length > 20) {
+            logcheck = true;
             response.redirect('/adminpass');
         } else if (body.password == body.passwordcheck) {
             var enc = crypto.createCipher('aes192', key);
@@ -804,11 +830,11 @@ router.post('/changemedic', function (request, response) {
                 if (err) {
                     openingcheck = true;
                     response.redirect('/changemedic');
-                }else{
+                } else {
                     request.session.user_id = body.id;
                     request.session.user_name = body.name;
                     response.redirect('/medic');
-                } 
+                }
             });
         } else {
             passcheck = true;
@@ -823,7 +849,7 @@ router.post('/deviceAdd', function (request, response) {
             if (err) {
                 errcheck = true;
                 response.redirect('/deviceAdd');
-            }else{
+            } else {
                 response.redirect('/devicemanager');
             }
         });
@@ -852,11 +878,10 @@ router.post('/deviceEdit', function (request, response) {
     var body = request.body;
     if (body.deviceNumber != '' && body.sort != '' && body.version != '') {
         client.query('UPDATE device SET deviceNumber=?, sort=?, version=?, ipv4_address=?, ipv6_address=?, place=? WHERE deviceNumber=?', [body.deviceNumber, body.sort, body.version, body.ipv4_address, body.ipv6_address, body.place, request.session.deviceNumber], (err, rows) => {
-            if(body.deviceNumber.length>10||body.sort.length>45||body.version.length>45||body.ipv4_address.length>45||body.ipv6_address.length>45||body.place.length>45){
+            if (body.deviceNumber.length > 10 || body.sort.length > 45 || body.version.length > 45 || body.ipv4_address.length > 45 || body.ipv6_address.length > 45 || body.place.length > 45) {
                 logcheck = true;
                 response.redirect('/deviceEdit');
-            }
-            else if (err) {
+            } else if (err) {
                 errcheck = true;
                 response.redirect('/deviceEdit');
             } else {
@@ -889,7 +914,7 @@ router.post('/doctor_add', function (request, response) {
                         if (err) {
                             openingcheck = true;
                             response.redirect('/doctor_add');
-                        }else{
+                        } else {
                             response.redirect('/doctor_manage');
                         }
                     });
@@ -930,12 +955,11 @@ router.post('/doctor_edit', function (request, response) {
             response.redirect('/doctor_edit');
         } else {
             client.query('SELECT * FROM medic WHERE id=?', [body.id], (err, rows) => {
-                if(err){
+                if (err) {
                     logcheck = true;
                     console.log('2');
                     response.redirect('/doctor_edit');
-                }
-                else if (!rows.length) {
+                } else if (!rows.length) {
                     console.log('3');
                     var enc = crypto.createCipher('aes192', key);
                     var encpass = enc.update(body.password, 'utf8', 'base64');
@@ -944,7 +968,7 @@ router.post('/doctor_edit', function (request, response) {
                         if (err) {
                             openingcheck = true;
                             response.redirect('/doctor_edit');
-                        }else{
+                        } else {
                             request.session.employeeNumber = null;
                             response.redirect('/doctor_manage');
                         }
@@ -958,7 +982,7 @@ router.post('/doctor_edit', function (request, response) {
                         if (err) {
                             openingcheck = true;
                             response.redirect('/doctor_edit');
-                        }else{
+                        } else {
                             request.session.employeeNumber = null;
                             response.redirect('/doctor_manage');
                         }
@@ -1007,16 +1031,21 @@ router.post('/patient_manage', function (request, response) {
             }
             response.redirect('/patient_manage');
         });
+    } else if (body.type == "profile") {
+        console.log(body.patientNumber);
+        request.session.patientNumber = body.patientNumber;
+        response.redirect('/patient_profile');
     }
 });
 router.post('/patient_add', function (request, response) {
     var body = request.body;
     if (body.patientNumber != '' && body.patientName != '' && body.disease != '' && body.status != '' && body.exercise != '') {
-        client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise], (err, rows) => {
+        client.query('INSERT INTO patient (patientNumber,patientName,disease,status,exercise) VALUES (?,?,?,?,?)', [body.patientNumber, body.patientName, body.disease, body.status, body.exercise], (err, rows) => {
             if (err) {
                 errcheck = true;
+                console.log(err);
                 response.redirect('/patient_add');
-            }else{
+            } else {
                 response.redirect('/patient_manage');
             }
         });
@@ -1032,7 +1061,7 @@ router.post('/patient_edit', function (request, response) {
             if (err) {
                 errcheck = true;
                 response.redirect('/patient_edit');
-            }else{
+            } else {
                 request.session.patientNumber = null;
                 response.redirect('/patient_manage');
             }
