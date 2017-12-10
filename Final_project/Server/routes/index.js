@@ -659,7 +659,8 @@ router.get('/patient_edit', (req, res, next) => {
 router.get('/patient_profile', (req, res, next) => {
     var stepCount = new Array();
     var stepDate = new Array();
-
+    var currentExercise = 100;
+    var temp2;
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
         if (!rows.length) {
             logcheck = true;
@@ -684,6 +685,15 @@ router.get('/patient_profile', (req, res, next) => {
                                 stepCount.push(temp[0]);
                                 stepDate.push(temp[1]);
                             });
+
+                            temp2 = rows[0].exercise.split(',');
+                            temp2.forEach(function(element) {
+                                if(element == null){
+
+                                }else{
+                                    currentExercise = currentExercise - 20;
+                                }
+                            });
                             req.session.now = (new Date()).toUTCString();
                             res.render('patient_profile', {
                                 name: req.session.user_name,
@@ -692,12 +702,13 @@ router.get('/patient_profile', (req, res, next) => {
                                 disease: rows[0].disease,
                                 deviceNumber: rows[0].deviceNumber,
                                 status: rows[0].status,
-                                exercise: rows[0].exercise,
                                 stepCount: stepCount,
-                                stepDate: stepDate
+                                stepDate: stepDate,
+                                currentExercise: currentExercise
                             });
                             console.log(stepCount);
-                            console.log(stepDate);                            
+                            console.log(stepDate);
+                            console.log(currentExercise);                            
                         }
                         });
 
