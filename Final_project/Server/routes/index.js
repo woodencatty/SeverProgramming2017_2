@@ -661,6 +661,7 @@ router.get('/patient_profile', (req, res, next) => {
     var stepDate = new Array();
     
     client.query('SELECT * FROM exercise WHERE name = ?', [req.session.user_name], (err, rows) => {
+        console.log(rows);/*
         if (!rows.length) {
             logcheck = true;
             res.redirect('/');
@@ -670,7 +671,7 @@ router.get('/patient_profile', (req, res, next) => {
                 stepCount.push(temp[0]);
                 stepDate.push(temp[1]);
             });
-        }
+        }*/
         });
 
     client.query('SELECT * FROM medic WHERE id = ?', [req.session.user_id], (err, rows) => {
