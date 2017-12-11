@@ -40,3 +40,8 @@ h3{
 .unvisible {
   visibility: hidden;
 }
+
+.textbtn {
+  font-size: 1em;  
+  color: white;  
+}
