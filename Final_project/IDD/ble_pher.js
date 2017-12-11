@@ -3,6 +3,7 @@ const util = require('util');
 const fs = require('fs');
 
 var deviceName = 'IDD001';
+var data = new Buffer("IDD001", 'utf8');
 
 var Characteristic = bleno.Characteristic;
 var PrimaryService = bleno.PrimaryService;
@@ -22,7 +23,6 @@ util.inherits(SwitchCharacteristic, Characteristic);
 
 SwitchCharacteristic.prototype.onReadRequest = function (offset, callback) {
     console.log('read request');
-    var data = new Buffer("IDD001", 'utf8');
     
        // fs.readFile('./exercise_log', 'utf8', function (error, readtext) { exercise_log_arr = readtext.split(']')});
   /*  if(data_count < exercise_log_arr.length){
