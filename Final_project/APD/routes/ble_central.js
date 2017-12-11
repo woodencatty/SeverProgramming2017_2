@@ -1,7 +1,7 @@
 const noble = require('noble');
-const control = require('./index.js');
 const restAPI = require('./rest_api.js');
 
+var DeviceName = "";
 
 noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
@@ -17,7 +17,7 @@ noble.on('discover', function (peripheral) {
         console.log("블루투스> 주소: " + peripheral.address);
         console.log("블루투스> 신호세기(RSSI): " + peripheral.rssi);
         console.log("------------------------------------");
-       control.IDD_found(peripheral.advertisement.localName);
+        DeviceName =  peripheral.advertisement.localName;
     }
     connectAndSetUp(peripheral);
 });
@@ -51,3 +51,9 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
     }, 500);
 
 }
+
+module.exports = {
+    IDD_found:(callback)=> {
+        callback(DeviceName);
+    }
+  }

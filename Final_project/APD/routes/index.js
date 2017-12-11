@@ -49,12 +49,6 @@ function Setup_IDD_Socket() {
 }
 */
 
-module.exports = {
-  IDD_found:(ID)=> {
-      IDD_ID = ID;
-  }
-}
-
 function initialize() {
   fs.readFile('./settings.conf', 'utf8', function (err, data) {
     var config = JSON.parse(data);
@@ -72,6 +66,12 @@ function initialize() {
 router.get('/', function (req, res, next) {
   console.log("routed to /")
   Statuscallback = (returnData) => {
+
+    detectcallback = (deviceName)=>{
+      IDD_ID = deviceName;
+    }
+
+    bluetooth.IDD_found(detectcallback);
     console.log("get data : " + returnData);
     if(returnData == "1"){
       if (IDD_ID == "") {
