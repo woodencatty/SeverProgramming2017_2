@@ -3,7 +3,7 @@ const util = require('util');
 const fs = require('fs');
 
 var deviceName = 'IDD001';
-var data = new Buffer("IDD001", 'utf8');
+var data = "IDD001"
 
 var Characteristic = bleno.Characteristic;
 var PrimaryService = bleno.PrimaryService;
