@@ -1,60 +1,72 @@
-const noble = require('noble');
-const restAPI = require('./rest_api.js');
+const bleno = require('bleno');
+const util = require('util');
 const fs = require('fs');
 
-noble.on('stateChange', function (state) {
-    if (state === 'poweredOn') {
-        noble.startScanning(['ff10']);
-    } else {
-        noble.stopScanning();
-    }
-});
-noble.on('discover', function (peripheral) {
-    if (peripheral.advertisement.localName == 'APD') {
-        console.log("블루투스> 찾았음(discovery) ------------------------- ");
-        console.log("블루투스> 이름: " + peripheral.advertisement.localName);
-        console.log("블루투스> 주소: " + peripheral.address);
-        console.log("블루투스> 신호세기(RSSI): " + peripheral.rssi);
-        console.log("------------------------------------");
-    }
-    connectAndSetUp(peripheral);
-});
+var deviceName = 'IDD001';
+var data = "IDD001";
 
-function connectAndSetUp(peripheral) {
-    peripheral.connect(function (error) {
-        var serviceUUIDs = ['ff10'];
-        var characteristicUUIDs = ['ff11'];
-        peripheral.discoverSomeServicesAndCharacteristics
-            (serviceUUIDs, characteristicUUIDs,
-            onServicesAndCharacteristicsDiscovered);
+var Characteristic = bleno.Characteristic;
+var PrimaryService = bleno.PrimaryService;
+var SwitchCharacteristic = function () {
+    SwitchCharacteristic.super_.call(this, {
+        uuid: 'ff11',
+        properties: ['read', 'write'],
+        descriptors: [
+            new bleno.Descriptor({
+                uuid: '2901',
+                value: 'IDD'
+            })
+        ]
     });
-    // attach disconnect handler
-    // peripheral.on('disconnect', onDisconnect);
-}
+};
+util.inherits(SwitchCharacteristic, Characteristic);
 
-function onServicesAndCharacteristicsDiscovered(error, services, characteristics) {
-    if (error) {
-        console.log('Error discovering services and characteristics ' + error);
-        return;
+SwitchCharacteristic.prototype.onReadRequest = function (offset, callback) {
+    console.log('read request');
+       // fs.readFile('./exercise_log', 'utf8', function (error, readtext) { exercise_log_arr = readtext.split(']')});
+  /*  if(data_count < exercise_log_arr.length){
+        var data = new Buffer(exercise_log_arr[data_count], 'utf8');
+        data_count++;
+    }else{
+        var data = new Buffer("end", 'utf8');
+    }*/
+    callback(this.RESULT_SUCCESS, data);
+};
+
+SwitchCharacteristic.prototype.onWriteRequest = function (data, offset, withoutResponse, callback) {
+    console.log('write request');
+    callback(this.RESULT_SUCCESS);
+    };
+
+var lightService = new PrimaryService({
+    uuid: 'ff10',
+    characteristics: [
+        new SwitchCharacteristic()
+    ]
+});
+bleno.on('stateChange', function (state) {
+    if (state === 'poweredOn') {
+        bleno.startAdvertising(deviceName, [lightService.uuid]);
+        console.log("-------------------------------");
+        console.log("블루투스 > ON (" + deviceName + " 가동)");
+    } else {
+        bleno.stopAdvertising();
+        console.log("블루투스 > Advertising 을 중단합니다");
     }
-    var switchCharacteristic = characteristics[0];
+});
 
-    function sendData(byte) {
-        console.log("sending");
-            var buffer = new Buffer(byte, 'utf8');
-            switchCharacteristic.write(buffer, false, function (error) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('블루투스> 데이터전송(write): ' + buffer.toString());
-                    // console.log(services); // peripheral 로부터 받은 profile 내용을 보려면 // 제거
-                    // console.log(characteristics);
-                }
-            });
-        
-}
-    fs.readFile('./exercise_log', 'utf8', function (error, readtext) {
-        console.log("reading file");
-        sendData(readtext);
-        });
-}
+bleno.on('advertisingStart', function (error) {
+    if (!error) {
+    console.log("블루투스 > Advertising 을 시작합니다...");
+    console.log("---------------------------------------");
+    bleno.setServices([lightService]);
+    }
+    else
+    console.log("블루투스 > Advertising 도중 오류발생");
+    });
+    // cleanup GPIO on exit
+    function exit() {
+    console.log("블루투스> 프로그램을 종료합니다");
+    process.exit();
+    }
+    process.on('SIGINT', exit);
