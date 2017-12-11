@@ -203,6 +203,19 @@
                 }
               }
             });
+
+             var ex = Number.parseInt($('#ex_amount').text());
+            var ctx = document.getElementById("myPieChart");
+            var myPieChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: ["현재 운동량", "전체 운동량"],
+                datasets: [{
+                  data: [ex, 100 - ex],
+                  backgroundColor: ['#004593', 'rgba(2,117,216,0.2)'],
+                }],
+              },
+            });
         </script>
     </body>
     
