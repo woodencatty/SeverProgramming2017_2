@@ -43,7 +43,7 @@ function onServicesAndCharacteristicsDiscovered(error, services, characteristics
 
     readDataInterval = setInterval(()=>{
         switchCharacteristic.read ((error, data)=>{
-            console.log(data.toString());
+            console.log(data);
                 })
     }, 1000);
 
