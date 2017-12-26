@@ -20,9 +20,9 @@ var passcheck = false;
 const client = mysql.createConnection({
     host: 'localhost',
     port: 3306,
-    user: 'Tues_8team',
-    password: 'gachon654321',
-    database: 'Tues_8team'
+    user: 'SMASH_Server',
+    password: '!305sns!',
+    database: 'smashserver'
 });
 
 function Setup_APD_Socket() {
@@ -134,8 +134,8 @@ function Setup_APD_Socket() {
                 response.end();
             }
         }
-    }).listen(65009, () => {
-        console.log('Device Socket Running (65009) ...');
+    }).listen(8082, () => {
+        console.log('Device Socket Running (8082) ...');
     });
 }
 
